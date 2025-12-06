@@ -1,0 +1,135 @@
+2025-11-26 21:46:41,324 [CRITICAL] Fatal in main: name 'start_background' is not defined
+2025-11-26 21:46:41,324 [ERROR] [SELF_HEAL] Unhandled exception in main
+2025-11-26 21:46:41,324 [ERROR] NameError: name 'start_background' is not defined
+
+2025-11-26 21:52:16,768 [INFO] gpt4all not installed locally; skipping local model load.
+2025-11-26 21:52:16,768 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-26 21:52:16,837 [INFO] Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-26 21:52:17,254 [INFO] ✓ Bot forbundet og aktiv
+2025-11-26 21:52:59,125 [INFO] User 8467779489 started bot
+2025-11-27 01:31:48,654 [WARNING] Server closed the connection: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-27 01:31:48,672 [INFO] Connection closed while receiving data: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-27 01:31:48,675 [INFO] Closing current connection to begin reconnect...
+2025-11-27 01:31:48,676 [INFO] <class 'OSError'> during disconnect: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-27 01:31:48,677 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-27 01:31:48,681 [WARNING] Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:49,692 [WARNING] Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:50,698 [WARNING] Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:51,705 [WARNING] Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:52,714 [WARNING] Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:53,721 [WARNING] Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:54,730 [INFO] Failed reconnection attempt 1 with ConnectionError
+2025-11-27 01:31:55,737 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-27 01:31:55,738 [WARNING] Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:56,747 [WARNING] Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:57,752 [WARNING] Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:58,760 [WARNING] Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:31:59,768 [WARNING] Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:00,779 [WARNING] Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:01,786 [INFO] Failed reconnection attempt 2 with ConnectionError
+2025-11-27 01:32:02,796 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-27 01:32:02,797 [WARNING] Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:03,803 [WARNING] Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:04,809 [WARNING] Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:05,813 [WARNING] Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:06,824 [WARNING] Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:07,832 [WARNING] Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:08,838 [INFO] Failed reconnection attempt 3 with ConnectionError
+2025-11-27 01:32:09,844 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-27 01:32:09,847 [WARNING] Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:10,852 [WARNING] Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:11,857 [WARNING] Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:12,867 [WARNING] Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:13,876 [WARNING] Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:14,884 [WARNING] Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:15,893 [INFO] Failed reconnection attempt 4 with ConnectionError
+2025-11-27 01:32:16,902 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-27 01:32:16,903 [WARNING] Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:17,907 [WARNING] Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:18,916 [WARNING] Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:19,922 [WARNING] Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:20,931 [WARNING] Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:21,938 [WARNING] Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-27 01:32:22,943 [INFO] Failed reconnection attempt 5 with ConnectionError
+2025-11-27 01:32:23,954 [ERROR] Automatic reconnection failed 5 time(s)
+2025-11-27 01:32:23,957 [INFO] Disconnecting from 149.154.167.92:443/TcpFull...
+2025-11-27 01:32:23,957 [INFO] Disconnection from 149.154.167.92:443/TcpFull complete!
+2025-11-27 01:32:23,958 [ERROR] Future exception was never retrieved
+future: <Future finished exception=ConnectionError('Connection to Telegram failed 5 time(s)')>
+ConnectionError: Connection to Telegram failed 5 time(s)
+2025-11-27 01:32:23,966 [INFO] Not disconnecting (already have no connection)
+2025-11-27 01:32:23,988 [CRITICAL] Fatal in main: Connection to Telegram failed 5 time(s)
+2025-11-27 01:32:23,989 [ERROR] [SELF_HEAL] Unhandled exception in main
+2025-11-27 01:32:23,989 [ERROR] ConnectionError: Connection to Telegram failed 5 time(s)
+
+2025-11-28 02:48:08,392 [INFO] gpt4all not installed locally; skipping local model load.
+2025-11-28 02:48:08,392 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 02:48:08,450 [INFO] Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 02:48:08,804 [INFO] ✓ Bot forbundet og aktiv
+2025-11-28 02:49:23,022 [INFO] User 6478921447 started bot
+2025-11-28 02:50:51,867 [INFO] User 6478921447 started bot
+2025-11-28 03:24:50,952 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 03:25:00,964 [WARNING] Attempt 1 at connecting failed: TimeoutError: 
+2025-11-28 03:25:11,982 [WARNING] Attempt 2 at connecting failed: TimeoutError: 
+2025-11-28 03:25:23,005 [WARNING] Attempt 3 at connecting failed: TimeoutError: 
+2025-11-28 03:25:30,921 [WARNING] Attempt 4 at connecting failed: ConnectionAbortedError: [WinError 1236] Netværksforbindelsen blev afbrudt af det lokale system
+2025-11-28 03:25:31,932 [WARNING] Attempt 5 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 03:25:32,948 [WARNING] Attempt 6 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 03:25:33,954 [CRITICAL] Fatal error: Connection to Telegram failed 5 time(s)
+2025-11-28 03:25:33,956 [ERROR] [SELF_HEAL] Unhandled exception
+2025-11-28 03:25:33,956 [ERROR] ConnectionError: Connection to Telegram failed 5 time(s)
+
+2025-11-28 03:26:02,756 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 03:26:02,758 [WARNING] Attempt 1 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 03:26:03,772 [WARNING] Attempt 2 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 03:26:04,784 [WARNING] Attempt 3 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 03:26:05,791 [WARNING] Attempt 4 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 03:26:06,794 [WARNING] Attempt 5 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 03:26:07,803 [WARNING] Attempt 6 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 03:26:08,808 [CRITICAL] Fatal error: Connection to Telegram failed 5 time(s)
+2025-11-28 03:26:08,809 [ERROR] [SELF_HEAL] Unhandled exception
+2025-11-28 03:26:08,809 [ERROR] ConnectionError: Connection to Telegram failed 5 time(s)
+
+2025-11-28 03:27:19,782 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 03:27:19,934 [INFO] Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 03:27:20,469 [INFO] ✓ Bot connected and active
+2025-11-28 03:27:39,710 [INFO] User 6478921447 started bot
+2025-11-28 03:28:42,908 [INFO] User 6478921447 started bot
+2025-11-28 03:29:27,549 [INFO] User 8467779489 started bot
+2025-11-28 03:52:27,615 [INFO] Could not import comtypes.gen, trying to create it.
+2025-11-28 03:52:27,617 [INFO] Created comtypes.gen directory: 'C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-28 03:52:27,617 [INFO] Writing __init__.py file: 'C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen\__init__.py'
+2025-11-28 03:52:27,622 [INFO] Using writeable comtypes cache directory: 'C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-28 03:52:27,647 [INFO] Could not import comtypes.gen._C866CA3A_32F7_11D2_9602_00C04F8EE628_0_5_4: No module named 'comtypes.gen._C866CA3A_32F7_11D2_9602_00C04F8EE628_0_5_4'
+2025-11-28 03:52:27,656 [INFO] # Generating comtypes.gen._C866CA3A_32F7_11D2_9602_00C04F8EE628_0_5_4
+2025-11-28 03:52:27,722 [INFO] # Generating comtypes.gen.SpeechLib
+2025-11-28 03:52:27,729 [INFO] Could not import comtypes.gen._00020430_0000_0000_C000_000000000046_0_2_0: No module named 'comtypes.gen._00020430_0000_0000_C000_000000000046_0_2_0'
+2025-11-28 03:52:27,730 [INFO] # Generating comtypes.gen._00020430_0000_0000_C000_000000000046_0_2_0
+2025-11-28 03:52:27,736 [INFO] # Generating comtypes.gen.stdole
+2025-11-28 03:52:28,137 [INFO] ✓ Voice TTS available
+2025-11-28 03:52:28,273 [INFO] Connecting to 149.154.167.51:443/TcpFull...
+2025-11-28 03:52:30,176 [INFO] Connection to 149.154.167.51:443/TcpFull complete!
+2025-11-28 03:52:30,870 [INFO] Phone migrated to 4
+2025-11-28 03:52:30,870 [INFO] Reconnecting to new data center 4
+2025-11-28 03:52:30,946 [INFO] Disconnecting from 149.154.167.51:443/TcpFull...
+2025-11-28 03:52:30,946 [INFO] Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-11-28 03:52:30,947 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 03:52:32,466 [INFO] Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 03:52:33,040 [INFO] ╔════════════════════════════════════╗
+2025-11-28 03:52:33,041 [INFO] ║ NTRLI Superbot - ACTIVE            ║
+2025-11-28 03:52:33,042 [INFO] ║ OpenAI: ✗                    ║
+2025-11-28 03:52:33,042 [INFO] ║ Mistral: ✗                   ║
+2025-11-28 03:52:33,042 [INFO] ║ Voice: ✓                     ║
+2025-11-28 03:52:33,042 [INFO] ╚════════════════════════════════════╝
+2025-11-28 03:53:43,329 [INFO] Imported existing <module 'comtypes.gen' from 'C:\\Users\\dstav\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-28 03:53:43,330 [INFO] Using writeable comtypes cache directory: 'C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-28 03:53:43,454 [INFO] ✓ Voice TTS available
+2025-11-28 03:53:43,515 [INFO] Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 03:53:43,570 [INFO] Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 03:53:43,927 [INFO] ╔════════════════════════════════════╗
+2025-11-28 03:53:43,927 [INFO] ║ NTRLI Superbot - ACTIVE            ║
+2025-11-28 03:53:43,927 [INFO] ║ OpenAI: ✗                    ║
+2025-11-28 03:53:43,927 [INFO] ║ Mistral: ✗                   ║
+2025-11-28 03:53:43,927 [INFO] ║ Voice: ✓                     ║
+2025-11-28 03:53:43,927 [INFO] ╚════════════════════════════════════╝
+2025-11-28 03:54:55,086 [INFO] User 8467779489 started bot

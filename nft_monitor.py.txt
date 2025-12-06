@@ -1,0 +1,265 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+NTRLI NFT Monitor - Auto-genererer og overvåger NFT'er
+Notificerer admin (@Sir_NTRLI_II) når nye NFT'er mintes
+"""
+
+import os
+import json
+import logging
+import asyncio
+import random
+import string
+from pathlib import Path
+from datetime import datetime
+from telethon import TelegramClient
+
+# Konfiguration
+ADMIN_ID = 8467779489
+ADMIN_USERNAME = 'Sir_NTRLI_II'
+BOT_TOKEN = '8261354099:AAEewnT0GDcOl5-ARokNVuO5i3zMuLyeG7g'
+API_ID = 8546101037
+API_HASH = ''
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+DATA_DIR = Path.home() / 'NTRLI_NFT_Data'
+DATA_DIR.mkdir(exist_ok=True)
+NFT_FILE = DATA_DIR / 'nfts.json'
+MINT_LOG = DATA_DIR / 'mint_log.json'
+
+RARITET_NIVEAUER = ['Almindelig', 'Ualmindellig', 'Sjælden', 'Epic', 'Legendarisk', 'Mytisk']
+TRAITS = {
+    'farve': ['Rød', 'Blå', 'Grøn', 'Lilla', 'Guld', 'Sølv', 'Regnbue'],
+    'mønster': ['Ensfarvet', 'Gradient', 'Prikker', 'Striber', 'Geometrisk', 'Organisk'],
+    'energi': ['Lav', 'Mellem', 'Høj', 'Ekstrem', 'Kosmisk'],
+}
+
+class NFTGenerator:
+    """Genererer og håndterer NTRLI NFT'er"""
+    
+    def __init__(self):
+        self.client = TelegramClient('nft_monitor_session', API_ID, API_HASH)
+        self.nft_collection = self.load_nfts()
+        self.mint_log = self.load_mint_log()
+        
+    def load_nfts(self):
+        """Indlæs eksisterende NFT'er"""
+        if NFT_FILE.exists():
+            with open(NFT_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return []
+    
+    def save_nfts(self):
+        """Gem NFT'er til fil"""
+        with open(NFT_FILE, 'w', encoding='utf-8') as f:
+            json.dump(self.nft_collection, f, indent=2, ensure_ascii=False)
+    
+    def load_mint_log(self):
+        """Indlæs mint-historie"""
+        if MINT_LOG.exists():
+            with open(MINT_LOG, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return []
+    
+    def save_mint_log(self):
+        """Gem mint-historie"""
+        with open(MINT_LOG, 'w', encoding='utf-8') as f:
+            json.dump(self.mint_log, f, indent=2, ensure_ascii=False)
+    
+    def generate_nft(self):
+        """Generer en ny NFT"""
+        nft_id = len(self.nft_collection) + 1
+        token_id = ''.join(random.choices(string.hexdigits[:16], k=16))
+        raritet = random.choices(
+            RARITET_NIVEAUER,
+            weights=[40, 30, 15, 10, 4, 1]
+        )[0]
+        
+        # Bestem pris baseret på raritet
+        raritet_priser = {
+            'Almindelig': 0.3,
+            'Ualmindellig': 0.6,
+            'Sjælden': 1.2,
+            'Epic': 2.5,
+            'Legendarisk': 5.0,
+            'Mytisk': 10.0
+        }
+        
+        nft = {
+            'id': nft_id,
+            'navn': f'NTRLI Genesis #{nft_id}',
+            'token_id': token_id,
+            'raritet': raritet,
+            'traits': {
+                'farve': random.choice(TRAITS['farve']),
+                'mønster': random.choice(TRAITS['mønster']),
+                'energi': random.choice(TRAITS['energi']),
+            },
+            'pris': raritet_priser[raritet],
+            'valuta': 'ETH',
+            'minted': datetime.now().isoformat(),
+            'ejer': None,
+            'marketplace_url': f'https://opensea.io/assets/ethereum/0xNTRLI/{nft_id}',
+            'image_url': f'https://nft.ntrli.ai/nft/{nft_id}.png'
+        }
+        
+        self.nft_collection.append(nft)
+        self.save_nfts()
+        
+        # Log mint
+        mint_entry = {
+            'nft_id': nft_id,
+            'token_id': token_id,
+            'raritet': raritet,
+            'timestamp': datetime.now().isoformat(),
+            'pris': nft['pris']
+        }
+        self.mint_log.append(mint_entry)
+        self.save_mint_log()
+        
+        logger.info(f"✨ Genereret NFT #{nft_id} - {raritet}")
+        return nft
+    
+    async def notify_admin(self, nft):
+        """Send mint-notifikation til admin"""
+        try:
+            traits_text = "\n".join([
+                f"  🎨 {k.capitalize()}: {v}"
+                for k, v in nft['traits'].items()
+            ])
+            
+            msg = f"""
+✨ **NY NFT MINTET!**
+
+🆔 NFT ID: {nft['id']}
+📛 Navn: {nft['navn']}
+💎 Raritet: **{nft['raritet']}**
+💰 Pris: **{nft['pris']} {nft['valuta']}**
+
+**Traits:**
+🎨 Farve: {nft['traits']['farve']}
+🎨 Mønster: {nft['traits']['mønster']}
+🎨 Energi: {nft['traits']['energi']}
+
+🔗 Token: `{nft['token_id']}`
+⏰ Mintet: {nft['minted']}
+
+🔧 **Du har fuld kontrol** - Juster pris og raritet som ønsket!
+"""
+            
+            async with self.client:
+                await self.client.send_message(ADMIN_ID, msg, parse_mode='markdown')
+                logger.info(f"✓ Admin notificeret om NFT #{nft['id']}")
+                
+        except Exception as e:
+            logger.error(f"Kunne ikke notificere admin: {e}")
+    
+    def get_stats(self):
+        """Få NFT-kollektion-statistik"""
+        if not self.nft_collection:
+            return {
+                'total': 0,
+                'efter_raritet': {},
+                'total_værdi': 0
+            }
+        
+        stats = {
+            'total': len(self.nft_collection),
+            'efter_raritet': {},
+            'total_værdi': 0
+        }
+        
+        for nft in self.nft_collection:
+            raritet = nft['raritet']
+            stats['efter_raritet'][raritet] = stats['efter_raritet'].get(raritet, 0) + 1
+            stats['total_værdi'] += nft['pris']
+        
+        return stats
+    
+    def get_collection(self):
+        """Få fuld kollektion"""
+        return self.nft_collection
+    
+    def get_by_rarity(self, raritet):
+        """Få NFT'er efter raritet"""
+        return [nft for nft in self.nft_collection if nft['raritet'] == raritet]
+    
+    def set_nft_price(self, nft_id, pris):
+        """Admin: Sæt custom NFT-pris"""
+        for nft in self.nft_collection:
+            if nft['id'] == nft_id:
+                nft['pris'] = pris
+                self.save_nfts()
+                logger.info(f"✓ NFT #{nft_id} pris opdateret til {pris} ETH")
+                return True
+        return False
+    
+    def set_nft_rarity(self, nft_id, raritet):
+        """Admin: Skift NFT raritet (fuld kontrol)"""
+        for nft in self.nft_collection:
+            if nft['id'] == nft_id:
+                nft['raritet'] = raritet
+                self.save_nfts()
+                logger.info(f"✓ NFT #{nft_id} raritet ændret til {raritet}")
+                return True
+        return False
+
+# Global instans
+generator = None
+
+def get_generator():
+    """Få global generator-instans"""
+    global generator
+    if generator is None:
+        generator = NFTGenerator()
+    return generator
+
+async def auto_mint_loop():
+    """Mint automatisk NFT'er med intervaller"""
+    gen = get_generator()
+    mint_interval = 300  # Mint hver 5 minut
+    
+    logger.info(f"🔄 Auto-mint loop startet (hver {mint_interval}s)")
+    
+    while True:
+        try:
+            await asyncio.sleep(mint_interval)
+            nft = gen.generate_nft()
+            await gen.notify_admin(nft)
+            
+        except Exception as e:
+            logger.error(f"Auto-mint fejl: {e}")
+
+async def start_monitor():
+    """Start NFT-overvågningssystem"""
+    logger.info("=" * 60)
+    logger.info("🚀 NTRLI NFT MONITOR & GENERATOR")
+    logger.info("=" * 60)
+    
+    gen = get_generator()
+    stats = gen.get_stats()
+    
+    logger.info(f"📊 Nuværende kollektion-statistik:")
+    logger.info(f"   Total NFT'er: {stats['total']}")
+    logger.info(f"   Kollektion værdi: {stats['total_værdi']:.2f} ETH")
+    logger.info(f"   Efter raritet: {stats['efter_raritet']}")
+    logger.info("")
+    logger.info("👤 Admin: @Sir_NTRLI_II (Fuld kontrol)")
+    logger.info("💾 Data: " + str(DATA_DIR))
+    logger.info("")
+    logger.info("🔄 Auto-mint loop starter...")
+    logger.info("=" * 60)
+    
+    await auto_mint_loop()
+
+if __name__ == '__main__':
+    try:
+        asyncio.run(start_monitor())
+    except KeyboardInterrupt:
+        logger.info("\n✓ NFT Monitor stoppet")

@@ -1,0 +1,446 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+NTRLI Superbot - NFT Marketplace Edition (Dansk)
+Telegram bot med NFT-marketing integration
+"""
+
+import os
+import json
+import logging
+from pathlib import Path
+from datetime import datetime
+from telethon import TelegramClient, events
+
+# Konfiguration
+TOKENS = {
+    'NTRLI_sub_bot': '8546101037:AAHq4U1Y2s9wqHQu5g4hKulnjo-qLT7G7xA',
+    'NTRLI_Handel_bot': '8111594234:AAHFPH7t24uNjUKI0GctwfwcPk8zKLUR9Xw',
+    'NTRLI_super_bot': '8261354099:AAEewnT0GDcOl5-ARokNVuO5i3zMuLyeG7g'
+}
+
+ADMIN_ID = 8467779489
+ADMIN_USERNAME = 'Sir_NTRLI_II'
+
+# NFT Konfiguration
+NFT_CONFIG = {
+    'enabled': True,
+    'collection_name': 'NTRLI AI Kollektion',
+    'collection_link': 'https://opensea.io/collection/ntrli-ai',
+    'blockchain': 'Ethereum',
+    'total_nfts': 50,
+    'floor_price': '0.5 ETH',
+}
+
+API_ID = 8546101037
+API_HASH = ''
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    encoding='utf-8'
+)
+logger = logging.getLogger(__name__)
+
+DATA_DIR = Path.home() / 'NTRLI_Bot_Data'
+DATA_DIR.mkdir(exist_ok=True)
+DATA_FILE = DATA_DIR / 'bot_data.json'
+USERS_FILE = DATA_DIR / 'users.json'
+NFT_SALES_FILE = DATA_DIR / 'nft_sales.json'
+
+def load_data():
+    """Indlæs gemt data"""
+    if DATA_FILE.exists():
+        try:
+            with open(DATA_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return {'messages': [], 'commands': [], 'nft_views': 0}
+    return {'messages': [], 'commands': [], 'nft_views': 0}
+
+def save_data(data):
+    """Gem data til fil"""
+    try:
+        with open(DATA_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"Kunne ikke gemme data: {e}")
+
+def get_users():
+    """Få registrerede brugere"""
+    if USERS_FILE.exists():
+        try:
+            with open(USERS_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+def add_user(user_id, username):
+    """Registrer bruger"""
+    users = get_users()
+    if not any(u['id'] == user_id for u in users):
+        users.append({
+            'id': user_id,
+            'username': username or 'Ukendt',
+            'joined': datetime.now().isoformat()
+        })
+        try:
+            with open(USERS_FILE, 'w', encoding='utf-8') as f:
+                json.dump(users, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            logger.error(f"Kunne ikke tilføje bruger: {e}")
+
+def log_nft_view(user_id, nft_id):
+    """Spor NFT-visninger til analyse"""
+    data = load_data()
+    data['nft_views'] = data.get('nft_views', 0) + 1
+    save_data(data)
+
+client = TelegramClient('ntrli_bot_session', API_ID, API_HASH)
+
+@client.on(events.NewMessage(pattern='^/start'))
+async def start_handler(event):
+    """Håndter /start kommando"""
+    add_user(event.sender_id, event.sender.username)
+    
+    msg = f"""
+🚀 **NTRLI Superbot + NFT Markedplads**
+
+Hej {event.sender.first_name}! 👋
+
+**Tilgængelige kommandoer:**
+/menu - Vis fuld menu
+/nft - Se vores NFT kollektion 🎨
+/bestil - Bestillingssystem
+/hjælp - Få hjælp
+
+**Status:** ✅ Bot er online
+**Version:** 1.0.0 (NFT Edition)
+
+Hvad vil du gøre?
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+    logger.info(f"✓ Bruger {event.sender_id} startede bot")
+
+@client.on(events.NewMessage(pattern='^/nft'))
+async def nft_handler(event):
+    """Vis NFT-kollektion"""
+    log_nft_view(event.sender_id, 0)
+    
+    msg = f"""
+🎨 **NTRLI AI NFT KOLLEKTION**
+
+📊 **Kollektion Info:**
+Navn: {NFT_CONFIG['collection_name']}
+Blockchain: {NFT_CONFIG['blockchain']}
+Antal NFT'er: {NFT_CONFIG['total_nfts']}
+Floor Pris: {NFT_CONFIG['floor_price']}
+
+🔗 **Se vores kollektion:**
+[OpenSea]({NFT_CONFIG['collection_link']})
+
+📋 **Prøv disse kommandoer:**
+/nft_list - Se alle NFT'er
+/nft_rare - Se sjældne NFT'er
+/nft_buy - Køb NFT'er nu!
+
+**Hver køb støtter NTRLI AI udvikling** ✨
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/nft_list'))
+async def nft_list_handler(event):
+    """List alle NFT'er"""
+    msg = """
+🎨 **NTRLI NFT KATALOG**
+
+Hent seneste NFT-liste fra:
+/nft - Kollektion information
+
+OpenSea: https://opensea.io/collection/ntrli-ai
+
+**Køb nu og bliv del af NTRLI fællesskabet!** 🌟
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+    log_nft_view(event.sender_id, 0)
+
+@client.on(events.NewMessage(pattern='^/nft_rare'))
+async def nft_rare_handler(event):
+    """Vis sjældne NFT'er"""
+    msg = """
+🌟 **SJÆLDNE NTRLI NFT'ER**
+
+Se de mest eksklusivt NFT'er på:
+[OpenSea - NTRLI Kollektion]({})
+
+**Disse er begrænsede udgivelser!** ⚡
+""".format(NFT_CONFIG['collection_link'])
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/nft_buy'))
+async def nft_buy_handler(event):
+    """Direkte til køb af NFT'er"""
+    msg = f"""
+🛍️ **KØB NTRLI NFT'ER NU**
+
+**Træd ind i Web3 og kryptokunst!**
+
+🔗 **OpenSea (Ethereum):**
+[NTRLI Kollektion]({NFT_CONFIG['collection_link']})
+
+💎 **Hvorfor købe NTRLI NFT'er?**
+✓ Unik digital kunst
+✓ Blockchain certificeret
+✓ Værdi stiger over tid
+✓ Del af eksklusivt fællesskab
+✓ Støtter AI udvikling
+
+⚠️ **Tip:** Køb på OpenSea kræver MetaMask wallet
+
+**Har du spørgsmål?** /hjælp
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+    log_nft_view(event.sender_id, 'buy')
+
+@client.on(events.NewMessage(pattern='^/menu'))
+async def menu_handler(event):
+    """Hovedmenu"""
+    msg = """
+📋 **NTRLI SUPERBOT MENU**
+
+**🎨 NFT & MARKETING**
+/nft - Se NFT kollektion
+/nft_list - Alle NFT'er
+/nft_rare - Sjældne NFT'er
+/nft_buy - Køb nu!
+
+**🛒 BESTILLINGER**
+/bestil - Bestil tjenester
+/ordre - Se dine ordrer
+
+**📊 INFORMATION**
+/status - System status
+/info - Om os
+
+**🆘 SUPPORT**
+/hjælp - Få hjælp
+/kontakt - Kontakt support
+
+**⚙️ INDSTILLINGER**
+/indstil - Dine indstillinger
+/sprog - Skift sprog
+
+Vælg en option! 🎯
+"""
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/status'))
+async def status_handler(event):
+    """Bot status med NFT-analyse"""
+    users = get_users()
+    data = load_data()
+    
+    msg = f"""
+📊 **NTRLI SUPERBOT STATUS**
+
+✅ **System Status:** Online
+📡 **Forbindelse:** Aktiv
+👥 **Brugere:** {len(users)}
+💬 **Kommandoer:** {len(data.get('commands', []))}
+🎨 **NFT Visninger:** {data.get('nft_views', 0)}
+
+**NFT Kollektion:**
+📦 Aktive NFT'er: {NFT_CONFIG['total_nfts']}
+💰 Floor Pris: {NFT_CONFIG['floor_price']}
+
+**Tid:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Version:** 1.0.0 (NFT Edition)
+
+Alt kører perfekt! ✨
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/bestil'))
+async def bestil_handler(event):
+    """Bestillingssystem"""
+    msg = """
+🛒 **BESTILLINGSSYSTEM**
+
+**Tjeneste Pakker:**
+
+1️⃣ **Standard** - 99 DKK
+   ✓ Basis funktioner
+   ✓ Email support
+   ✓ 30 dages garant
+
+2️⃣ **Pro** - 199 DKK
+   ✓ Alle funktioner
+   ✓ Prioritet support
+   ✓ 90 dages garant
+   ✓ NFT rabat
+
+3️⃣ **NFT Holder** - Rabat
+   ✓ Rabat hvis du ejer en NTRLI NFT
+   ✓ Eksklusiv adgang
+   ✓ Premium support
+
+**Admin (@Sir_NTRLI_II) kontrollerer rabatter.**
+
+Svar med **1**, **2** eller **3**
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/hjælp'))
+async def help_handler(event):
+    """Hjælp"""
+    msg = """
+🆘 **NTRLI SUPPORT**
+
+**NFT Spørgsmål:**
+❓ Hvordan køber jeg NFT'er?
+→ Skriv /nft_buy
+
+❓ Hvad er NTRLI NFT'er?
+→ Skriv /nft for info
+
+❓ Er NFT'erne sikre?
+→ Ja, blockchain verificeret på Ethereum
+
+**Andre Spørgsmål:**
+❓ Hvordan starter jeg?
+→ Skriv /menu
+
+📧 Email: support@ntrli.dk
+💬 Telegram: @Sir_NTRLI_II
+📞 Telefon: +45 12 34 56 78
+
+Vi hjælper 24/7! ⏰
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/users'))
+async def users_handler(event):
+    """Admin: Vis brugerlist"""
+    if event.sender_id != ADMIN_ID:
+        await event.respond("❌ Kun administrator")
+        return
+    
+    users = get_users()
+    user_list = "\n".join([f"👤 {u['username']} (ID: {u['id']})" for u in users])
+    
+    msg = f"""
+**ADMIN PANEL**
+
+👥 **Brugere:** {len(users)}
+🎨 **NFT Visninger:** {load_data().get('nft_views', 0)}
+💬 **Kommandoer:** {len(load_data().get('commands', []))}
+
+**Bruger Liste:**
+{user_list or 'Ingen brugere'}
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/stats'))
+async def stats_handler(event):
+    """Statistik"""
+    if event.sender_id != ADMIN_ID:
+        await event.respond("❌ Kun administrator")
+        return
+    
+    users = get_users()
+    data = load_data()
+    
+    msg = f"""
+📈 **STATISTIK & ANALYSE**
+
+👥 **Brugere:** {len(users)}
+💬 **Kommandoer:** {len(data.get('commands', []))}
+📨 **Beskeder:** {len(data.get('messages', []))}
+🎨 **NFT Visninger:** {data.get('nft_views', 0)}
+
+**NFT Kollektion:**
+📦 Samlet NFT'er: {NFT_CONFIG['total_nfts']}
+
+**Data Lokation:**
+📁 {DATA_DIR}
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage())
+async def default_handler(event):
+    """Håndter andre beskeder"""
+    if not event.text.startswith('/'):
+        msg = """
+Jeg forstår ikke denne kommando 🤖
+
+Skriv /menu for at se alle muligheder!
+
+💡 **Pro Tip:** Tjek vores NFT kollektion: /nft
+"""
+        await event.respond(msg)
+
+async def main():
+    """Hoved funktion"""
+    try:
+        logger.info("=" * 60)
+        logger.info("🚀 NTRLI SUPERBOT - NFT MARKETPLACE EDITION")
+        logger.info("=" * 60)
+        
+        logger.info(f"📡 Forbinder til Telegram...")
+        
+        async with client:
+            logger.info("✅ FORBUNDET OG AKTIV!")
+            logger.info(f"👤 Admin: {ADMIN_USERNAME} (ID: {ADMIN_ID})")
+            logger.info(f"🎨 NFT Kollektion: {NFT_CONFIG['collection_name']}")
+            logger.info(f"💾 Data mappe: {DATA_DIR}")
+            logger.info("")
+            logger.info("📋 NFT Kommandoer:")
+            logger.info("   /nft      - Se NFT kollektion")
+            logger.info("   /nft_list - Alle NFT'er")
+            logger.info("   /nft_rare - Sjældne NFT'er")
+            logger.info("   /nft_buy  - Køb NFT'er nu")
+            logger.info("")
+            logger.info("Botten lytter nu på beskeder...")
+            logger.info("=" * 60)
+            
+            await client.run_until_disconnected()
+            
+    except Exception as e:
+        logger.error(f"❌ FEJL: {e}")
+        logger.error("Kontrollér:")
+        logger.error("  1. Bot token er korrekt")
+        logger.error("  2. Internet virker")
+        logger.error("  3. pip install telethon")
+        raise
+
+if __name__ == '__main__':
+    print("\n" + "=" * 60)
+    print("NTRLI SUPERBOT - NFT EDITION")
+    print("=" * 60)
+    print("\nInstallerer afhængigheder...")
+    
+    try:
+        import telethon
+    except ImportError:
+        print("Installerer Telethon...")
+        os.system('pip install telethon')
+    
+    print("\nStarter bot med NFT marketing...")
+    print("=" * 60 + "\n")
+    
+    try:
+        import asyncio
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n\n✓ Bot stoppet")

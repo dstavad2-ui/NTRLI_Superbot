@@ -1,0 +1,85 @@
+@echo off
+REM NTRLI Superbot - Master Bot Launcher
+REM Starter alt fra ÉN Command Prompt
+
+setlocal enabledelayedexpansion
+
+cls
+echo.
+echo =====================================================
+echo  NTRLI MASTER BOT - ALLE 3 BOTS + NFT GENERATOR
+echo =====================================================
+echo.
+
+REM Check Python
+python --version >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: Python ikke fundet!
+    echo Installer fra: https://www.python.org/downloads
+    echo Husk: "Add Python to PATH"
+    pause
+    exit /b 1
+)
+
+echo [OK] Python fundet
+echo.
+
+REM Check dependencies
+echo Kontrollerer dependencies...
+pip show telethon >nul 2>&1
+if errorlevel 1 (
+    echo Installerer Telethon...
+    pip install telethon python-dotenv
+)
+echo [OK] Dependencies klar
+echo.
+
+REM Create directories
+if not exist "data" mkdir data
+if not exist "logs" mkdir logs
+if not exist ".backups" mkdir .backups
+echo [OK] Mapper oprettet
+echo.
+
+REM Check .env
+if not exist ".env" (
+    echo.
+    echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    echo WARNING: .env fil ikke fundet!
+    echo Opret .env fil med:
+    echo.
+    echo API_ID=8546101037
+    echo API_HASH=7defa4b44a90dd22ed93ec4bf36374d4
+    echo BOT_TOKEN=8261354099:AAEewnT0GDcOl5-ARokNVuO5i3zMuLyeG7g
+    echo ADMIN_ID=8467779489
+    echo ADMIN_USERNAME=Sir_NTRLI_II
+    echo.
+    echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    pause
+)
+
+echo.
+echo =====================================================
+echo  STARTER MASTER BOT
+echo =====================================================
+echo.
+echo 🚀 Systemet starter nu...
+echo.
+echo    ✓ NTRLI_super_bot (Hovedbot)
+echo    ✓ NTRLI_sub_bot (Underbot)
+echo    ✓ NTRLI_Handel_bot (Handelbot)
+echo    ✓ NFT Generator (Auto-mint hver 5 min)
+echo.
+echo =====================================================
+echo.
+echo Gå til Telegram og send: /start
+echo.
+echo For at stoppe: Tryk Ctrl+C
+echo.
+echo =====================================================
+echo.
+
+REM Start master bot
+python master_bot.py
+
+pause

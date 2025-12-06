@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+NTRLI Superbot - Update Script
+Updates environment, checks files, verifies configuration
+"""
+
+import os
+import sys
+import json
+import logging
+from pathlib import Path
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    encoding='utf-8'
+)
+logger = logging.getLogger('NTRLI_UPDATE')
+
+def check_python_version():
+    """Verify Python version"""
+    logger.info("🐍 Checking Python version...")
+    
+    version = sys.version_info
+    if version.major >= 3 and version.minor >= 8:
+        logger.info(f"✓ Python {version.major}.{version.minor}.{version.micro}")
+        return True
+    else:
+        logger.error(f"❌ Python 3.8+ required, found {version.major}.{version.minor}")
+        return False
+
+def update_dependencies():
+    """Install/update required packages"""
+    logger.info("📦 Updating dependencies...")
+    
+    packages = [
+        'telethon==1.33.0',
+        'python-dotenv==1.0.0',
+        'pyinstaller==6.2.0',
+        'requests==2.31.0',
+        'aiohttp==3.9.0'
+    ]
+    
+    for pkg in packages:
+        logger.info(f"  Installing {pkg}...")
+        ret = os.system(f'pip install -q {pkg}')
+        if ret == 0:
+            logger.info(f"  ✓ {pkg.split('==')[0]}")
+        else:
+            logger.warning(f"  ⚠️  {pkg} installation had issues")
+    
+    logger.info("✓ Dependencies updated")
+    return True
+
+def create_env_file():
+    """Create .env file if not exists"""
+    logger.info("📝 Checking .env file...")
+    
+    env_file = Path('.env')
+    if env_file.exists():
+        logger.info("✓ .env already exists")
+        return True
+    
+    logger.info("Creating .env file...")
+    
+    env_content = """API_ID=33636662
+API_HASH=7defa4b44a90dd22ed93ec4bf36374d4
+BOT_TOKEN=8261354099:AAEewnT0GDcOl5-ARokNVuO5i3zMuLyeG7g
+ADMIN_ID=8467779489
+ADMIN_USERNAME=Sir_NTRLI_II
+"""
+    
+    try:
+        with open(env_file, 'w', encoding='utf-8') as f:
+            f.write(env_content)
+        logger.info("✓ .env created")
+        return True
+    except Exception as e:
+        logger.error(f"❌ Could not create .env: {e}")
+        return False
+
+def create_directories():
+    """Create required directories"""
+    logger.info("📁 Creating directories...")
+    
+    dirs = ['data', 'logs', '.backups']
+    for dir_name in dirs:
+        try:
+            Path(dir_name).mkdir(exist_ok=True)
+            logger.info(f"✓ {dir_name}/")
+        except Exception as e:
+            logger.error(f"❌ Could not create {dir_name}: {e}")
+            return False
+    
+    return True
+
+def verify_required_files():
+    """Verify all required bot files exist"""
+    logger.info("📋 Verifying required files...")
+    
+    required_files = [
+        'mater_bot.py.py',
+        'nft_bot.py.txt',
+        'nft_monitor.py.txt',
+        'requirements.txt',
+        'self_heal.py'
+    ]
+    
+    missing = []
+    for filename in required_files:
+        if Path(filename).exists():
+            logger.info(f"✓ {filename}")
+        else:
+            logger.warning(f"⚠️  {filename} not found")
+            missing.append(filename)
+    
+    if missing:
+        logger.warning(f"Missing files: {missing}")
+        logger.info("Note: This may be OK if you're using different filenames")
+    
+    return True
+
+def create_data_files():
+    """Initialize data files if they don't exist"""
+    logger.info("💾 Initializing data files...")
+    
+    data_dir = Path('data')
+    data_dir.mkdir(exist_ok=True)
+    
+    # Initialize bot_data.json
+    bot_data_file = data_dir / 'bot_data.json'
+    if not bot_data_file.exists():
+        try:
+            with open(bot_data_file, 'w', encoding='utf-8') as f:
+                json.dump({'messages': [], 'commands': [], 'nft_views': 0, 'ordrer': []}, f, indent=2)
+            logger.info("✓ bot_data.json created")
+        except Exception as e:
+            logger.error(f"❌ Could not create bot_data.json: {e}")
+    
+    # Initialize users.json
+    users_file = data_dir / 'users.json'
+    if not users_file.exists():
+        try:
+            with open(users_file, 'w', encoding='utf-8') as f:
+                json.dump([], f, indent=2)
+            logger.info("✓ users.json created")
+        except Exception as e:
+            logger.error(f"❌ Could not create users.json: {e}")
+    
+    return True
+
+def check_configuration():
+    """Verify configuration is correct"""
+    logger.info("⚙️  Checking configuration...")
+    
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    required_vars = ['API_ID', 'API_HASH', 'BOT_TOKEN', 'ADMIN_ID', 'ADMIN_USERNAME']
+    missing = []
+    
+    for var in required_vars:
+        if os.getenv(var):
+            logger.info(f"✓ {var} configured")
+        else:
+            logger.warning(f"⚠️  {var} not configured")
+            missing.append(var)
+    
+    if missing:
+        logger.warning(f"Missing configuration: {missing}")
+        logger.info("Update .env file with these values")
+    
+    return len(missing) == 0
+
+def main():
+    """Main update function"""
+    print("\n" + "=" * 70)
+    print("   NTRLI SUPERBOT - UPDATE SYSTEM")
+    print("=" * 70 + "\n")
+    
+    steps = [
+        ("Python Version", check_python_version),
+        ("Dependencies", update_dependencies),
+        (".env File", create_env_file),
+        ("Directories", create_directories),
+        ("Required Files", verify_required_files),
+        ("Data Files", create_data_files),
+        ("Configuration", check_configuration),
+    ]
+    
+    failed = False
+    for step_name, step_func in steps:
+        print(f"\n[{step_name}]")
+        try:
+            if not step_func():
+                failed = True
+        except Exception as e:
+            logger.error(f"❌ {step_name} failed: {e}")
+            failed = True
+    
+    print("\n" + "=" * 70)
+    if not failed:
+        logger.info("✓ All updates completed successfully!")
+    else:
+        logger.warning("⚠️  Some updates had issues - check log above")
+    print("=" * 70 + "\n")
+    
+    return not failed
+
+if __name__ == '__main__':
+    success = main()
+    sys.exit(0 if success else 1)

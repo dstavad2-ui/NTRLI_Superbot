@@ -1,0 +1,10 @@
+@echo off
+chcp 65001
+set PYTHONUTF8=1
+echo Active code page: 65001
+echo Starting NTRLI Superbot...
+echo ==========================
+python bot.py
+echo ==========================
+echo Bot stopped. Press any key to exit.
+pause >nul

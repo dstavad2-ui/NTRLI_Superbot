@@ -1,0 +1,549 @@
+# bot.py
+import os
+import asyncio
+import sqlite3
+import logging
+from pathlib import Path
+from dotenv import load_dotenv
+from telethon import TelegramClient, events, Button
+from telethon.errors import RPCError
+
+# Optional AI (Anthropic). If you prefer OpenAI, swap this part and calls accordingly.
+try:
+    import anthropic
+except Exception:
+    anthropic = None
+
+# health monitor (self_heal.py)
+from self_heal import get_monitor
+
+# ----- Logging -----
+ROOT = Path(__file__).parent
+LOGS = ROOT / "logs"
+LOGS.mkdir(exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    handlers=[
+        logging.FileHandler(LOGS / "bot.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger("ntrli")
+
+# ----- Load .env -----
+load_dotenv()
+API_ID = int(os.getenv("API_ID", "0"))
+API_HASH = os.getenv("API_HASH", "")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+ADMIN_ID = int(os.getenv("ADMIN_ID", "0"))
+ANTHROPIC_KEY = os.getenv("ANTHROPIC_API_KEY", "")  # if using Anthropic
+# Optional OpenAI left out — you already used Anthropic earlier
+
+# ----- Anthropic client init (if available) -----
+anthropic_client = None
+if anthropic and ANTHROPIC_KEY:
+    try:
+        anthropic_client = anthropic.Client(api_key=ANTHROPIC_KEY)
+        logger.info("✅ Anthropic client ready")
+    except Exception as e:
+        logger.warning(f"⚠️ Anthropic client init failed: {e}")
+
+# ----- DB init & migration helpers -----
+DB = ROOT / "ntrli_superbot.db"
+conn = sqlite3.connect(DB, check_same_thread=False)
+cur = conn.cursor()
+
+def ensure_tables_and_columns():
+    """Create base tables, add missing columns (safe migrations)."""
+    try:
+        # base tables
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS fysiske_varer (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            price REAL NOT NULL
+        );
+        """)
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            item_id INTEGER NOT NULL,
+            delivery INTEGER DEFAULT 0,
+            status TEXT DEFAULT 'pending',
+            created_at INTEGER DEFAULT (strftime('%s','now'))
+        );
+        """)
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS apotekvarer_ai (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL
+        );
+        """)
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS nfts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            description TEXT,
+            collection TEXT,
+            price REAL,
+            image_path TEXT,
+            owner_user_id INTEGER,
+            approved INTEGER DEFAULT 0,
+            created_at INTEGER DEFAULT (strftime('%s','now'))
+        );
+        """)
+        conn.commit()
+
+        # ensure image_path column on fysiske_varer
+        cur.execute("PRAGMA table_info(fysiske_varer)")
+        cols = [r[1] for r in cur.fetchall()]
+        if "image_path" not in cols:
+            try:
+                cur.execute("ALTER TABLE fysiske_varer ADD COLUMN image_path TEXT")
+                conn.commit()
+                logger.info("✅ Migration: added image_path to fysiske_varer")
+            except Exception as e:
+                logger.warning(f"⚠️ Could not add image_path column: {e}")
+    except Exception as e:
+        logger.critical(f"DB init error: {e}")
+        raise
+
+ensure_tables_and_columns()
+
+# Preload apotekvarer defaults
+cur.execute("SELECT COUNT(*) FROM apotekvarer_ai")
+if cur.fetchone()[0] == 0:
+    defaults = [("Quetiapine",), ("Pregabalin",), ("Buspirone",)]
+    cur.executemany("INSERT INTO apotekvarer_ai (name) VALUES (?)", defaults)
+    conn.commit()
+    logger.info("✅ Preloaded apotekvarer_ai default list")
+
+# ----- Health monitor -----
+monitor = get_monitor()
+
+# ----- Telethon client -----
+SESSIONS = ROOT / "sessions"
+SESSIONS.mkdir(exist_ok=True)
+client = TelegramClient(str(SESSIONS / "ntrli_bot.session"), API_ID, API_HASH)
+
+# Temporary storage for admin flows
+_pending_add_items = {}      # admin_user_id -> {"name","price","image_path"}
+_pending_nft_mint = {}      # admin_user_id -> {"name","desc","collection","price","image_path"}
+
+# ----- Helpers -----
+def is_admin(uid: int) -> bool:
+    return uid == ADMIN_ID
+
+def main_buttons(uid: int):
+    rows = [
+        [Button.inline("🛒 Fysiske varer", b"menu_fysiske")],
+        [Button.inline("🎨 NFTs", b"menu_nft")],
+        [Button.inline("💊 Mere praktisk info om apotekvarer", b"menu_apotek")]
+    ]
+    if is_admin(uid):
+        rows.append([Button.inline("⚙️ Admin Panel", b"menu_admin")])
+    return rows
+
+def back_button():
+    return [Button.inline("⬅️ Tilbage", b"back_main")]
+
+def price_to_float(s: str):
+    try:
+        return float(s.lower().replace("kr","").strip())
+    except:
+        return None
+
+# ----- Handlers -----
+@client.on(events.NewMessage(pattern="/start"))
+async def cmd_start(ev):
+    try:
+        await ev.respond("Velkommen til NTRLI Superbot! Brug menuen nedenfor ⬇️", buttons=main_buttons(ev.sender_id))
+        logger.info(f"Start /start by {ev.sender_id}")
+    except Exception as e:
+        logger.exception("start handler failed")
+        monitor._log_error(f"start: {e}")
+
+@client.on(events.CallbackQuery)
+async def callback_handler(ev):
+    data = ev.data.decode('utf-8')
+    uid = ev.sender_id
+    try:
+        # back to main
+        if data == "back_main":
+            await ev.edit("Tilbage til hovedmenu", buttons=main_buttons(uid))
+            return
+
+        # HELP placeholder
+        if data == "menu_help":
+            await ev.edit("Hjælp: brug knapperne. Admin har ekstra funktioner.", buttons=back_button())
+            return
+
+        # Fysiske varer list
+        if data == "menu_fysiske":
+            cur.execute("SELECT id, name, price, image_path FROM fysiske_varer ORDER BY id")
+            items = cur.fetchall()
+            if not items:
+                await ev.edit("Ingen fysiske varer tilgængelige. Kontakt admin.", buttons=back_button())
+                return
+            text = "🛒 Fysiske varer:\n\n"
+            btns = []
+            for it in items:
+                iid, name, price, img = it
+                text += f"{name} | {price} kr\n"
+                btns.append([Button.inline(f"{name} — {price} kr", f"item_{iid}")])
+            btns.append(back_button()[0])
+            await ev.edit(text, buttons=btns)
+            return
+
+        # Show item details (send image if available)
+        if data.startswith("item_"):
+            iid = int(data.split("_",1)[1])
+            cur.execute("SELECT name, price, image_path FROM fysiske_varer WHERE id=?", (iid,))
+            r = cur.fetchone()
+            if not r:
+                await ev.answer("Vare ikke fundet", alert=True)
+                return
+            name, price, image_path = r
+            detail = f"{name}\nPris: {price} kr"
+            if image_path:
+                try:
+                    # send image first so the edit appears next to image
+                    await client.send_file(uid, image_path)
+                except Exception as ex:
+                    logger.warning(f"Send image failed: {ex}")
+            await ev.edit(detail, buttons=[[Button.inline("🛍️ Bestil", f"order_{iid}")], back_button()[0]])
+            return
+
+        # ordering flow
+        if data.startswith("order_"):
+            iid = int(data.split("_",1)[1])
+            cur.execute("SELECT price FROM fysiske_varer WHERE id=?", (iid,))
+            r = cur.fetchone()
+            if not r:
+                await ev.answer("Vare ikke fundet", alert=True)
+                return
+            price = r[0]
+            if price >= 400:
+                await ev.edit("Vil du have levering? Minimum 400 kr.", buttons=[[Button.inline("🚚 Ja", f"delivery_{iid}_1")],[Button.inline("🏪 Nej", f"delivery_{iid}_0")], back_button()[0]])
+            else:
+                await ev.edit("Denne vare er under 400 kr — afhentning anbefales.", buttons=[[Button.inline("🏪 Afhent selv", f"delivery_{iid}_0")], back_button()[0]])
+            return
+
+        if data.startswith("delivery_"):
+            _, iid_s, d_s = data.split("_")
+            iid = int(iid_s); delivery = int(d_s)
+            cur.execute("INSERT INTO orders (user_id, item_id, delivery) VALUES (?,?,?)", (uid, iid, delivery))
+            conn.commit()
+            await ev.edit("✅ Ordre modtaget — admin underrettes.", buttons=back_button())
+            # notify admin
+            try:
+                await client.send_message(ADMIN_ID, f"Ny ordre: user {uid}, item {iid}, delivery {delivery}")
+            except Exception as e:
+                logger.warning(f"Could not notify admin: {e}")
+            return
+
+        # Apotekvarer AI menu
+        if data == "menu_apotek":
+            cur.execute("SELECT id, name FROM apotekvarer_ai ORDER BY id")
+            drugs = cur.fetchall()
+            if not drugs:
+                await ev.edit("Ingen apotekvarer registreret.", buttons=back_button())
+                return
+            btns = [[Button.inline(d[1], f"drug_{d[0]}")] for d in drugs]
+            btns.append(back_button()[0])
+            await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+            return
+
+        # When user selects a drug, call Anthropic (or fallback)
+        if data.startswith("drug_"):
+            did = int(data.split("_",1)[1])
+            cur.execute("SELECT name FROM apotekvarer_ai WHERE id=?", (did,))
+            row = cur.fetchone()
+            if not row:
+                await ev.answer("Produkt ikke fundet", alert=True)
+                return
+            drug_name = row[0]
+            await ev.edit(f"⏳ Henter AI-info om {drug_name} ...")
+            # AI call
+            if anthropic_client:
+                try:
+                    prompt = f"Giv en kort, dansk, praktisk og læservenlig beskrivelse af '{drug_name}' (brug, bivirkninger, advarsler). Maks 250 ord."
+                    resp = anthropic_client.completions.create(
+                        model="claude-2.1",  # replace with your available model if needed
+                        prompt=prompt,
+                        max_tokens_to_sample=500
+                    )
+                    ai_text = resp['completion']
+                except Exception as e:
+                    logger.warning(f"Anthropic error: {e}")
+                    ai_text = f"AI-fejl: {e}"
+            else:
+                ai_text = "AI ikke konfigureret. Kontakt admin."
+            await ev.edit(f"💊 {drug_name}\n\n{ai_text}", buttons=back_button())
+            return
+
+        # NFT: user view (only approved visible), admin controls exist in admin panel
+        if data == "menu_nft":
+            cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+            nfts = cur.fetchall()
+            if not nfts:
+                await ev.edit("Ingen godkendte NFTs lige nu.", buttons=back_button())
+                return
+            msg = "🎨 NFTs:\n"
+            btns = []
+            for nft in nfts:
+                nid, name, price, approved = nft
+                msg += f"{nid}: {name} | {price} ETH\n"
+                btns.append([Button.inline(f"Køb {name}", f"buy_nft_{nid}")])
+            btns.append(back_button()[0])
+            await ev.edit(msg, buttons=btns)
+            return
+
+        if data.startswith("buy_nft_"):
+            nid = int(data.split("_",2)[2])
+            # Only allow if approved
+            cur.execute("SELECT price, approved FROM nfts WHERE id=?", (nid,))
+            row = cur.fetchone()
+            if not row or not row[1]:
+                await ev.answer("NFT ikke fundet eller ikke godkendt", alert=True)
+                return
+            # create order-like purchase for NFT: here we just notify admin to collect payment
+            cur.execute("INSERT INTO orders (user_id, item_id, delivery, status) VALUES (?,?,?,?)", (uid, nid, 0, 'pending_nft'))
+            conn.commit()
+            await ev.edit("✅ NFT bestilling oprettet. Admin vil kontakte dig. (Betaling håndteres manuelt)", buttons=back_button())
+            await client.send_message(ADMIN_ID, f"NFT ordre: user {uid}, nft {nid}")
+            return
+
+        # Admin Panel
+        if data == "menu_admin" and is_admin(uid):
+            admin_btns = [
+                [Button.inline("📋 Vis ordrer", b"admin_orders")],
+                [Button.inline("➕ Tilføj vare", b"admin_add")],
+                [Button.inline("🖼️ Tilføj NFT (mint)", b"admin_mint_nft")],
+                [Button.inline("✏️ Rediger apotekvarer", b"admin_edit_ai")],
+                back_button()[0]
+            ]
+            await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+            return
+
+        # Admin view orders + approve/decline (with reason)
+        if data == "admin_orders" and is_admin(uid):
+            cur.execute("SELECT id, user_id, item_id, delivery, status FROM orders WHERE status IN ('pending','pending_nft') ORDER BY id DESC LIMIT 50")
+            orders = cur.fetchall()
+            if not orders:
+                await ev.edit("Ingen ventende ordrer.", buttons=back_button())
+                return
+            btns = []
+            text = "📋 Ventende ordrer:\n"
+            for o in orders:
+                oid, user_id, item_id, delivery, status = o
+                typ = "NFT" if status == "pending_nft" else "Vare"
+                text += f"ID {oid} | Bruger {user_id} | {typ} {item_id} | Delivery {delivery} | {status}\n"
+                btns.append([Button.inline(f"Godkend {oid}", f"admin_approve_{oid}"), Button.inline(f"Afslå {oid}", f"admin_decline_{oid}")])
+            btns.append(back_button()[0])
+            await ev.edit(text, buttons=btns)
+            return
+
+        # Admin approve/decline orders
+        if data.startswith("admin_approve_") and is_admin(uid):
+            oid = int(data.split("_",2)[2])
+            cur.execute("UPDATE orders SET status='approved' WHERE id=?", (oid,))
+            conn.commit()
+            await ev.answer(f"Ordre {oid} godkendt", alert=True)
+            # attempt to notify user
+            cur.execute("SELECT user_id FROM orders WHERE id=?", (oid,))
+            urow = cur.fetchone()
+            if urow:
+                try: await client.send_message(urow[0], f"Din ordre #{oid} er godkendt af admin.")
+                except Exception: pass
+            return
+
+        if data.startswith("admin_decline_") and is_admin(uid):
+            oid = int(data.split("_",2)[2])
+            # Start a short flow: ask admin for reason via private message
+            await ev.answer("Skriv årsag til afvisning i chatten til admin (en besked vil blive sendt).", alert=True)
+            # store oid in pending and listen for next message from admin
+            _pending_add_items[uid] = {"decline_order_id": oid}
+            client.add_event_handler(admin_decline_reason_handler, events.NewMessage(from_users=uid))
+            return
+
+        # Admin: add item flow (name|price and optional image)
+        if data == "admin_add" and is_admin(uid):
+            await ev.edit("Send vare som `navn|pris` (fx: Paracetamol|50). Send evt. billede efter dette. Skriv /abort for at annullere.", buttons=back_button())
+            client.add_event_handler(admin_add_handler, events.NewMessage(from_users=uid))
+            return
+
+        # Admin: mint NFT flow start
+        if data == "admin_mint_nft" and is_admin(uid):
+            await ev.edit("NFT mint - send som `navn|pris|collection` (fx: Art1|0.05|Boutique2025). Send billede efterfølgende. Skriv /abort for at annullere.", buttons=back_button())
+            client.add_event_handler(admin_mint_nft_handler, events.NewMessage(from_users=uid))
+            return
+
+        # Admin: edit apotekvarer list
+        if data == "admin_edit_ai" and is_admin(uid):
+            cur.execute("SELECT id, name FROM apotekvarer_ai ORDER BY id")
+            all_drugs = cur.fetchall()
+            txt = "Apotekvarer (ID: navn):\n" + "\n".join([f"{r[0]}: {r[1]}" for r in all_drugs])
+            txt += "\n\nSend `tilføj Navn` eller `slet ID`. Skriv /abort for at annullere."
+            await ev.edit(txt, buttons=back_button())
+            client.add_event_handler(admin_edit_ai_handler, events.NewMessage(from_users=uid))
+            return
+
+        # fallback
+        await ev.answer("Ukendt handling. Brug menuen.", alert=True)
+
+    except Exception as e:
+        logger.exception("Callback handler error")
+        monitor._log_error(f"Callback: {e}")
+        try:
+            await ev.edit(f"❌ Fejl: {e}", buttons=back_button())
+        except Exception:
+            pass
+
+# ----- Admin event handlers (separate functions so they can be removed) -----
+async def admin_add_handler(ev):
+    uid = ev.sender_id
+    txt = ev.raw_text.strip()
+    try:
+        if txt.lower() == "/abort":
+            _pending_add_items.pop(uid, None)
+            await ev.respond("Tilføjelse annulleret.")
+            client.remove_event_handler(admin_add_handler, events.NewMessage)
+            return
+        if "|" in txt:
+            name, price_s = txt.split("|",1)
+            price = price_to_float(price_s if (price_s:=price_s) else price_s)
+            if price is None:
+                await ev.respond("Ugyldig pris. Brug format `navn|pris`.")
+                return
+            _pending_add_items[uid] = {"name": name.strip(), "price": float(price), "image": None}
+            await ev.respond("Navn og pris registreret. Send billede (valgfrit), eller skriv /abort for at annullere.")
+            return
+        if ev.photo:
+            if uid not in _pending_add_items:
+                await ev.respond("Send først `navn|pris`.")
+                return
+            path = await ev.download_media(file=str(ROOT/"images"/f"{uid}_{_pending_add_items[uid]['name']}.jpg"))
+            _pending_add_items[uid]["image"] = path
+            d = _pending_add_items.pop(uid)
+            cur.execute("INSERT INTO fysiske_varer (name, price, image_path) VALUES (?,?,?)", (d["name"], d["price"], d["image"]))
+            conn.commit()
+            await ev.respond(f"Vare '{d['name']}' tilføjet med billede.")
+            client.remove_event_handler(admin_add_handler, events.NewMessage)
+            return
+        await ev.respond("Ugyldigt input. Brug `navn|pris` eller send billede.")
+    except Exception as e:
+        logger.exception("admin_add_handler")
+        monitor._log_error(f"admin_add_handler: {e}")
+
+async def admin_mint_nft_handler(ev):
+    uid = ev.sender_id
+    txt = ev.raw_text.strip()
+    try:
+        if txt.lower() == "/abort":
+            _pending_nft_mint.pop(uid, None)
+            await ev.respond("NFT mint annulleret.")
+            client.remove_event_handler(admin_mint_nft_handler, events.NewMessage)
+            return
+        if "|" in txt:
+            name, price_s, collection = (p.strip() for p in txt.split("|",2))
+            price = price_to_float(price_s)
+            if price is None:
+                await ev.respond("Ugyldig prisformat.")
+                return
+            _pending_nft_mint[uid] = {"name": name, "price": price, "collection": collection, "image": None}
+            await ev.respond("NFT metadata gemt. Send billede nu (valgfrit).")
+            return
+        if ev.photo:
+            if uid not in _pending_nft_mint:
+                await ev.respond("Send først nft metadata som `navn|pris|collection`.")
+                return
+            path = await ev.download_media(file=str(ROOT/"images"/f"nft_{uid}_{_pending_nft_mint[uid]['name']}.jpg"))
+            _pending_nft_mint[uid]["image"] = path
+            d = _pending_nft_mint.pop(uid)
+            cur.execute("INSERT INTO nfts (name, description, collection, price, image_path, approved) VALUES (?,?,?,?,?,0)",
+                        (d["name"], "", d["collection"], d["price"], d["image"]))
+            conn.commit()
+            await ev.respond(f"NFT '{d['name']}' oprettet og venter på godkendelse.")
+            client.remove_event_handler(admin_mint_nft_handler, events.NewMessage)
+            return
+        await ev.respond("Ugyldigt input. Send `navn|pris|collection` eller billede.")
+    except Exception as e:
+        logger.exception("admin_mint_nft_handler")
+        monitor._log_error(f"admin_mint_nft_handler: {e}")
+
+async def admin_edit_ai_handler(ev):
+    uid = ev.sender_id
+    txt = ev.raw_text.strip()
+    try:
+        if txt.lower().startswith("tilføj "):
+            name = txt[6:].strip()
+            if name:
+                cur.execute("INSERT INTO apotekvarer_ai (name) VALUES (?)", (name,))
+                conn.commit()
+                await ev.respond(f"'{name}' er tilføjet.")
+            else:
+                await ev.respond("Intet navn angivet.")
+        elif txt.lower().startswith("slet "):
+            try:
+                did = int(txt[5:].strip())
+                cur.execute("DELETE FROM apotekvarer_ai WHERE id=?", (did,))
+                conn.commit()
+                await ev.respond(f"ID {did} slettet.")
+            except ValueError:
+                await ev.respond("Ugyldigt ID.")
+        else:
+            await ev.respond("Brug `tilføj Navn` eller `slet ID`.")
+        client.remove_event_handler(admin_edit_ai_handler, events.NewMessage)
+    except Exception as e:
+        logger.exception("admin_edit_ai_handler")
+        monitor._log_error(f"admin_edit_ai_handler: {e}")
+
+async def admin_decline_reason_handler(ev):
+    uid = ev.sender_id
+    txt = ev.raw_text.strip()
+    try:
+        if uid not in _pending_add_items:
+            await ev.respond("Ingen afvisnings-flow aktiv. Brug admin-ordreliste.")
+            client.remove_event_handler(admin_decline_reason_handler, events.NewMessage)
+            return
+        oid = _pending_add_items[uid].get("decline_order_id")
+        if not oid:
+            await ev.respond("Ingen ordre valgt.")
+            client.remove_event_handler(admin_decline_reason_handler, events.NewMessage)
+            return
+        # Save reason and mark declined
+        cur.execute("UPDATE orders SET status='declined' WHERE id=?", (oid,))
+        conn.commit()
+        # notify user
+        cur.execute("SELECT user_id FROM orders WHERE id=?", (oid,))
+        row = cur.fetchone()
+        try:
+            if row:
+                await client.send_message(row[0], f"Din ordre #{oid} er afvist: {txt}")
+        except Exception:
+            pass
+        await ev.respond(f"Ordre {oid} afvist med årsag.")
+        _pending_add_items.pop(uid, None)
+        client.remove_event_handler(admin_decline_reason_handler, events.NewMessage)
+    except Exception as e:
+        logger.exception("admin_decline_reason_handler")
+        monitor._log_error(f"admin_decline_reason_handler: {e}")
+
+# ----- Run -----
+async def main():
+    try:
+        monitor.start()
+        await client.start(bot_token=BOT_TOKEN)
+        logger.info("✅ NTRLI Superbot running")
+        await client.run_until_disconnected()
+    except Exception as e:
+        logger.critical(f"Fatal error in main: {e}")
+        monitor._log_error(f"main: {e}")
+    finally:
+        monitor.stop()
+
+if __name__ == "__main__":
+    asyncio.run(main())

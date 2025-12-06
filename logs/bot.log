@@ -1,0 +1,1391 @@
+2025-11-28 13:46:39,900 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 13:46:39,930 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:08:09,330 | INFO | HealthMonitor started
+2025-11-28 14:08:09,330 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:08:09,383 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:17:16,543 | INFO | HealthMonitor started
+2025-11-28 14:17:16,543 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:17:16,597 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:17:16,981 | INFO | ✅ NTRLI Superbot running
+2025-11-28 14:17:47,979 | INFO | HealthMonitor started
+2025-11-28 14:17:47,979 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:17:48,127 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:17:53,507 | CRITICAL | Fatal error in main: database is locked
+2025-11-28 14:17:53,507 | INFO | HealthMonitor stopped
+2025-11-28 14:18:57,604 | INFO | HealthMonitor started
+2025-11-28 14:18:57,604 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:18:57,656 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:23:07,090 | INFO | HealthMonitor started
+2025-11-28 14:23:07,090 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:23:07,190 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:23:07,742 | INFO | ✅ NTRLI Superbot running
+2025-11-28 14:23:46,918 | INFO | HealthMonitor started
+2025-11-28 14:23:46,918 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:23:46,979 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:24:57,920 | INFO | HealthMonitor started
+2025-11-28 14:24:57,920 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:24:57,970 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:24:58,303 | INFO | ✅ NTRLI Superbot running
+2025-11-28 14:25:26,690 | INFO | Start /start by 8467779489
+2025-11-28 14:25:48,307 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 14:25:52,755 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 14:27:11,596 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 14:27:14,825 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 14:27:17,666 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 289, in callback_handler
+    cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: price
+2025-11-28 14:27:20,221 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 14:34:41,256 | INFO | HealthMonitor started
+2025-11-28 14:34:41,256 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:34:41,326 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:34:41,793 | INFO | ✅ NTRLI Superbot running
+2025-11-28 14:40:01,021 | WARNING | Server closed the connection: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-28 14:40:01,021 | INFO | Connection closed while receiving data: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-28 14:40:01,021 | INFO | Closing current connection to begin reconnect...
+2025-11-28 14:40:01,021 | INFO | <class 'OSError'> during disconnect: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-28 14:40:01,021 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:40:01,021 | WARNING | Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:02,033 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:03,035 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:04,044 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:05,047 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:06,057 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:07,058 | INFO | Failed reconnection attempt 1 with ConnectionError
+2025-11-28 14:40:08,069 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:40:08,069 | WARNING | Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:09,073 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:10,086 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:11,087 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:12,095 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:13,105 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:14,111 | INFO | Failed reconnection attempt 2 with ConnectionError
+2025-11-28 14:40:15,122 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:40:15,122 | WARNING | Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:16,126 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:17,127 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:18,133 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:19,142 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:20,146 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:21,152 | INFO | Failed reconnection attempt 3 with ConnectionError
+2025-11-28 14:40:22,159 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:40:22,159 | WARNING | Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:23,168 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:24,174 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:25,179 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:26,190 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:27,206 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:28,213 | INFO | Failed reconnection attempt 4 with ConnectionError
+2025-11-28 14:40:29,228 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 14:40:29,228 | WARNING | Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:30,234 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:31,249 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:32,253 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:33,262 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:34,274 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-28 14:40:35,282 | INFO | Failed reconnection attempt 5 with ConnectionError
+2025-11-28 14:40:36,287 | ERROR | Automatic reconnection failed 5 time(s)
+2025-11-28 14:40:36,287 | INFO | Disconnecting from 149.154.167.92:443/TcpFull...
+2025-11-28 14:40:36,287 | INFO | Disconnection from 149.154.167.92:443/TcpFull complete!
+2025-11-28 14:40:36,287 | ERROR | Future exception was never retrieved
+future: <Future finished exception=ConnectionError('Connection to Telegram failed 5 time(s)')>
+ConnectionError: Connection to Telegram failed 5 time(s)
+2025-11-28 14:40:36,287 | INFO | Not disconnecting (already have no connection)
+2025-11-28 14:40:36,293 | CRITICAL | Fatal error in main: Connection to Telegram failed 5 time(s)
+2025-11-28 14:40:36,293 | INFO | HealthMonitor stopped
+2025-11-28 15:01:21,450 | INFO | HealthMonitor started
+2025-11-28 15:01:21,450 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:01:21,515 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:01:21,902 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:02:28,854 | INFO | HealthMonitor started
+2025-11-28 15:02:28,854 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:02:29,045 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:02:29,392 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:03:15,009 | INFO | Start /start by 8467779489
+2025-11-28 15:03:16,830 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:03:23,149 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 289, in callback_handler
+    cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: price
+2025-11-28 15:03:25,993 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:03:28,029 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:03:30,132 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 289, in callback_handler
+    cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: price
+2025-11-28 15:03:32,777 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:08:19,163 | INFO | HealthMonitor started
+2025-11-28 15:08:19,163 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:08:19,222 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:10:33,980 | INFO | HealthMonitor started
+2025-11-28 15:10:33,980 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:10:34,047 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:10:34,616 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:10:57,304 | INFO | Start /start by 8467779489
+2025-11-28 15:14:26,235 | INFO | HealthMonitor started
+2025-11-28 15:14:26,235 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:14:26,292 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:14:26,855 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:14:37,227 | INFO | Start /start by 8467779489
+2025-11-28 15:14:38,444 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:14:47,963 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 289, in callback_handler
+    cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: price
+2025-11-28 15:14:50,026 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:14:54,672 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:17:31,848 | INFO | HealthMonitor started
+2025-11-28 15:17:31,848 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:17:31,898 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:17:32,765 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:17:39,988 | INFO | Start /start by 8467779489
+2025-11-28 15:17:41,860 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:17:44,858 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 289, in callback_handler
+    cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: price
+2025-11-28 15:17:47,092 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:17:50,483 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 289, in callback_handler
+    cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: price
+2025-11-28 15:17:53,411 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:24:01,657 | INFO | HealthMonitor started
+2025-11-28 15:24:01,657 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:24:01,725 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:26:18,262 | INFO | HealthMonitor started
+2025-11-28 15:26:18,262 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:26:18,351 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:26:18,655 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:26:48,324 | INFO | Start /start by 8467779489
+2025-11-28 15:26:49,731 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:26:56,856 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:26:59,514 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:28:23,401 | INFO | HealthMonitor started
+2025-11-28 15:28:23,401 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:28:23,469 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:28:23,938 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:28:39,051 | INFO | Start /start by 8467779489
+2025-11-28 15:28:40,080 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:28:42,984 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:29:49,897 | INFO | HealthMonitor started
+2025-11-28 15:29:49,897 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:29:49,973 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:29:50,498 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:29:59,504 | INFO | Start /start by 8467779489
+2025-11-28 15:30:00,447 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:30:05,190 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 197, in callback_handler
+    await ev.edit(text, buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:32:09,748 | INFO | HealthMonitor started
+2025-11-28 15:32:09,749 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:32:09,824 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:32:10,508 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:32:29,024 | INFO | Start /start by 8467779489
+2025-11-28 15:32:30,030 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:33:05,819 | INFO | HealthMonitor started
+2025-11-28 15:33:05,820 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:33:05,870 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:33:06,439 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:33:42,030 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:34:52,230 | INFO | HealthMonitor started
+2025-11-28 15:34:52,230 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:34:52,300 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:34:52,782 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:35:01,253 | INFO | Start /start by 8467779489
+2025-11-28 15:35:02,180 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:36:11,514 | INFO | HealthMonitor started
+2025-11-28 15:36:11,514 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:36:11,582 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:36:12,159 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:36:28,263 | INFO | Start /start by 8467779489
+2025-11-28 15:36:29,193 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:38:21,204 | INFO | HealthMonitor started
+2025-11-28 15:38:21,204 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:38:22,359 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:38:23,006 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:38:33,893 | INFO | Start /start by 8467779489
+2025-11-28 15:38:34,732 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:39:58,428 | INFO | HealthMonitor started
+2025-11-28 15:39:58,428 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:39:58,496 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:39:59,425 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:40:04,463 | INFO | Start /start by 8467779489
+2025-11-28 15:40:05,389 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 328, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=admin_btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:40:22,645 | INFO | Start /start by 8467779489
+2025-11-28 15:40:23,492 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 15:43:49,418 | INFO | HealthMonitor started
+2025-11-28 15:43:49,418 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:43:49,476 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:43:49,816 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:44:28,872 | INFO | HealthMonitor started
+2025-11-28 15:44:28,872 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:44:28,936 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:44:29,597 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:46:15,106 | INFO | HealthMonitor started
+2025-11-28 15:46:15,106 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:46:15,147 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:46:15,650 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:52:49,006 | INFO | HealthMonitor started
+2025-11-28 15:52:49,006 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 15:52:49,056 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 15:52:49,522 | INFO | ✅ NTRLI Superbot running
+2025-11-28 15:53:08,672 | INFO | Start /start by 8467779489
+2025-11-28 15:53:09,375 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 256, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=btns)
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 63, in build_reply_markup
+    for button in row:
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 16:01:54,928 | INFO | HealthMonitor started
+2025-11-28 16:01:54,928 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 16:01:54,992 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 16:01:55,446 | INFO | ✅ NTRLI Superbot running
+2025-11-28 16:02:22,177 | INFO | Start /start by 8467779489
+2025-11-28 16:02:23,590 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 297, in callback_handler
+    cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: price
+2025-11-28 16:02:44,846 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 297, in callback_handler
+    cur.execute("SELECT id, name, price, approved FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: price
+2025-11-28 16:02:46,068 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 263, in callback_handler
+    btns = [normalize_buttons(Button.inline(d[1], f"drug_{d[0]}"))[0] for d in drugs]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 145, in normalize_buttons
+    if all(not isinstance(row, list) for row in btns):
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 16:02:46,942 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 329, in callback_handler
+    admin_btns.append(normalize_buttons(back_button()[0])[0])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 145, in normalize_buttons
+    if all(not isinstance(row, list) for row in btns):
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'KeyboardButtonCallback' object is not iterable
+2025-11-28 16:06:06,445 | INFO | ✅ Migration: added price column to nfts
+2025-11-28 16:06:06,448 | INFO | HealthMonitor started
+2025-11-28 16:06:06,448 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 16:06:06,516 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 16:06:06,885 | INFO | ✅ NTRLI Superbot running
+2025-11-28 16:06:23,092 | INFO | Start /start by 8467779489
+2025-11-28 16:06:24,049 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 270, in callback_handler
+    btns.extend(normalize_buttons(Button.inline(d[1], f"drug_{d[0]}")))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 157, in normalize_buttons
+    raise TypeError(f"Cannot normalize buttons of type {type(btns)}")
+TypeError: Cannot normalize buttons of type <class 'telethon.tl.types.KeyboardButtonCallback'>
+2025-11-28 16:06:29,411 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 210, in callback_handler
+    btns.extend(normalize_buttons(Button.inline(f"{name} — {price} kr", f"item_{iid}")))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 157, in normalize_buttons
+    raise TypeError(f"Cannot normalize buttons of type {type(btns)}")
+TypeError: Cannot normalize buttons of type <class 'telethon.tl.types.KeyboardButtonCallback'>
+2025-11-28 16:07:11,653 | INFO | Start /start by 8467779489
+2025-11-28 16:07:14,483 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 210, in callback_handler
+    btns.extend(normalize_buttons(Button.inline(f"{name} — {price} kr", f"item_{iid}")))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 157, in normalize_buttons
+    raise TypeError(f"Cannot normalize buttons of type {type(btns)}")
+TypeError: Cannot normalize buttons of type <class 'telethon.tl.types.KeyboardButtonCallback'>
+2025-11-28 16:11:23,480 | INFO | HealthMonitor started
+2025-11-28 16:11:23,480 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 16:11:23,545 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 16:11:23,886 | INFO | ✅ NTRLI Superbot running
+2025-11-28 16:11:31,968 | INFO | Start /start by 8467779489
+2025-11-28 16:11:58,659 | INFO | Start /start by 8467779489
+2025-11-28 16:12:26,028 | INFO | Uploading file of 187283 bytes in 2 chunks of 131072
+2025-11-28 16:13:37,599 | INFO | Start /start by 8467779489
+2025-11-28 16:13:57,120 | INFO | Start /start by 8467779489
+2025-11-28 16:45:07,990 | INFO | HealthMonitor started
+2025-11-28 16:45:07,990 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 16:45:08,059 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 16:45:08,362 | INFO | ✅ NTRLI Superbot running
+2025-11-28 16:45:13,146 | INFO | Start /start by 8467779489
+2025-11-28 17:06:54,444 | INFO | HealthMonitor started
+2025-11-28 17:06:54,444 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 17:06:54,500 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 17:06:55,184 | INFO | ✅ NTRLI Superbot running
+2025-11-28 17:07:17,061 | INFO | Start /start by 8467779489
+2025-11-28 17:07:18,684 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 193, in callback_handler
+    await ev.edit(text, buttons=normalize_buttons(btns))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 84, in build_reply_markup
+    if button.SUBCLASS_OF_ID == 0xbad74a3:  # crc32(b'KeyboardButton')
+       ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'SUBCLASS_OF_ID'
+2025-11-28 17:07:23,551 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 255, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=normalize_buttons(btns))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 84, in build_reply_markup
+    if button.SUBCLASS_OF_ID == 0xbad74a3:  # crc32(b'KeyboardButton')
+       ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'SUBCLASS_OF_ID'
+2025-11-28 17:07:39,384 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 193, in callback_handler
+    await ev.edit(text, buttons=normalize_buttons(btns))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1256, in edit_message
+    reply_markup=self.build_reply_markup(buttons),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\buttons.py", line 84, in build_reply_markup
+    if button.SUBCLASS_OF_ID == 0xbad74a3:  # crc32(b'KeyboardButton')
+       ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'SUBCLASS_OF_ID'
+2025-11-28 17:10:39,627 | INFO | HealthMonitor started
+2025-11-28 17:10:39,627 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 17:10:39,698 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 17:10:40,133 | INFO | ✅ NTRLI Superbot running
+2025-11-28 17:10:51,752 | ERROR | start handler failed
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 175, in cmd_start
+    await ev.respond("Velkommen til NTRLI Superbot! Brug menuen nedenfor ⬇️", buttons=normalize_buttons(main_buttons(ev.sender_id)))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\tl\custom\message.py", line 818, in respond
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 926, in send_message
+    result = await self(request)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by SendMessageRequest)
+2025-11-28 17:10:56,431 | ERROR | start handler failed
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 175, in cmd_start
+    await ev.respond("Velkommen til NTRLI Superbot! Brug menuen nedenfor ⬇️", buttons=normalize_buttons(main_buttons(ev.sender_id)))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\tl\custom\message.py", line 818, in respond
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 926, in send_message
+    result = await self(request)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by SendMessageRequest)
+2025-11-28 17:16:45,268 | INFO | HealthMonitor started
+2025-11-28 17:16:45,268 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 17:16:45,345 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 17:16:46,122 | INFO | ✅ NTRLI Superbot running
+2025-11-28 17:16:52,239 | INFO | Start /start by 8467779489
+2025-11-28 17:16:54,852 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 316, in callback_handler
+    await ev.edit("Ingen godkendte NFTs lige nu.", buttons=normalize_buttons(back_button()))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-11-28 17:16:58,809 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 220, in callback_handler
+    await ev.edit(text, buttons=normalize_buttons(btns))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-11-28 17:17:00,309 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 350, in callback_handler
+    await ev.edit("⚙️ Admin Panel — vælg handling:", buttons=normalize_buttons(admin_btns))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-11-28 17:17:01,580 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 282, in callback_handler
+    await ev.edit("💊 Mere praktisk info om apotekvarer — vælg et produkt:", buttons=normalize_buttons(btns))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-11-28 17:17:01,792 | ERROR | Callback handler error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 316, in callback_handler
+    await ev.edit("Ingen godkendte NFTs lige nu.", buttons=normalize_buttons(back_button()))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-11-28 17:21:18,807 | INFO | HealthMonitor started
+2025-11-28 17:21:18,807 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 17:21:18,876 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 17:21:19,266 | INFO | ✅ NTRLI Superbot running
+2025-11-28 17:21:29,062 | INFO | Start /start by 8467779489
+2025-11-28 17:21:46,387 | INFO | Start /start by 8467779489
+2025-11-28 17:23:55,210 | INFO | HealthMonitor started
+2025-11-28 17:23:55,210 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 17:23:55,284 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 17:23:55,656 | INFO | ✅ NTRLI Superbot running
+2025-11-28 17:24:01,766 | INFO | Start /start by 8467779489
+2025-11-28 17:30:12,689 | INFO | HealthMonitor started
+2025-11-28 17:30:12,689 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 17:30:12,736 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 17:30:13,235 | INFO | ✅ NTRLI Superbot running
+2025-11-28 17:30:19,621 | INFO | Start /start by 8467779489
+2025-11-28 17:30:35,438 | ERROR | Callback error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 232, in callback_handler
+    cur.execute("SELECT id, name, image_path FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: image_path
+2025-11-28 17:31:39,394 | INFO | Start /start by 8467779489
+2025-11-28 17:31:41,468 | ERROR | Callback error
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 232, in callback_handler
+    cur.execute("SELECT id, name, image_path FROM nfts WHERE approved=1 ORDER BY id")
+sqlite3.OperationalError: no such column: image_path
+2025-11-28 17:33:04,358 | INFO | Start /start by 8467779489
+2025-11-28 17:33:07,107 | INFO | Uploading file of 187283 bytes in 2 chunks of 131072
+2025-11-28 18:25:43,985 | INFO | Added image_path to nfts
+2025-11-28 18:25:43,990 | INFO | HealthMonitor started
+2025-11-28 18:25:44,011 | INFO | Connecting to 149.154.167.51:443/TcpFull...
+2025-11-28 18:25:45,240 | INFO | Connection to 149.154.167.51:443/TcpFull complete!
+2025-11-28 18:25:45,571 | INFO | Phone migrated to 4
+2025-11-28 18:25:45,571 | INFO | Reconnecting to new data center 4
+2025-11-28 18:25:45,633 | INFO | Disconnecting from 149.154.167.51:443/TcpFull...
+2025-11-28 18:25:45,633 | INFO | Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-11-28 18:25:45,633 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 18:25:46,922 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 18:25:47,525 | INFO | ✅ NTRLI Superbot running
+2025-11-28 18:26:20,513 | ERROR | start handler failed
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 250, in cmd_start
+    await ev.respond("Velkommen til NTRLI Superbot! Brug menuen nedenfor ⬇️", buttons=normalize_buttons(btns))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\tl\custom\message.py", line 818, in respond
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 926, in send_message
+    result = await self(request)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by SendMessageRequest)
+2025-11-28 18:28:34,690 | INFO | HealthMonitor started
+2025-11-28 18:28:34,693 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 18:28:34,748 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 18:28:35,378 | INFO | ✅ NTRLI Superbot running
+2025-11-28 18:34:38,361 | INFO | HealthMonitor started
+2025-11-28 18:34:38,366 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 18:34:38,409 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 18:34:38,777 | INFO | ✅ NTRLI Superbot running
+2025-11-28 18:36:25,542 | INFO | HealthMonitor started
+2025-11-28 18:36:25,542 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 18:36:26,037 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 18:36:26,434 | INFO | ✅ NTRLI Superbot running
+2025-11-28 18:41:36,975 | INFO | HealthMonitor started
+2025-11-28 18:41:36,976 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 18:41:37,045 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 18:41:37,430 | INFO | ✅ NTRLI Superbot running
+2025-11-28 18:48:48,664 | INFO | HealthMonitor started
+2025-11-28 18:48:48,664 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 18:48:48,727 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 18:48:49,168 | INFO | ✅ NTRLI Superbot running
+2025-11-28 18:50:53,053 | INFO | HealthMonitor started
+2025-11-28 18:50:53,054 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 18:50:53,100 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 18:50:53,454 | INFO | ✅ NTRLI Superbot running
+2025-11-28 18:57:49,749 | INFO | HealthMonitor started
+2025-11-28 18:57:49,752 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 18:57:49,810 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 18:57:50,190 | INFO | ✅ NTRLI Superbot running
+2025-11-28 19:18:43,632 | INFO | HealthMonitor started
+2025-11-28 19:18:43,637 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 19:18:43,769 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 19:18:44,132 | INFO | ✅ NTRLI Superbot running
+2025-11-28 19:19:02,774 | ERROR | button handler failed: no such column: collection
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 250, in handle_buttons
+    nfts = get_nfts()
+           ^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 230, in get_nfts
+    cur.execute("SELECT id, name, description, collection, price, approved FROM nfts")
+sqlite3.OperationalError: no such column: collection
+2025-11-28 19:23:11,440 | ERROR | button handler failed: no such column: collection
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 250, in handle_buttons
+    nfts = get_nfts()
+           ^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 230, in get_nfts
+    cur.execute("SELECT id, name, description, collection, price, approved FROM nfts")
+sqlite3.OperationalError: no such column: collection
+2025-11-28 19:34:36,853 | ERROR | button handler failed: no such column: collection
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 250, in handle_buttons
+    nfts = get_nfts()
+           ^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 230, in get_nfts
+    cur.execute("SELECT id, name, description, collection, price, approved FROM nfts")
+sqlite3.OperationalError: no such column: collection
+2025-11-28 19:40:42,198 | INFO | HealthMonitor started
+2025-11-28 19:40:42,198 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 19:40:42,248 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 19:40:42,590 | INFO | ✅ NTRLI Superbot running
+2025-11-28 19:44:27,387 | INFO | HealthMonitor started
+2025-11-28 19:44:27,387 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 19:44:27,453 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 19:44:27,848 | INFO | ✅ NTRLI Superbot running
+2025-11-28 20:09:59,752 | INFO | HealthMonitor started
+2025-11-28 20:09:59,752 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 20:09:59,796 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 20:10:00,170 | INFO | ✅ NTRLI Superbot running
+2025-11-28 20:11:03,726 | ERROR | button handler failed: Content of the message was not modified (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 291, in handle_buttons
+    await ev.edit("Ugyldig valg. Brug menuen.", buttons=normalize_buttons([["Tilbage", "start"]]))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.MessageNotModifiedError: Content of the message was not modified (caused by EditMessageRequest)
+2025-11-28 20:11:13,881 | ERROR | button handler failed: Content of the message was not modified (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 291, in handle_buttons
+    await ev.edit("Ugyldig valg. Brug menuen.", buttons=normalize_buttons([["Tilbage", "start"]]))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.MessageNotModifiedError: Content of the message was not modified (caused by EditMessageRequest)
+2025-11-28 20:13:02,100 | INFO | HealthMonitor started
+2025-11-28 20:13:02,100 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-28 20:13:02,303 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-11-28 20:13:02,731 | INFO | ✅ NTRLI Superbot running
+2025-11-29 03:43:37,726 | WARNING | Server closed the connection: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-29 03:43:37,742 | INFO | Connection closed while receiving data: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-29 03:43:37,743 | INFO | Closing current connection to begin reconnect...
+2025-11-29 03:43:37,745 | INFO | <class 'OSError'> during disconnect: [WinError 121] Semaforens timeout-periode er udløbet
+2025-11-29 03:43:37,746 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-29 03:43:38,796 | WARNING | Attempt 1 at connecting failed: ConnectionAbortedError: [WinError 1236] Netværksforbindelsen blev afbrudt af det lokale system
+2025-11-29 03:43:39,819 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:43:40,829 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:43:41,831 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:43:42,838 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:43:43,840 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:43:44,844 | INFO | Failed reconnection attempt 1 with ConnectionError
+2025-11-29 03:43:45,847 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-29 03:43:45,849 | WARNING | Attempt 1 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:43:46,864 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1231] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:43:57,881 | WARNING | Attempt 3 at connecting failed: TimeoutError: 
+2025-11-29 03:44:08,902 | WARNING | Attempt 4 at connecting failed: TimeoutError: 
+2025-11-29 03:44:19,915 | WARNING | Attempt 5 at connecting failed: TimeoutError: 
+2025-11-29 03:44:30,937 | WARNING | Attempt 6 at connecting failed: TimeoutError: 
+2025-11-29 03:44:31,947 | INFO | Failed reconnection attempt 2 with ConnectionError
+2025-11-29 03:44:32,950 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-29 03:44:42,958 | WARNING | Attempt 1 at connecting failed: TimeoutError: 
+2025-11-29 03:44:53,964 | WARNING | Attempt 2 at connecting failed: TimeoutError: 
+2025-11-29 03:44:54,975 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:44:55,980 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:44:56,984 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:44:57,995 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:44:59,002 | INFO | Failed reconnection attempt 3 with ConnectionError
+2025-11-29 03:45:00,012 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-29 03:45:00,013 | WARNING | Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:01,022 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:02,036 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:03,043 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:04,050 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:05,052 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:06,057 | INFO | Failed reconnection attempt 4 with ConnectionError
+2025-11-29 03:45:07,066 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-11-29 03:45:07,066 | WARNING | Attempt 1 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:08,088 | WARNING | Attempt 2 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:09,104 | WARNING | Attempt 3 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:10,109 | WARNING | Attempt 4 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:11,122 | WARNING | Attempt 5 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:12,130 | WARNING | Attempt 6 at connecting failed: OSError: [WinError 1232] Netværksplaceringen kan ikke nås. Du kan finde flere oplysninger om fejlfinding i forbindelse med netværk i Hjælp
+2025-11-29 03:45:13,139 | INFO | Failed reconnection attempt 5 with ConnectionError
+2025-11-29 03:45:14,141 | ERROR | Automatic reconnection failed 5 time(s)
+2025-11-29 03:45:14,141 | INFO | Disconnecting from 149.154.167.92:443/TcpFull...
+2025-11-29 03:45:14,145 | ERROR | Future exception was never retrieved
+future: <Future finished exception=ConnectionError('Connection to Telegram failed 5 time(s)')>
+ConnectionError: Connection to Telegram failed 5 time(s)
+2025-11-29 03:45:14,151 | INFO | Disconnection from 149.154.167.92:443/TcpFull complete!
+2025-11-29 03:45:14,154 | INFO | Cannot get difference since the network is down: ConnectionError: Connection to Telegram failed 5 time(s)
+2025-11-29 03:45:14,156 | INFO | Not disconnecting (already have no connection)
+2025-11-29 03:45:14,162 | INFO | HealthMonitor stopped
+2025-12-05 19:30:23,701 | INFO | HealthMonitor started
+2025-12-05 19:30:23,706 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 19:30:23,779 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 19:30:24,154 | INFO | ✅ NTRLI Superbot running
+2025-12-05 19:31:21,632 | ERROR | button handler failed: Content of the message was not modified (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 293, in handle_buttons
+    await ev.edit("Ugyldig valg. Brug menuen.", buttons=normalize_buttons([["Tilbage", "start"]]))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.MessageNotModifiedError: Content of the message was not modified (caused by EditMessageRequest)
+2025-12-05 19:31:36,194 | ERROR | button handler failed: Content of the message was not modified (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 293, in handle_buttons
+    await ev.edit("Ugyldig valg. Brug menuen.", buttons=normalize_buttons([["Tilbage", "start"]]))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.MessageNotModifiedError: Content of the message was not modified (caused by EditMessageRequest)
+2025-12-05 19:32:04,191 | ERROR | button handler failed: Content of the message was not modified (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 293, in handle_buttons
+    await ev.edit("Ugyldig valg. Brug menuen.", buttons=normalize_buttons([["Tilbage", "start"]]))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.MessageNotModifiedError: Content of the message was not modified (caused by EditMessageRequest)
+2025-12-05 19:45:53,729 | INFO | OpenAI client initialized
+2025-12-05 19:45:53,739 | INFO | HealthMonitor started
+2025-12-05 19:45:53,740 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 19:45:53,802 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 19:45:54,281 | INFO | ✅ NTRLI Superbot running
+2025-12-05 19:46:31,283 | ERROR | button handler failed: Content of the message was not modified (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 374, in handle_buttons
+    await ev.edit("Ugyldig valg. Brug menuen.", buttons=normalize_buttons([["Tilbage", "start"]]))
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.MessageNotModifiedError: Content of the message was not modified (caused by EditMessageRequest)
+2025-12-05 19:51:41,410 | ERROR | button handler failed: Content of the message was not modified (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 374, in handle_buttons
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.MessageNotModifiedError: Content of the message was not modified (caused by EditMessageRequest)
+2025-12-05 19:51:52,277 | ERROR | button handler failed: Content of the message was not modified (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 374, in handle_buttons
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.MessageNotModifiedError: Content of the message was not modified (caused by EditMessageRequest)
+2025-12-05 19:54:00,306 | INFO | OpenAI client initialized
+2025-12-05 19:54:00,809 | INFO | HealthMonitor started
+2025-12-05 19:54:00,811 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 19:54:00,860 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 19:54:01,660 | INFO | ✅ NTRLI Superbot running
+2025-12-05 19:54:23,792 | ERROR | handle_buttons error: The provided reply markup is invalid (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 265, in handle_buttons
+    await ev.edit("Sender varer... ⏳", buttons=[])
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-12-05 19:55:17,985 | INFO | Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-12-05 19:56:04,226 | ERROR | handle_buttons error: The provided reply markup is invalid (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 265, in handle_buttons
+    await ev.edit("Sender varer... ⏳", buttons=[])
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-12-05 21:20:53,736 | INFO | OpenAI client initialized
+2025-12-05 21:20:54,296 | INFO | HealthMonitor started
+2025-12-05 21:20:54,297 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 21:20:54,360 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 21:20:54,708 | INFO | ✅ NTRLI Superbot running
+2025-12-05 21:27:51,308 | INFO | OpenAI client initialized
+2025-12-05 21:28:44,285 | INFO | HealthMonitor started
+2025-12-05 21:28:44,289 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 21:28:44,345 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 21:28:44,683 | INFO | ✅ NTRLI Superbot running
+2025-12-05 21:31:11,189 | INFO | OpenAI client initialized
+2025-12-05 21:31:11,552 | INFO | HealthMonitor started
+2025-12-05 21:31:11,552 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 21:31:11,596 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 21:31:11,955 | INFO | ✅ NTRLI Superbot running
+2025-12-05 21:31:19,698 | ERROR | Unhandled exception on callback
+Traceback (most recent call last):
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\updates.py", line 574, in _dispatch_update
+    await callback(event)
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 362, in callback
+    await handle_buttons(ev)
+          ^^^^^^^^^^^^^^
+NameError: name 'handle_buttons' is not defined
+2025-12-05 21:31:28,288 | ERROR | Unhandled exception on callback
+Traceback (most recent call last):
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\updates.py", line 574, in _dispatch_update
+    await callback(event)
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 362, in callback
+    await handle_buttons(ev)
+          ^^^^^^^^^^^^^^
+NameError: name 'handle_buttons' is not defined
+2025-12-05 21:31:30,505 | ERROR | Unhandled exception on callback
+Traceback (most recent call last):
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\updates.py", line 574, in _dispatch_update
+    await callback(event)
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 362, in callback
+    await handle_buttons(ev)
+          ^^^^^^^^^^^^^^
+NameError: name 'handle_buttons' is not defined
+2025-12-05 21:31:32,446 | ERROR | Unhandled exception on callback
+Traceback (most recent call last):
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\updates.py", line 574, in _dispatch_update
+    await callback(event)
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 362, in callback
+    await handle_buttons(ev)
+          ^^^^^^^^^^^^^^
+NameError: name 'handle_buttons' is not defined
+2025-12-05 21:31:39,133 | ERROR | Unhandled exception on callback
+Traceback (most recent call last):
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\updates.py", line 574, in _dispatch_update
+    await callback(event)
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 362, in callback
+    await handle_buttons(ev)
+          ^^^^^^^^^^^^^^
+NameError: name 'handle_buttons' is not defined
+2025-12-05 21:33:27,957 | ERROR | Unhandled exception on callback
+Traceback (most recent call last):
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\updates.py", line 574, in _dispatch_update
+    await callback(event)
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 362, in callback
+    await handle_buttons(ev)
+          ^^^^^^^^^^^^^^
+NameError: name 'handle_buttons' is not defined
+2025-12-05 21:33:30,229 | ERROR | Unhandled exception on callback
+Traceback (most recent call last):
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\updates.py", line 574, in _dispatch_update
+    await callback(event)
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 362, in callback
+    await handle_buttons(ev)
+          ^^^^^^^^^^^^^^
+NameError: name 'handle_buttons' is not defined
+2025-12-05 21:33:59,941 | INFO | OpenAI client initialized
+2025-12-05 21:34:00,326 | INFO | HealthMonitor started
+2025-12-05 21:34:00,326 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 21:34:00,419 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 21:34:00,813 | INFO | ✅ NTRLI Superbot running
+2025-12-05 21:34:06,404 | ERROR | handle_buttons error: The provided reply markup is invalid (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 254, in handle_buttons
+    await ev.edit("Sender varer... ⏳", buttons=[])
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-12-05 21:34:30,026 | ERROR | handle_buttons error: The provided reply markup is invalid (caused by EditMessageRequest)
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 254, in handle_buttons
+    await ev.edit("Sender varer... ⏳", buttons=[])
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\events\callbackquery.py", line 321, in edit
+    return await self._client.edit_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\messages.py", line 1259, in edit_message
+    msg = self._get_response_message(request, await self(request), entity)
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 30, in __call__
+    return await self._call(self._sender, request, ordered=ordered)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\site-packages\telethon\client\users.py", line 92, in _call
+    result = await future
+             ^^^^^^^^^^^^
+telethon.errors.rpcerrorlist.ReplyMarkupInvalidError: The provided reply markup is invalid (caused by EditMessageRequest)
+2025-12-05 21:38:11,938 | INFO | OpenAI client initialized
+2025-12-05 21:38:25,187 | INFO | OpenAI client initialized
+2025-12-05 21:38:50,467 | INFO | OpenAI client initialized
+2025-12-05 21:41:03,579 | INFO | OpenAI client initialized
+2025-12-05 21:41:03,954 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 21:41:04,019 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 21:41:04,406 | INFO | ✅ NTRLI Superbot running
+2025-12-05 21:44:32,863 | INFO | OpenAI client initialized
+2025-12-05 21:44:33,248 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 21:44:33,317 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 21:44:33,734 | INFO | ✅ NTRLI Superbot running
+2025-12-05 21:52:43,266 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 21:52:43,321 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 21:52:43,837 | INFO | ✅ NTRLI Superbot running
+2025-12-05 22:00:51,717 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-05 22:00:51,757 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-05 22:00:52,367 | INFO | ✅ NTRLI Superbot running
+2025-12-05 22:00:59,423 | INFO | Button press from 8467779489: 💊 Apotekvarer AI info
+2025-12-05 22:01:01,610 | INFO | Button press from 8467779489: ⚙️ Admin Panel
+2025-12-06 00:14:32,511 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-06 00:14:32,543 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-06 00:14:32,879 | INFO | ✅ NTRLI Superbot running
+2025-12-06 00:48:55,180 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-06 00:48:55,321 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-06 00:48:55,653 | INFO | ✅ NTRLI Superbot running
+2025-12-06 01:01:33,616 | INFO | Connecting to 149.154.167.92:443/TcpFull...
+2025-12-06 01:01:33,661 | INFO | Connection to 149.154.167.92:443/TcpFull complete!
+2025-12-06 01:01:33,963 | INFO | ✅ NTRLI Superbot running (Telegram mode)
+2025-12-06 01:01:33,980 | INFO | Disconnecting from 149.154.167.92:443/TcpFull...
+2025-12-06 01:01:33,980 | INFO | Disconnection from 149.154.167.92:443/TcpFull complete!
+2025-12-06 01:01:33,984 | ERROR | _GatheringFuture exception was never retrieved
+future: <_GatheringFuture finished exception=CancelledError()>
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 193, in <module>
+    loop = asyncio.get_running_loop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 664, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 187, in main
+    await asyncio.gather(client.run_until_disconnected(), console_input())(client.run_until_disconnected(), console_input())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_GatheringFuture' object is not callable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dstav\OneDrive - Aalborg Universitet\Dokumenter\Skrivebord\CUsersdstavDesktopNTRLI-Superbot\bot.py", line 176, in console_input
+    msg = await asyncio.to_thread(input, "[Console] > ")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dstav\AppData\Local\Programs\Python\Python312\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError

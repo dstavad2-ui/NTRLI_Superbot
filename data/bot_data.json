@@ -1,0 +1,83 @@
+{
+  "messages": [
+    {
+      "user_id": 8467779489,
+      "text": "/start",
+      "timestamp": "2025-11-26T20:20:44.586258"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/data",
+      "timestamp": "2025-11-26T20:21:02.495418"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/status",
+      "timestamp": "2025-11-26T20:21:30.057064"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/start",
+      "timestamp": "2025-11-26T20:22:32.067077"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/bestil",
+      "timestamp": "2025-11-26T20:22:35.294334"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/start",
+      "timestamp": "2025-11-26T20:38:31.058885"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/menu",
+      "timestamp": "2025-11-26T20:38:36.211404"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/bestil",
+      "timestamp": "2025-11-26T20:38:41.207968"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/menu",
+      "timestamp": "2025-11-26T20:38:46.951018"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/start",
+      "timestamp": "2025-11-26T20:56:02.548590"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/menu",
+      "timestamp": "2025-11-26T20:56:09.306645"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/start",
+      "timestamp": "2025-11-26T21:00:23.093736"
+    },
+    {
+      "user_id": 8467779489,
+      "text": "/data",
+      "timestamp": "2025-11-26T21:00:27.945051"
+    }
+  ],
+  "commands": [
+    {
+      "user_id": 8467779489,
+      "command": "/bestil",
+      "timestamp": "2025-11-26T20:22:35.293331"
+    },
+    {
+      "user_id": 8467779489,
+      "command": "/bestil",
+      "timestamp": "2025-11-26T20:38:41.206964"
+    }
+  ],
+  "nft_views": 0,
+  "ordrer": []
+}

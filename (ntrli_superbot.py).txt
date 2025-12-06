@@ -1,0 +1,319 @@
+(ntrli_superbot.py)
+
+#!/usr/bin/env python3
+"""
+NTRLI SUPERBOT - Standalone Version
+Run directly: python ntrli_superbot.py
+"""
+
+import os
+import json
+import logging
+from pathlib import Path
+from datetime import datetime
+from telethon import TelegramClient, events
+
+# ===== CONFIGURATION =====
+# PASTE YOUR BOT TOKENS HERE:
+TOKENS = {
+    'NTRLI_sub_bot': '8546101037:AAHq4U1Y2s9wqHQu5g4hKulnjo-qLT7G7xA',
+    'NTRLI_Handel_bot': '8111594234:AAHFPH7t24uNjUKI0GctwfwcPk8zKLUR9Xw',
+    'NTRLI_super_bot': '8261354099:AAEewnT0GDcOl5-ARokNVuO5i3zMuLyeG7g'
+}
+
+ADMIN_ID = 8467779489
+ADMIN_USERNAME = 'Sir_NTRLI_II'
+
+# For Telethon (you need these from my.telegram.org):
+# If you can't access that, we'll use API_HASH = '' (bot-only mode)
+API_ID = 8546101037  # Your API ID from my.telegram.org
+API_HASH = ''  # Your API HASH from my.telegram.org - or leave empty for bot-only
+
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# Data storage
+DATA_DIR = Path.home() / 'NTRLI_Bot_Data'
+DATA_DIR.mkdir(exist_ok=True)
+DATA_FILE = DATA_DIR / 'bot_data.json'
+USERS_FILE = DATA_DIR / 'users.json'
+
+def load_data():
+    """Load saved data"""
+    if DATA_FILE.exists():
+        try:
+            with open(DATA_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return {'messages': [], 'commands': []}
+    return {'messages': [], 'commands': []}
+
+def save_data(data):
+    """Save data to file"""
+    try:
+        with open(DATA_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"Could not save data: {e}")
+
+def get_users():
+    """Get registered users"""
+    if USERS_FILE.exists():
+        try:
+            with open(USERS_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+def add_user(user_id, username):
+    """Register user"""
+    users = get_users()
+    if not any(u['id'] == user_id for u in users):
+        users.append({
+            'id': user_id,
+            'username': username or 'Unknown',
+            'joined': datetime.now().isoformat()
+        })
+        try:
+            with open(USERS_FILE, 'w', encoding='utf-8') as f:
+                json.dump(users, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            logger.error(f"Could not add user: {e}")
+
+# Create client
+client = TelegramClient('ntrli_bot_session', API_ID, API_HASH)
+
+@client.on(events.NewMessage(pattern='^/start'))
+async def start_handler(event):
+    """Handle /start command"""
+    add_user(event.sender_id, event.sender.username)
+    
+    msg = f"""
+🚀 **NTRLI SUPERBOT AKTIV!**
+
+Hej {event.sender.first_name}! 👋
+
+**Tilgængelige kommandoer:**
+/menu - Vis fuld menu
+/status - System status
+/bestil - Bestillingssystem
+/hjælp - Få hjælp
+/data - Se dine data
+
+**Status:** ✅ Bot er online
+**Version:** 1.0.0
+
+Hvad vil du gøre?
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+    logger.info(f"✓ User {event.sender_id} started bot")
+
+@client.on(events.NewMessage(pattern='^/menu'))
+async def menu_handler(event):
+    """Main menu"""
+    msg = """
+📋 **NTRLI SUPERBOT MENU**
+
+**1️⃣ Bestilling**
+/bestil - Start ordreproces
+/ordre - Se mine ordrer
+
+**2️⃣ Information**
+/status - System status
+/info - Bot information
+
+**3️⃣ Support**
+/hjælp - Få hjælp
+/kontakt - Kontakt support
+
+**4️⃣ Indstillinger**
+/indstil - Personlige indstillinger
+/sprog - Skift sprog
+
+**5️⃣ Admin**
+/users - Brugerlist
+/stats - Statistik
+
+Vælg en option! 🎯
+"""
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/status'))
+async def status_handler(event):
+    """Bot status"""
+    users = get_users()
+    data = load_data()
+    
+    msg = f"""
+📊 **NTRLI SUPERBOT STATUS**
+
+✅ **Online:** Ja
+📡 **Forbundet:** Aktiv
+👥 **Brugere:** {len(users)}
+💬 **Kommandoer:** {len(data.get('commands', []))}
+📨 **Beskeder:** {len(data.get('messages', []))}
+
+**Tid:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Version:** 1.0.0
+
+Alt kører perfekt! ✨
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/bestil'))
+async def bestil_handler(event):
+    """Order system"""
+    msg = """
+🛒 **BESTILLINGSSYSTEM**
+
+Vælg en pakke:
+
+1️⃣ **Standard** - 99 DKK
+2️⃣ **Pro** - 199 DKK
+3️⃣ **Enterprise** - Ring for pris
+
+Svar med **1**, **2** eller **3**
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+    
+    # Log
+    data = load_data()
+    data['commands'].append({
+        'user': event.sender_id,
+        'cmd': '/bestil',
+        'time': datetime.now().isoformat()
+    })
+    save_data(data)
+
+@client.on(events.NewMessage(pattern='^/hjælp'))
+async def help_handler(event):
+    """Help"""
+    msg = """
+🆘 **NTRLI SUPPORT**
+
+❓ Hvordan starter jeg?
+→ Skriv /menu
+
+❓ Hvordan bestiller jeg?
+→ Skriv /bestil
+
+❓ Hvor er mine data?
+→ Skriv /data
+
+📧 Email: support@ntrli.dk
+📞 Telefon: +45 12 34 56 78
+
+Vi hjælper 24/7! ⏰
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/users'))
+async def users_handler(event):
+    """Show users (admin only)"""
+    if event.sender_id != ADMIN_ID:
+        await event.respond("❌ Kun administrator")
+        return
+    
+    users = get_users()
+    user_list = "\n".join([f"👤 {u['username']} (ID: {u['id']})" for u in users])
+    
+    msg = f"""
+**BRUGERE ({len(users)})**
+
+{user_list or 'Ingen brugere'}
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage(pattern='^/stats'))
+async def stats_handler(event):
+    """Statistics"""
+    if event.sender_id != ADMIN_ID:
+        await event.respond("❌ Kun administrator")
+        return
+    
+    users = get_users()
+    data = load_data()
+    
+    msg = f"""
+📈 **STATISTIK**
+
+👥 Brugere: {len(users)}
+💬 Kommandoer: {len(data.get('commands', []))}
+📨 Beskeder: {len(data.get('messages', []))}
+
+Data gemt i: {DATA_DIR}
+"""
+    
+    await event.respond(msg, parse_mode='markdown')
+
+@client.on(events.NewMessage())
+async def default_handler(event):
+    """Handle other messages"""
+    if not event.text.startswith('/'):
+        await event.respond("Jeg forstår ikke. Skriv /menu 🤖")
+
+async def main():
+    """Main function"""
+    try:
+        logger.info("=" * 50)
+        logger.info("🚀 NTRLI SUPERBOT STARTER")
+        logger.info("=" * 50)
+        
+        # Use bot token directly (doesn't need API_ID/API_HASH for bots)
+        bot_token = TOKENS['NTRLI_super_bot']
+        
+        logger.info(f"📡 Forbinder til Telegram...")
+        
+        async with client:
+            logger.info("✅ FORBUNDET OG AKTIV!")
+            logger.info(f"👤 Admin: {ADMIN_USERNAME} (ID: {ADMIN_ID})")
+            logger.info(f"💾 Data mappe: {DATA_DIR}")
+            logger.info("")
+            logger.info("📋 Test kommandoer:")
+            logger.info("   /start  - Start bot")
+            logger.info("   /menu   - Se menu")
+            logger.info("   /status - Status")
+            logger.info("")
+            logger.info("Botten lytter nu på beskeder...")
+            logger.info("=" * 50)
+            
+            await client.run_until_disconnected()
+            
+    except Exception as e:
+        logger.error(f"❌ FEJL: {e}")
+        logger.error("Kontrollér at:")
+        logger.error("  1. Bot token er korrekt")
+        logger.error("  2. Internet connection virker")
+        logger.error("  3. Telethon er installeret: pip install telethon")
+        raise
+
+if __name__ == '__main__':
+    print("\n" + "=" * 50)
+    print("NTRLI SUPERBOT")
+    print("=" * 50)
+    print("\nInstallerer afhængigheder...")
+    
+    try:
+        import telethon
+    except ImportError:
+        print("Installerer Telethon...")
+        os.system('pip install telethon')
+    
+    print("\nStarter bot...")
+    print("=" * 50 + "\n")
+    
+    try:
+        import asyncio
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n\n✓ Bot stoppet")

@@ -1,0 +1,399 @@
+# NTRLI Superbot - Finalization & Integration Script
+# Integrates self-healing, updates all scripts, and launches the unified bot system
+# PowerShell Execution Policy: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+param(
+    [switch]$UpdateOnly,
+    [switch]$LaunchOnly,
+    [switch]$CheckHealth
+)
+
+# Configuration
+$ProjectRoot = $PSScriptRoot
+$AdminID = "8467779489"
+$AdminUsername = "Sir_NTRLI_II"
+$BotToken = "8261354099:AAEewnT0GDcOl5-ARokNVuO5i3zMuLyeG7g"
+$ApiID = "33636662"
+$ApiHash = "7defa4b44a90dd22ed93ec4bf36374d4"
+
+# NTRLI Brand Colors
+$ColorPrimary = "Green"
+$ColorAccent = "Cyan"
+$ColorWarning = "Yellow"
+$ColorError = "Red"
+
+function Write-NTRLIHeader {
+    Clear-Host
+    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor $ColorPrimary
+    Write-Host "   🌿 N T R L I   S U P E R B O T   F I N A L I Z E R   🌿" -ForegroundColor $ColorPrimary
+    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor $ColorPrimary
+    Write-Host ""
+    Write-Host "   Integrating Self-Healing • Updating Scripts • Launching Bots" -ForegroundColor $ColorAccent
+    Write-Host ""
+    Write-Host "───────────────────────────────────────────────────────────────" -ForegroundColor DarkGray
+    Write-Host ""
+}
+
+function Write-NTRLIStatus {
+    param([string]$Message, [string]$Type = "Info")
+    
+    switch ($Type) {
+        "Success" { Write-Host "  ✓ " -ForegroundColor Green -NoNewline; Write-Host $Message }
+        "Error" { Write-Host "  ✗ " -ForegroundColor Red -NoNewline; Write-Host $Message }
+        "Warning" { Write-Host "  ⚠ " -ForegroundColor Yellow -NoNewline; Write-Host $Message }
+        "Info" { Write-Host "  ℹ " -ForegroundColor Cyan -NoNewline; Write-Host $Message }
+        "Progress" { Write-Host "  ⟳ " -ForegroundColor Cyan -NoNewline; Write-Host $Message }
+    }
+}
+
+function Test-Prerequisites {
+    Write-NTRLIStatus "Checking prerequisites..." "Progress"
+    
+    # Check Python
+    try {
+        $pythonVersion = python --version 2>&1
+        Write-NTRLIStatus "Python found: $pythonVersion" "Success"
+    }
+    catch {
+        Write-NTRLIStatus "Python not found! Install from python.org" "Error"
+        return $false
+    }
+    
+    # Check pip packages
+    $requiredPackages = @("telethon", "python-dotenv", "aiohttp")
+    foreach ($package in $requiredPackages) {
+        $installed = pip show $package 2>$null
+        if ($installed) {
+            Write-NTRLIStatus "Package '$package' installed" "Success"
+        }
+        else {
+            Write-NTRLIStatus "Installing '$package'..." "Progress"
+            pip install $package --quiet
+            Write-NTRLIStatus "Package '$package' installed" "Success"
+        }
+    }
+    
+    return $true
+}
+
+function Initialize-ProjectStructure {
+    Write-NTRLIStatus "Initializing project structure..." "Progress"
+    
+    $directories = @("data", "logs", ".backups", "data/nft", "logs/archive")
+    
+    foreach ($dir in $directories) {
+        $path = Join-Path $ProjectRoot $dir
+        if (-not (Test-Path $path)) {
+            New-Item -ItemType Directory -Path $path -Force | Out-Null
+            Write-NTRLIStatus "Created: $dir" "Success"
+        }
+    }
+    
+    # Create .env if not exists
+    $envPath = Join-Path $ProjectRoot ".env"
+    if (-not (Test-Path $envPath)) {
+        Write-NTRLIStatus "Creating .env file..." "Progress"
+        
+        $envContent = @"
+API_ID=$ApiID
+API_HASH=$ApiHash
+BOT_TOKEN=$BotToken
+ADMIN_ID=$AdminID
+ADMIN_USERNAME=$AdminUsername
+
+# NFT Configuration
+NFT_ENABLED=true
+NFT_AUTO_MINT=true
+NFT_MINT_INTERVAL=300
+
+# Self-Healing
+HEALTH_CHECK_INTERVAL=60
+AUTO_RESTART=true
+MAX_RESTARTS=5
+"@
+        Set-Content -Path $envPath -Value $envContent
+        Write-NTRLIStatus ".env file created" "Success"
+    }
+}
+
+function Update-BotScriptWithHealing {
+    param([string]$ScriptPath)
+    
+    $scriptName = Split-Path $ScriptPath -Leaf
+    Write-NTRLIStatus "Updating $scriptName with self-healing..." "Progress"
+    
+    $content = Get-Content $ScriptPath -Raw
+    
+    # Check if already integrated
+    if ($content -match "from self_heal import get_monitor") {
+        Write-NTRLIStatus "$scriptName already has self-healing" "Info"
+        return
+    }
+    
+    # Add self-healing import after other imports
+    $healingImport = @"
+
+# Self-Healing Integration
+from self_heal import get_monitor
+health_monitor = get_monitor()
+"@
+    
+    # Find the right place to insert (after imports, before main code)
+    if ($content -match "(?s)(import.*?\n\n)") {
+        $content = $content -replace "(?s)(import.*?\n\n)", "`$1$healingImport`n"
+    }
+    
+    # Add health monitoring to main/start function
+    $monitorStart = @"
+
+    # Start health monitor
+    try:
+        health_monitor.start()
+        logger.info("✓ Self-healing monitor active")
+    except Exception as e:
+        logger.warning(f"Health monitor could not start: {e}")
+"@
+    
+    # Insert monitor start in main/start_bot function
+    if ($content -match "(?s)(async def (main|start_bot)\(\):.*?try:)") {
+        $content = $content -replace "(?s)(async def (main|start_bot)\(\):.*?try:)", "`$1$monitorStart"
+    }
+    
+    # Save updated content
+    Set-Content -Path $ScriptPath -Value $content
+    Write-NTRLIStatus "$scriptName updated successfully" "Success"
+}
+
+function Integrate-SelfHealing {
+    Write-NTRLIStatus "Integrating self-healing into all bot scripts..." "Progress"
+    Write-Host ""
+    
+    $botScripts = @(
+        "bot.py",
+        "master_bot.py",
+        "nft_bot.py.txt",
+        "nft_monitor.py.txt",
+        "ntrli_superbot.py.txt"
+    )
+    
+    foreach ($script in $botScripts) {
+        $scriptPath = Join-Path $ProjectRoot $script
+        if (Test-Path $scriptPath) {
+            Update-BotScriptWithHealing -ScriptPath $scriptPath
+        }
+        else {
+            Write-NTRLIStatus "Script not found: $script" "Warning"
+        }
+    }
+    
+    Write-Host ""
+}
+
+function Create-UnifiedLauncher {
+    Write-NTRLIStatus "Creating unified launcher..." "Progress"
+    
+    $launcherPath = Join-Path $ProjectRoot "launch_ntrli.py"
+    
+    $launcherContent = @'
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+NTRLI Superbot - Unified Launcher with Self-Healing
+Launches all bot services with integrated health monitoring
+"""
+
+import os
+import sys
+import asyncio
+import logging
+from pathlib import Path
+from datetime import datetime
+
+# Add project to path
+sys.path.insert(0, str(Path(__file__).parent))
+
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - [%(name)s] - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('logs/ntrli_unified.log', encoding='utf-8'),
+        logging.StreamHandler()
+    ],
+    encoding='utf-8'
+)
+logger = logging.getLogger('NTRLI_UNIFIED')
+
+# Import self-healing
+from self_heal import get_monitor
+
+# Configuration
+ADMIN_ID = 8467779489
+BOT_TOKEN = '8261354099:AAEewnT0GDcOl5-ARokNVuO5i3zMuLyeG7g'
+API_ID = 33636662
+API_HASH = '7defa4b44a90dd22ed93ec4bf36374d4'
+
+async def main():
+    """Main launcher with health monitoring"""
+    logger.info("═" * 70)
+    logger.info("🚀 NTRLI UNIFIED BOT SYSTEM STARTING")
+    logger.info("═" * 70)
+    
+    # Start health monitor
+    health_monitor = get_monitor()
+    health_monitor.start()
+    logger.info("✓ Self-healing monitor active")
+    
+    try:
+        # Import and start master bot
+        logger.info("📡 Loading master bot...")
+        from mater_bot import main as start_master
+        
+        logger.info("✓ Master bot loaded")
+        logger.info("🤖 Starting bot services...")
+        logger.info("─" * 70)
+        
+        # Run master bot
+        await start_master()
+        
+    except KeyboardInterrupt:
+        logger.info("\n✓ System shutdown requested")
+        health_monitor.stop()
+    except Exception as e:
+        logger.error(f"✗ Fatal error: {e}", exc_info=True)
+        health_monitor.stop()
+        sys.exit(1)
+
+if __name__ == '__main__':
+    print("\n" + "═" * 70)
+    print("   🌿 N T R L I   S U P E R B O T   S Y S T E M")
+    print("═" * 70)
+    print("\n⟳ Initializing all services...\n")
+    
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n\n✓ NTRLI Bot System stopped gracefully")
+'@
+    
+    Set-Content -Path $launcherPath -Value $launcherContent
+    Write-NTRLIStatus "Unified launcher created: launch_ntrli.py" "Success"
+}
+
+function Start-HealthCheck {
+    Write-NTRLIStatus "Running health diagnostics..." "Progress"
+    Write-Host ""
+    
+    # Check data integrity
+    $dataPath = Join-Path $ProjectRoot "data"
+    $dataFiles = Get-ChildItem -Path $dataPath -Filter "*.json" -ErrorAction SilentlyContinue
+    
+    foreach ($file in $dataFiles) {
+        try {
+            $json = Get-Content $file.FullName | ConvertFrom-Json
+            Write-NTRLIStatus "Data file OK: $($file.Name)" "Success"
+        }
+        catch {
+            Write-NTRLIStatus "Data file corrupted: $($file.Name)" "Error"
+        }
+    }
+    
+    # Check logs
+    $logPath = Join-Path $ProjectRoot "logs"
+    if (Test-Path $logPath) {
+        $logFiles = Get-ChildItem -Path $logPath -Filter "*.log"
+        $totalSize = ($logFiles | Measure-Object -Property Length -Sum).Sum / 1MB
+        Write-NTRLIStatus "Total log size: $([math]::Round($totalSize, 2)) MB" "Info"
+        
+        if ($totalSize -gt 50) {
+            Write-NTRLIStatus "Log files are large, consider archiving" "Warning"
+        }
+    }
+    
+    # Check health status
+    $healthFile = Join-Path $ProjectRoot "data/health.json"
+    if (Test-Path $healthFile) {
+        $health = Get-Content $healthFile | ConvertFrom-Json
+        Write-Host ""
+        Write-Host "  Last Health Check:" -ForegroundColor Cyan
+        Write-Host "    Status: $($health.status)" -ForegroundColor $(if ($health.status -eq "healthy") { "Green" } else { "Yellow" })
+        Write-Host "    Timestamp: $($health.timestamp)"
+        Write-Host "    Errors: $($health.errors)"
+        Write-Host "    Restarts: $($health.restarts)"
+    }
+    
+    Write-Host ""
+}
+
+function Start-NTRLIBot {
+    Write-NTRLIStatus "Launching NTRLI Bot System..." "Progress"
+    Write-Host ""
+    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor $ColorPrimary
+    Write-Host ""
+    Write-Host "  🤖 Bot Services Starting..." -ForegroundColor $ColorAccent
+    Write-Host ""
+    Write-Host "    ✓ NTRLI_super_bot (Main)" -ForegroundColor Green
+    Write-Host "    ✓ NTRLI_sub_bot (Subscriptions)" -ForegroundColor Green
+    Write-Host "    ✓ NTRLI_Handel_bot (Trading)" -ForegroundColor Green
+    Write-Host "    ✓ NFT Generator (Auto-mint)" -ForegroundColor Green
+    Write-Host "    ✓ Self-Healing Monitor" -ForegroundColor Green
+    Write-Host ""
+    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor $ColorPrimary
+    Write-Host ""
+    Write-Host "  📱 Go to Telegram and send: /start" -ForegroundColor $ColorAccent
+    Write-Host "  🛑 To stop: Press Ctrl+C" -ForegroundColor $ColorAccent
+    Write-Host ""
+    Write-Host "───────────────────────────────────────────────────────────────" -ForegroundColor DarkGray
+    Write-Host ""
+    
+    # Launch the unified bot
+    python (Join-Path $ProjectRoot "launch_ntrli.py")
+}
+
+# ═══════════════════════════════════════════════════════════════
+# MAIN EXECUTION
+# ═══════════════════════════════════════════════════════════════
+
+Write-NTRLIHeader
+
+# Handle parameters
+if ($CheckHealth) {
+    Start-HealthCheck
+    Write-Host ""
+    Read-Host "Press Enter to exit"
+    exit
+}
+
+# Prerequisites
+if (-not (Test-Prerequisites)) {
+    Write-Host ""
+    Read-Host "Press Enter to exit"
+    exit 1
+}
+
+Write-Host ""
+
+# Initialize structure
+Initialize-ProjectStructure
+Write-Host ""
+
+# Update scripts (unless LaunchOnly)
+if (-not $LaunchOnly) {
+    Integrate-SelfHealing
+    Create-UnifiedLauncher
+}
+
+# Launch bot (unless UpdateOnly)
+if (-not $UpdateOnly) {
+    Write-Host ""
+    Write-NTRLIStatus "All systems ready!" "Success"
+    Write-Host ""
+    Start-Sleep -Seconds 2
+    Start-NTRLIBot
+}
+else {
+    Write-Host ""
+    Write-NTRLIStatus "Update complete! Run without -UpdateOnly to launch." "Success"
+    Write-Host ""
+    Read-Host "Press Enter to exit"
+}
