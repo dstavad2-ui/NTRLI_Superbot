@@ -1,242 +1,161 @@
 """
-Network Module - Tor/VPN Integration
-Primary: Orbot/Tor
-Fallback: ProtonVPN
+NTRLI SuperAPK - Network Module
+Phase 1: Tor/VPN connectivity, proxies, network health
 """
-import socket
-import socks
 import requests
-from typing import Optional, Dict
-import subprocess
-import time
-
+import socket
+from datetime import datetime
 
 class NetworkManager:
-    """Manages Tor/VPN connections for privacy"""
-
-    def __init__(self):
-        self.tor_connected = False
-        self.vpn_connected = False
-        self.connection_mode = None  # 'tor', 'vpn', or None
-
-        # Tor SOCKS proxy settings
-        self.tor_proxy_host = '127.0.0.1'
-        self.tor_proxy_port = 9050
-
-        # ProtonVPN settings
-        self.vpn_config = None
-
-    def connect(self) -> Dict:
-        """
-        Connect to Tor or VPN
-        Priority: Tor first, then VPN fallback
-        """
-        # Try Tor first
-        if self.connect_tor():
-            return {
-                'success': True,
-                'mode': 'tor',
-                'message': 'Connected via Tor'
-            }
-
-        # Fallback to VPN
-        if self.connect_vpn():
-            return {
-                'success': True,
-                'mode': 'vpn',
-                'message': 'Connected via ProtonVPN'
-            }
-
-        # No connection possible
-        return {
-            'success': False,
-            'mode': None,
-            'message': 'Failed to establish secure connection'
-        }
-
-    def connect_tor(self) -> bool:
-        """Connect to Tor via Orbot"""
-        try:
-            # Check if Tor is running
-            if self.check_tor_connection():
-                self.tor_connected = True
-                self.connection_mode = 'tor'
-                self.configure_tor_proxy()
-                return True
-
-            # Try to start Orbot on Android
-            if self.is_android():
-                self.start_orbot()
-                time.sleep(3)  # Wait for Orbot to start
-
-                if self.check_tor_connection():
-                    self.tor_connected = True
-                    self.connection_mode = 'tor'
-                    self.configure_tor_proxy()
-                    return True
-
-            return False
-
-        except Exception as e:
-            print(f"Tor connection error: {e}")
-            return False
-
-    def check_tor_connection(self) -> bool:
-        """Check if Tor is accessible"""
-        try:
-            # Try to connect to Tor SOCKS proxy
-            sock = socks.socksocket()
-            sock.set_proxy(
-                socks.SOCKS5,
-                self.tor_proxy_host,
-                self.tor_proxy_port
-            )
-            sock.settimeout(5)
-            sock.connect(("check.torproject.org", 80))
-            sock.close()
-            return True
-        except Exception:
-            return False
-
-    def configure_tor_proxy(self):
-        """Configure system to use Tor SOCKS proxy"""
-        try:
-            # Set default socket to use SOCKS proxy
-            socks.set_default_proxy(
-                socks.SOCKS5,
-                self.tor_proxy_host,
-                self.tor_proxy_port
-            )
-            socket.socket = socks.socksocket
-        except Exception as e:
-            print(f"Tor proxy configuration error: {e}")
-
-    def start_orbot(self):
-        """Start Orbot on Android"""
-        try:
-            # Use Android intent to start Orbot
-            from jnius import autoclass
-            Intent = autoclass('android.content.Intent')
-            PythonActivity = autoclass('org.kivy.android.PythonActivity')
-
-            intent = Intent()
-            intent.setAction("android.intent.action.VIEW")
-            intent.setData("org.torproject.android/.OrbotMainActivity")
-
-            currentActivity = PythonActivity.mActivity
-            currentActivity.startActivity(intent)
-        except Exception as e:
-            print(f"Failed to start Orbot: {e}")
-
-    def connect_vpn(self) -> bool:
-        """Connect to ProtonVPN"""
-        try:
-            # Note: ProtonVPN integration requires ProtonVPN app
-            # For Android, use ProtonVPN's Android SDK or IPC
-
-            if self.is_android():
-                # Try to connect via ProtonVPN app
-                self.start_protonvpn()
-                time.sleep(5)  # Wait for VPN to connect
-
-                if self.check_vpn_connection():
-                    self.vpn_connected = True
-                    self.connection_mode = 'vpn'
-                    return True
-
-            return False
-
-        except Exception as e:
-            print(f"VPN connection error: {e}")
-            return False
-
-    def start_protonvpn(self):
-        """Start ProtonVPN on Android"""
-        try:
-            from jnius import autoclass
-            Intent = autoclass('android.content.Intent')
-            PythonActivity = autoclass('org.kivy.android.PythonActivity')
-
-            # Launch ProtonVPN app
-            intent = Intent()
-            intent.setAction("android.intent.action.MAIN")
-            intent.setPackage("ch.protonvpn.android")
-
-            currentActivity = PythonActivity.mActivity
-            currentActivity.startActivity(intent)
-        except Exception as e:
-            print(f"Failed to start ProtonVPN: {e}")
-
-    def check_vpn_connection(self) -> bool:
-        """Check if VPN is active"""
-        try:
-            # Check if external IP has changed
-            response = requests.get('https://api.ipify.org?format=json', timeout=5)
-            if response.status_code == 200:
-                # VPN is working if we can connect
-                return True
-            return False
-        except Exception:
-            return False
-
-    def disconnect(self):
-        """Disconnect from current network"""
-        if self.connection_mode == 'tor':
-            self.disconnect_tor()
-        elif self.connection_mode == 'vpn':
-            self.disconnect_vpn()
-
-        self.tor_connected = False
-        self.vpn_connected = False
-        self.connection_mode = None
-
-    def disconnect_tor(self):
-        """Disconnect from Tor"""
-        try:
-            # Reset socket to default
-            import socket as std_socket
-            socket.socket = std_socket.socket
-        except Exception as e:
-            print(f"Tor disconnect error: {e}")
-
-    def disconnect_vpn(self):
-        """Disconnect from VPN"""
-        # VPN disconnect would require ProtonVPN app integration
-        pass
-
-    def get_status(self) -> Dict:
-        """Get current connection status"""
-        return {
-            'connected': self.tor_connected or self.vpn_connected,
-            'mode': self.connection_mode,
-            'tor': self.tor_connected,
-            'vpn': self.vpn_connected
-        }
-
-    @staticmethod
-    def is_android() -> bool:
-        """Check if running on Android"""
-        try:
-            from jnius import autoclass
-            return True
-        except ImportError:
-            return False
-
-    def make_request(self, url: str, method: str = 'GET', **kwargs) -> requests.Response:
-        """
-        Make HTTP request through Tor/VPN
-        """
-        if self.connection_mode == 'tor':
-            # Use Tor SOCKS proxy
-            proxies = {
-                'http': f'socks5h://{self.tor_proxy_host}:{self.tor_proxy_port}',
-                'https': f'socks5h://{self.tor_proxy_host}:{self.tor_proxy_port}'
-            }
-            kwargs['proxies'] = proxies
-
-        if method.upper() == 'GET':
-            return requests.get(url, **kwargs)
-        elif method.upper() == 'POST':
-            return requests.post(url, **kwargs)
+    """Handles network connectivity, proxies, Tor/VPN"""
+    
+    def __init__(self, ai_console=None):
+        self.ai_console = ai_console
+        self.proxy_config = None
+        self.tor_enabled = False
+        self.vpn_enabled = False
+        self.log("NetworkManager initialized")
+    
+    def log(self, msg, level="INFO"):
+        if self.ai_console:
+            self.ai_console.log(f"[NETWORK] {msg}", level)
         else:
-            raise ValueError(f"Unsupported method: {method}")
+            print(f"[NETWORK] {msg}")
+    
+    def check_connectivity(self):
+        """Check if internet connection is available"""
+        test_urls = [
+            "https://www.google.com",
+            "https://www.cloudflare.com",
+            "https://1.1.1.1"
+        ]
+        
+        for url in test_urls:
+            try:
+                response = requests.get(url, timeout=5)
+                if response.status_code == 200:
+                    self.log(f"Connectivity OK: {url}")
+                    return True, "Connected"
+            except Exception as e:
+                self.log(f"Connectivity check failed for {url}: {e}", "WARNING")
+                continue
+        
+        self.log("No internet connectivity", "ERROR")
+        return False, "No connection"
+    
+    def get_public_ip(self):
+        """Get public IP address"""
+        try:
+            response = requests.get("https://api.ipify.org?format=json", timeout=5)
+            ip = response.json()["ip"]
+            self.log(f"Public IP: {ip}")
+            return ip
+        except Exception as e:
+            self.log(f"Failed to get public IP: {e}", "ERROR")
+            return None
+    
+    def enable_tor_proxy(self, host="127.0.0.1", port=9050):
+        """Enable Tor SOCKS5 proxy"""
+        try:
+            self.proxy_config = {
+                "http": f"socks5h://{host}:{port}",
+                "https": f"socks5h://{host}:{port}"
+            }
+            self.tor_enabled = True
+            self.log(f"Tor proxy enabled: {host}:{port}")
+            return True, "Tor enabled"
+        except Exception as e:
+            self.log(f"Failed to enable Tor: {e}", "ERROR")
+            return False, str(e)
+    
+    def disable_proxy(self):
+        """Disable all proxies"""
+        self.proxy_config = None
+        self.tor_enabled = False
+        self.vpn_enabled = False
+        self.log("Proxies disabled")
+        return True, "Proxies disabled"
+    
+    def test_tor_connection(self):
+        """Test if Tor is working"""
+        if not self.tor_enabled:
+            return False, "Tor not enabled"
+        
+        try:
+            response = requests.get(
+                "https://check.torproject.org/api/ip",
+                proxies=self.proxy_config,
+                timeout=10
+            )
+            data = response.json()
+            if data.get("IsTor"):
+                self.log("Tor connection verified")
+                return True, "Tor working"
+            else:
+                self.log("Tor check failed: Not using Tor", "WARNING")
+                return False, "Not using Tor"
+        except Exception as e:
+            self.log(f"Tor connection test failed: {e}", "ERROR")
+            return False, str(e)
+    
+    def make_request(self, url, method="GET", data=None, headers=None, timeout=10):
+        """Make HTTP request with proxy support"""
+        try:
+            kwargs = {
+                "timeout": timeout,
+                "headers": headers or {}
+            }
+            
+            if self.proxy_config:
+                kwargs["proxies"] = self.proxy_config
+            
+            if method.upper() == "GET":
+                response = requests.get(url, **kwargs)
+            elif method.upper() == "POST":
+                kwargs["json"] = data
+                response = requests.post(url, **kwargs)
+            else:
+                raise ValueError(f"Unsupported method: {method}")
+            
+            self.log(f"Request to {url}: {response.status_code}")
+            return True, response
+        except Exception as e:
+            self.log(f"Request to {url} failed: {e}", "ERROR")
+            return False, str(e)
+    
+    def get_network_info(self):
+        """Get comprehensive network information"""
+        info = {
+            "timestamp": datetime.now().isoformat(),
+            "connectivity": None,
+            "public_ip": None,
+            "tor_enabled": self.tor_enabled,
+            "vpn_enabled": self.vpn_enabled,
+            "proxy_config": self.proxy_config
+        }
+        
+        connected, msg = self.check_connectivity()
+        info["connectivity"] = {"connected": connected, "message": msg}
+        
+        if connected:
+            info["public_ip"] = self.get_public_ip()
+        
+        return info
+    
+    def check_port_open(self, host, port, timeout=3):
+        """Check if a port is open on a host"""
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(timeout)
+            result = sock.connect_ex((host, port))
+            sock.close()
+            
+            if result == 0:
+                self.log(f"Port {port} on {host} is OPEN")
+                return True
+            else:
+                self.log(f"Port {port} on {host} is CLOSED")
+                return False
+        except Exception as e:
+            self.log(f"Port check failed: {e}", "ERROR")
+            return False
