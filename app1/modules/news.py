@@ -1,159 +1,188 @@
 """
-News Module - Business news feed
-ANDROID SAFE: Uses lazy imports and safe stubs
+NTRLI SuperAPK - News Module
+Phase 2: Business news feed aggregator
 """
-import json
-from typing import Dict, List
+import feedparser
+import requests
 from datetime import datetime
-from pathlib import Path
-
-
-class NewsArticle:
-    """News article model"""
-
-    def __init__(self, id: str, title: str, content: str, source: str,
-                 published_at: str, category: str = 'business', image_url: str = None):
-        self.id = id
-        self.title = title
-        self.content = content
-        self.source = source
-        self.published_at = published_at
-        self.category = category
-        self.image_url = image_url
-
-    def to_dict(self) -> Dict:
-        return {
-            'id': self.id,
-            'title': self.title,
-            'content': self.content,
-            'source': self.source,
-            'published_at': self.published_at,
-            'category': self.category,
-            'image_url': self.image_url
-        }
-
-    @staticmethod
-    def from_dict(data: Dict) -> 'NewsArticle':
-        return NewsArticle(**data)
-
+from typing import List, Dict
 
 class NewsManager:
-    """Manages news feed - Android safe with lazy imports"""
-
-    def __init__(self):
-        self.articles: List[NewsArticle] = []
-        self.data_dir = Path(__file__).parent.parent / 'data'
-        self.data_dir.mkdir(exist_ok=True)
-
-        self.news_file = self.data_dir / 'news.json'
-        self.notifications_enabled = True
-
-        self._load_news()
-
-    def _load_news(self):
-        """Load cached news from file"""
-        if self.news_file.exists():
-            try:
-                with open(self.news_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self.articles = [NewsArticle.from_dict(a) for a in data]
-            except Exception as e:
-                print(f"Failed to load news: {e}")
-                self._create_sample_news()
+    """Handles business news feed aggregation"""
+    
+    # Default news sources (RSS feeds)
+    DEFAULT_SOURCES = [
+        {
+            "name": "TechCrunch",
+            "url": "https://techcrunch.com/feed/",
+            "category": "technology"
+        },
+        {
+            "name": "Reuters Business",
+            "url": "https://www.reutersagency.com/feed/?taxonomy=best-topics&post_type=best",
+            "category": "business"
+        },
+        {
+            "name": "BBC Business",
+            "url": "http://feeds.bbci.co.uk/news/business/rss.xml",
+            "category": "business"
+        },
+        {
+            "name": "Hacker News",
+            "url": "https://news.ycombinator.com/rss",
+            "category": "technology"
+        },
+        {
+            "name": "The Verge",
+            "url": "https://www.theverge.com/rss/index.xml",
+            "category": "technology"
+        }
+    ]
+    
+    def __init__(self, ai_console=None, network_manager=None):
+        self.ai_console = ai_console
+        self.network_manager = network_manager
+        self.sources = self.DEFAULT_SOURCES.copy()
+        self.cache = []
+        self.log("NewsManager initialized")
+    
+    def log(self, msg, level="INFO"):
+        if self.ai_console:
+            self.ai_console.log(f"[NEWS] {msg}", level)
         else:
-            self._create_sample_news()
-
-    def _save_news(self):
-        """Save news to file"""
+            print(f"[NEWS] {msg}")
+    
+    def add_source(self, name, url, category="general"):
+        """Add custom news source"""
+        source = {"name": name, "url": url, "category": category}
+        self.sources.append(source)
+        self.log(f"Added news source: {name}")
+        return True
+    
+    def remove_source(self, name):
+        """Remove news source"""
+        self.sources = [s for s in self.sources if s["name"] != name]
+        self.log(f"Removed news source: {name}")
+        return True
+    
+    def fetch_feed(self, source):
+        """Fetch articles from a single RSS feed"""
         try:
-            with open(self.news_file, 'w', encoding='utf-8') as f:
-                json.dump([a.to_dict() for a in self.articles], f, indent=2, ensure_ascii=False)
+            self.log(f"Fetching feed: {source['name']}")
+            
+            # Use network manager if available
+            if self.network_manager:
+                success, response = self.network_manager.make_request(
+                    source["url"],
+                    timeout=15
+                )
+                if not success:
+                    raise Exception(f"Network request failed: {response}")
+                feed_data = response.text
+            else:
+                response = requests.get(source["url"], timeout=15)
+                feed_data = response.text
+            
+            # Parse RSS feed
+            feed = feedparser.parse(feed_data)
+            
+            articles = []
+            for entry in feed.entries[:10]:  # Limit to 10 articles per source
+                article = {
+                    "title": entry.get("title", "No title"),
+                    "summary": entry.get("summary", entry.get("description", "No summary")),
+                    "link": entry.get("link", ""),
+                    "published": entry.get("published", "Unknown date"),
+                    "source": source["name"],
+                    "category": source["category"]
+                }
+                articles.append(article)
+            
+            self.log(f"Fetched {len(articles)} articles from {source['name']}")
+            return articles
+        
         except Exception as e:
-            print(f"Failed to save news: {e}")
-
-    def _create_sample_news(self):
-        """Create sample news articles"""
-        sample_articles = [
-            NewsArticle(
-                id="NEWS001",
-                title="Norway's Economy Shows Strong Growth",
-                content="The Norwegian economy continues to show robust growth...",
-                source="DN.no",
-                published_at=datetime.now().isoformat(),
-                category="business"
-            ),
-            NewsArticle(
-                id="NEWS002",
-                title="Tech Sector Investments Surge",
-                content="Investment in Norway's tech sector has reached record levels...",
-                source="E24",
-                published_at=datetime.now().isoformat(),
-                category="technology"
-            ),
-            NewsArticle(
-                id="NEWS003",
-                title="Sustainable Business Practices on the Rise",
-                content="Norwegian companies are leading the way in sustainability...",
-                source="DN.no",
-                published_at=datetime.now().isoformat(),
-                category="sustainability"
-            )
-        ]
-        self.articles = sample_articles
-        self._save_news()
-
-    def fetch(self) -> List[str]:
-        """Simple fetch - returns news titles (Android safe)"""
-        return [a.title for a in self.articles]
-
-    def get_news(self, category: str = None, limit: int = 20) -> List[Dict]:
-        """Get news articles"""
-        articles = self.articles
-
+            self.log(f"Failed to fetch {source['name']}: {e}", "ERROR")
+            return []
+    
+    def fetch_all_feeds(self, category=None):
+        """Fetch articles from all sources"""
+        all_articles = []
+        
+        sources_to_fetch = self.sources
         if category:
-            articles = [a for a in articles if a.category == category]
-
-        articles.sort(key=lambda x: x.published_at, reverse=True)
-        articles = articles[:limit]
-
-        return [a.to_dict() for a in articles]
-
-    def get_article(self, article_id: str) -> Dict:
-        """Get specific article"""
-        for article in self.articles:
-            if article.id == article_id:
-                return article.to_dict()
-        return None
-
-    def refresh_news(self) -> Dict:
-        """Refresh news - uses lazy import for aiohttp"""
+            sources_to_fetch = [s for s in self.sources if s["category"] == category]
+        
+        self.log(f"Fetching from {len(sources_to_fetch)} sources...")
+        
+        for source in sources_to_fetch:
+            articles = self.fetch_feed(source)
+            all_articles.extend(articles)
+        
+        # Sort by date (newest first) - best effort
         try:
-            # Lazy import aiohttp only when needed
-            import aiohttp
-            import asyncio
-
-            async def _fetch():
-                # Would fetch from real API here
-                return {'success': True, 'count': len(self.articles)}
-
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            result = loop.run_until_complete(_fetch())
-            loop.close()
-            return result
-
-        except ImportError:
-            print("NewsManager: aiohttp not available, using cached data")
-            return {
-                'success': True,
-                'count': len(self.articles),
-                'stub_mode': True
-            }
-
-    def enable_notifications(self):
-        self.notifications_enabled = True
-        return {'success': True}
-
-    def disable_notifications(self):
-        self.notifications_enabled = False
-        return {'success': True}
+            all_articles.sort(
+                key=lambda x: datetime.strptime(x["published"], "%a, %d %b %Y %H:%M:%S %z"),
+                reverse=True
+            )
+        except:
+            # If date parsing fails, just keep original order
+            pass
+        
+        self.cache = all_articles
+        self.log(f"Total articles fetched: {len(all_articles)}")
+        return all_articles
+    
+    def get_cached_articles(self, limit=50, category=None):
+        """Get cached articles"""
+        articles = self.cache
+        
+        if category:
+            articles = [a for a in articles if a["category"] == category]
+        
+        return articles[:limit]
+    
+    def search_articles(self, query, limit=20):
+        """Search articles by keyword"""
+        query = query.lower()
+        results = []
+        
+        for article in self.cache:
+            title_match = query in article["title"].lower()
+            summary_match = query in article["summary"].lower()
+            
+            if title_match or summary_match:
+                results.append(article)
+        
+        self.log(f"Search '{query}': {len(results)} results")
+        return results[:limit]
+    
+    def get_categories(self):
+        """Get list of available categories"""
+        categories = set(s["category"] for s in self.sources)
+        return sorted(list(categories))
+    
+    def get_article_summary(self, article_url):
+        """Fetch and extract article content"""
+        try:
+            if self.network_manager:
+                success, response = self.network_manager.make_request(
+                    article_url,
+                    timeout=10
+                )
+                if not success:
+                    return None, f"Failed to fetch: {response}"
+            else:
+                response = requests.get(article_url, timeout=10)
+            
+            # Basic HTML parsing - just get text
+            html = response.text
+            # Simple text extraction (proper parsing would need BeautifulSoup)
+            text = html[:2000]  # First 2000 chars
+            
+            self.log(f"Fetched article content: {article_url[:50]}...")
+            return text, None
+        
+        except Exception as e:
+            self.log(f"Failed to fetch article: {e}", "ERROR")
+            return None, str(e)
