@@ -1,358 +1,275 @@
 """
-Admin Module
-Features:
-- Web-based admin panel
-- Zero-code configuration
-- Control all app settings
-- Deploy changes instantly
-- Access restricted to @Sir_NTRLI_II
+NTRLI SuperAPK - Admin Module
+Phase 3: Admin panel for @Sir_NTRLI_II
 """
 import json
-from typing import Dict, Any
-from pathlib import Path
+import os
 from datetime import datetime
-import threading
+from pathlib import Path
 
-
-ADMIN_ID = 8467779489
-ADMIN_USERNAME = "@Sir_NTRLI_II"
-
+ADMIN_LOGS = "/sdcard/superapk_admin_logs.json"
 
 class AdminManager:
-    """Manages admin panel and configuration"""
-
-    def __init__(self):
-        self.data_dir = Path(__file__).parent.parent / 'data'
-        self.data_dir.mkdir(exist_ok=True)
-
-        self.config_file = self.data_dir / 'app_config.json'
-        self.settings_file = self.data_dir / 'app_settings.json'
-
-        self.config = self.load_config()
-        self.settings = self.load_settings()
-
-        # Web server for admin panel
-        self.web_server = None
-        self.server_thread = None
-
-    def load_config(self) -> Dict:
-        """Load application configuration"""
-        if self.config_file.exists():
-            try:
-                with open(self.config_file, 'r') as f:
+    """Handles admin operations and monitoring"""
+    
+    ADMIN_USERNAME = "Sir_NTRLI_II"
+    
+    def __init__(self, ai_console=None, auth_manager=None, ecommerce_manager=None, news_manager=None, ai_manager=None):
+        self.ai_console = ai_console
+        self.auth_manager = auth_manager
+        self.ecommerce_manager = ecommerce_manager
+        self.news_manager = news_manager
+        self.ai_manager = ai_manager
+        self.admin_logs = self._load_admin_logs()
+        self.log("AdminManager initialized")
+    
+    def log(self, msg, level="INFO"):
+        if self.ai_console:
+            self.ai_console.log(f"[ADMIN] {msg}", level)
+        else:
+            print(f"[ADMIN] {msg}")
+        
+        # Also log to admin logs
+        self._add_admin_log(msg, level)
+    
+    def _load_admin_logs(self):
+        """Load admin logs"""
+        try:
+            if os.path.exists(ADMIN_LOGS):
+                with open(ADMIN_LOGS, "r") as f:
                     return json.load(f)
-            except Exception as e:
-                print(f"Failed to load config: {e}")
-                return self.get_default_config()
-        return self.get_default_config()
-
-    def get_default_config(self) -> Dict:
-        """Get default configuration"""
-        return {
-            'app_name': 'NTRLI Superbot',
-            'version': '1.0.0',
-            'min_order_amount': 400,
-            'currency': 'NOK',
-            'supported_languages': [
-                'en', 'no', 'sv', 'da', 'fi', 'de', 'fr', 'es',
-                'it', 'pt', 'nl', 'pl', 'ru', 'zh', 'ja', 'ko',
-                'ar', 'hi', 'tr', 'vi', 'th'
-            ],
-            'payment_methods': [
-                'credit_card', 'debit_card', 'vipps',
-                'paypal', 'crypto', 'bank_transfer'
-            ],
-            'features': {
-                'tor_enabled': True,
-                'vpn_enabled': True,
-                'ai_enabled': True,
-                'news_enabled': True,
-                'notifications_enabled': True,
-                'anonymous_mode': True
-            },
-            'ai_settings': {
-                'claude_enabled': True,
-                'gpt4_enabled': True,
-                'default_model': 'claude'
-            },
-            'network_settings': {
-                'primary': 'tor',
-                'fallback': 'vpn',
-                'timeout': 30
-            }
+            return []
+        except Exception as e:
+            print(f"Error loading admin logs: {e}")
+            return []
+    
+    def _save_admin_logs(self):
+        """Save admin logs"""
+        try:
+            Path(ADMIN_LOGS).parent.mkdir(parents=True, exist_ok=True)
+            with open(ADMIN_LOGS, "w") as f:
+                json.dump(self.admin_logs, f, indent=2)
+        except Exception as e:
+            print(f"Error saving admin logs: {e}")
+    
+    def _add_admin_log(self, message, level="INFO"):
+        """Add entry to admin logs"""
+        log_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "level": level,
+            "message": message
         }
-
-    def save_config(self):
-        """Save configuration to file"""
-        try:
-            with open(self.config_file, 'w') as f:
-                json.dump(self.config, f, indent=2)
-            return {'success': True, 'message': 'Configuration saved'}
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
-    def load_settings(self) -> Dict:
-        """Load application settings"""
-        if self.settings_file.exists():
-            try:
-                with open(self.settings_file, 'r') as f:
-                    return json.load(f)
-            except Exception as e:
-                print(f"Failed to load settings: {e}")
-                return {}
-        return {}
-
-    def save_settings(self):
-        """Save settings to file"""
-        try:
-            with open(self.settings_file, 'w') as f:
-                json.dump(self.settings, f, indent=2)
-            return {'success': True, 'message': 'Settings saved'}
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
-    def get_config(self, key: str = None) -> Any:
-        """Get configuration value"""
-        if key:
-            return self.config.get(key)
-        return self.config
-
-    def update_config(self, key: str, value: Any) -> Dict:
-        """Update configuration value"""
-        try:
-            # Support nested keys using dot notation
-            keys = key.split('.')
-            current = self.config
-
-            for k in keys[:-1]:
-                if k not in current:
-                    current[k] = {}
-                current = current[k]
-
-            current[keys[-1]] = value
-            return self.save_config()
-
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
-    def get_all_settings(self) -> Dict:
-        """Get all settings for admin panel"""
-        return {
-            'config': self.config,
-            'settings': self.settings,
-            'stats': self.get_stats()
+        self.admin_logs.append(log_entry)
+        
+        # Keep only last 1000 logs
+        if len(self.admin_logs) > 1000:
+            self.admin_logs = self.admin_logs[-1000:]
+        
+        self._save_admin_logs()
+    
+    def verify_admin(self, session_token):
+        """Verify if session belongs to admin"""
+        if not self.auth_manager:
+            return False
+        
+        return self.auth_manager.is_admin(session_token)
+    
+    def get_system_stats(self):
+        """Get comprehensive system statistics"""
+        stats = {
+            "timestamp": datetime.now().isoformat(),
+            "users": self._get_user_stats(),
+            "ecommerce": self._get_ecommerce_stats(),
+            "news": self._get_news_stats(),
+            "ai": self._get_ai_stats(),
+            "logs": len(self.admin_logs)
         }
-
-    def get_stats(self) -> Dict:
-        """Get application statistics"""
-        # This would collect real stats from the app
+        
+        self.log("System stats retrieved")
+        return stats
+    
+    def _get_user_stats(self):
+        """Get user statistics"""
+        if not self.auth_manager:
+            return {"error": "AuthManager not available"}
+        
         return {
-            'total_users': 0,
-            'total_orders': 0,
-            'total_revenue': 0,
-            'active_sessions': 0,
-            'last_updated': datetime.now().isoformat()
+            "total_users": len(self.auth_manager.users),
+            "active_sessions": len(self.auth_manager.sessions),
+            "users_list": list(self.auth_manager.users.keys())
         }
-
-    def start_web_panel(self, port: int = 5000) -> Dict:
-        """Start web-based admin panel"""
-        try:
-            from flask import Flask, jsonify, request, render_template_string
-
-            app = Flask(__name__)
-
-            # Admin panel HTML
-            admin_html = """
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>NTRLI Superbot - Admin Panel</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        margin: 0;
-                        padding: 20px;
-                        background: #1a1a2e;
-                        color: #eee;
-                    }
-                    .container {
-                        max-width: 1200px;
-                        margin: 0 auto;
-                    }
-                    h1 {
-                        color: #0f3;
-                    }
-                    .section {
-                        background: #16213e;
-                        padding: 20px;
-                        margin: 20px 0;
-                        border-radius: 8px;
-                    }
-                    .setting-row {
-                        display: flex;
-                        justify-content: space-between;
-                        padding: 10px;
-                        border-bottom: 1px solid #333;
-                    }
-                    button {
-                        background: #0f3;
-                        color: #000;
-                        border: none;
-                        padding: 10px 20px;
-                        border-radius: 4px;
-                        cursor: pointer;
-                        font-weight: bold;
-                    }
-                    button:hover {
-                        background: #0d2;
-                    }
-                    input, select {
-                        padding: 8px;
-                        border-radius: 4px;
-                        border: 1px solid #444;
-                        background: #0f172a;
-                        color: #eee;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <h1>🛡️ NTRLI Superbot - Admin Panel</h1>
-                    <p>Access: @Sir_NTRLI_II Only</p>
-
-                    <div class="section">
-                        <h2>Application Settings</h2>
-                        <div id="settings"></div>
-                        <button onclick="saveSettings()">Save Changes</button>
-                    </div>
-
-                    <div class="section">
-                        <h2>Statistics</h2>
-                        <div id="stats"></div>
-                    </div>
-
-                    <div class="section">
-                        <h2>AI Improvement Suggestions</h2>
-                        <div id="suggestions"></div>
-                    </div>
-                </div>
-
-                <script>
-                    async function loadSettings() {
-                        const response = await fetch('/api/settings');
-                        const data = await response.json();
-                        displaySettings(data.config);
-                        displayStats(data.stats);
-                    }
-
-                    function displaySettings(config) {
-                        const container = document.getElementById('settings');
-                        container.innerHTML = JSON.stringify(config, null, 2);
-                    }
-
-                    function displayStats(stats) {
-                        const container = document.getElementById('stats');
-                        container.innerHTML = `
-                            <div class="setting-row">
-                                <span>Total Users:</span>
-                                <span>${stats.total_users}</span>
-                            </div>
-                            <div class="setting-row">
-                                <span>Total Orders:</span>
-                                <span>${stats.total_orders}</span>
-                            </div>
-                            <div class="setting-row">
-                                <span>Total Revenue:</span>
-                                <span>${stats.total_revenue} NOK</span>
-                            </div>
-                        `;
-                    }
-
-                    async function saveSettings() {
-                        alert('Settings saved successfully!');
-                    }
-
-                    loadSettings();
-                </script>
-            </body>
-            </html>
-            """
-
-            @app.route('/')
-            def index():
-                return render_template_string(admin_html)
-
-            @app.route('/api/settings')
-            def api_settings():
-                return jsonify(self.get_all_settings())
-
-            @app.route('/api/update', methods=['POST'])
-            def api_update():
-                data = request.json
-                key = data.get('key')
-                value = data.get('value')
-                result = self.update_config(key, value)
-                return jsonify(result)
-
-            # Run in background thread
-            def run_server():
-                app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
-
-            self.server_thread = threading.Thread(target=run_server, daemon=True)
-            self.server_thread.start()
-
-            return {
-                'success': True,
-                'message': f'Admin panel started on http://localhost:{port}'
-            }
-
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
-    def stop_web_panel(self):
-        """Stop web admin panel"""
-        # Flask doesn't have a built-in stop method
-        # Would need to use werkzeug.server.shutdown
-        return {'success': True, 'message': 'Admin panel stopped'}
-
-    def export_data(self) -> Dict:
-        """Export all application data"""
-        try:
-            export = {
-                'config': self.config,
-                'settings': self.settings,
-                'exported_at': datetime.now().isoformat()
-            }
-
-            export_file = self.data_dir / f'export_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
-
-            with open(export_file, 'w') as f:
-                json.dump(export, f, indent=2)
-
-            return {
-                'success': True,
-                'file': str(export_file),
-                'message': 'Data exported successfully'
-            }
-
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
-    def import_data(self, file_path: str) -> Dict:
-        """Import application data"""
-        try:
-            with open(file_path, 'r') as f:
-                data = json.load(f)
-
-            if 'config' in data:
-                self.config = data['config']
-                self.save_config()
-
-            if 'settings' in data:
-                self.settings = data['settings']
-                self.save_settings()
-
-            return {'success': True, 'message': 'Data imported successfully'}
-
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
+    
+    def _get_ecommerce_stats(self):
+        """Get e-commerce statistics"""
+        if not self.ecommerce_manager:
+            return {"error": "EcommerceManager not available"}
+        
+        total_revenue = sum(order["total"] for order in self.ecommerce_manager.orders)
+        
+        return {
+            "total_products": len(self.ecommerce_manager.products),
+            "total_orders": len(self.ecommerce_manager.orders),
+            "total_revenue": total_revenue,
+            "pending_orders": len([o for o in self.ecommerce_manager.orders if o["status"] == "pending"])
+        }
+    
+    def _get_news_stats(self):
+        """Get news statistics"""
+        if not self.news_manager:
+            return {"error": "NewsManager not available"}
+        
+        return {
+            "sources": len(self.news_manager.sources),
+            "cached_articles": len(self.news_manager.cache),
+            "categories": self.news_manager.get_categories()
+        }
+    
+    def _get_ai_stats(self):
+        """Get AI statistics"""
+        if not self.ai_manager:
+            return {"error": "AIManager not available"}
+        
+        return {
+            "conversation_length": len(self.ai_manager.conversation_history),
+            "anthropic_configured": bool(self.ai_manager.anthropic_key),
+            "openai_configured": bool(self.ai_manager.openai_key)
+        }
+    
+    def manage_user(self, action, username, **kwargs):
+        """Manage user accounts"""
+        if not self.auth_manager:
+            return False, "AuthManager not available"
+        
+        if action == "delete":
+            if username in self.auth_manager.users:
+                del self.auth_manager.users[username]
+                self.auth_manager._save_users()
+                self.log(f"User deleted: {username}")
+                return True, "User deleted"
+            return False, "User not found"
+        
+        elif action == "promote_admin":
+            if username in self.auth_manager.users:
+                self.auth_manager.users[username]["role"] = "admin"
+                self.auth_manager._save_users()
+                self.log(f"User promoted to admin: {username}")
+                return True, "User promoted"
+            return False, "User not found"
+        
+        elif action == "demote":
+            if username in self.auth_manager.users:
+                self.auth_manager.users[username]["role"] = "user"
+                self.auth_manager._save_users()
+                self.log(f"User demoted: {username}")
+                return True, "User demoted"
+            return False, "User not found"
+        
+        return False, "Unknown action"
+    
+    def manage_product(self, action, product_id=None, **kwargs):
+        """Manage products"""
+        if not self.ecommerce_manager:
+            return False, "EcommerceManager not available"
+        
+        if action == "create":
+            from modules.ecommerce import Product
+            product = Product(
+                id=kwargs.get("id"),
+                name=kwargs.get("name"),
+                description=kwargs.get("description"),
+                price=kwargs.get("price"),
+                category=kwargs.get("category"),
+                stock=kwargs.get("stock"),
+                image_url=kwargs.get("image_url")
+            )
+            self.ecommerce_manager.products.append(product)
+            self.ecommerce_manager._save_products()
+            self.log(f"Product created: {product.name}")
+            return True, "Product created"
+        
+        elif action == "delete":
+            self.ecommerce_manager.products = [
+                p for p in self.ecommerce_manager.products if p.id != product_id
+            ]
+            self.ecommerce_manager._save_products()
+            self.log(f"Product deleted: {product_id}")
+            return True, "Product deleted"
+        
+        elif action == "update_stock":
+            product = self.ecommerce_manager.get_product(product_id)
+            if product:
+                product.stock = kwargs.get("stock")
+                self.ecommerce_manager._save_products()
+                self.log(f"Stock updated: {product_id} - {product.stock}")
+                return True, "Stock updated"
+            return False, "Product not found"
+        
+        return False, "Unknown action"
+    
+    def manage_order(self, action, order_id, **kwargs):
+        """Manage orders"""
+        if not self.ecommerce_manager:
+            return False, "EcommerceManager not available"
+        
+        order = next((o for o in self.ecommerce_manager.orders if o["order_id"] == order_id), None)
+        
+        if not order:
+            return False, "Order not found"
+        
+        if action == "update_status":
+            order["status"] = kwargs.get("status")
+            self.ecommerce_manager._save_orders()
+            self.log(f"Order status updated: {order_id} - {order['status']}")
+            return True, "Order updated"
+        
+        elif action == "cancel":
+            order["status"] = "cancelled"
+            # Restore stock
+            for item in order["items"]:
+                product = self.ecommerce_manager.get_product(item["product"]["id"])
+                if product:
+                    product.stock += item["quantity"]
+            self.ecommerce_manager._save_products()
+            self.ecommerce_manager._save_orders()
+            self.log(f"Order cancelled: {order_id}")
+            return True, "Order cancelled"
+        
+        return False, "Unknown action"
+    
+    def get_admin_logs(self, limit=100, level=None):
+        """Get admin logs"""
+        logs = self.admin_logs
+        
+        if level:
+            logs = [l for l in logs if l["level"] == level]
+        
+        return logs[-limit:]
+    
+    def clear_admin_logs(self):
+        """Clear admin logs"""
+        self.admin_logs = []
+        self._save_admin_logs()
+        self.log("Admin logs cleared")
+        return True
+    
+    def export_data(self, data_type):
+        """Export system data"""
+        exports = {}
+        
+        if data_type == "all" or data_type == "users":
+            if self.auth_manager:
+                exports["users"] = list(self.auth_manager.users.values())
+        
+        if data_type == "all" or data_type == "products":
+            if self.ecommerce_manager:
+                exports["products"] = [p.to_dict() for p in self.ecommerce_manager.products]
+        
+        if data_type == "all" or data_type == "orders":
+            if self.ecommerce_manager:
+                exports["orders"] = self.ecommerce_manager.orders
+        
+        if data_type == "all" or data_type == "logs":
+            exports["admin_logs"] = self.admin_logs
+        
+        self.log(f"Data exported: {data_type}")
+        return exports
