@@ -7,7 +7,17 @@ See env.example for required environment variable names.
 """
 
 import os
+from pathlib import Path
 from enum import Enum
+
+# Auto-load .env file if present
+try:
+    from dotenv import load_dotenv
+    env_path = Path(__file__).parent.parent / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
+except ImportError:
+    pass  # python-dotenv not installed, use system env vars
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
