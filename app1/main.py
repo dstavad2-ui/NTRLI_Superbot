@@ -1,164 +1,210 @@
 """
-NTRLI Superbot - Main Application Entry Point
-KivyMD UI with NTRLI' AI Backend Integration
-
-IMPORTANT: Uses lazy imports to prevent Android crashes.
-Heavy modules are only loaded when needed, not at startup.
+NTRLI SuperAPK - Main Application Entry Point
+Phase 0: Minimal Stable Core with AI Self-Healing
 """
+import os
+import sys
+import traceback
+from datetime import datetime
+from importlib import import_module
+from pathlib import Path
 
-from kivy.lang import Builder
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
 from kivymd.app import MDApp
+from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.screen import MDScreen
 
-# KV layout - NO implicit icons (prevents drawable crash)
-KV = '''
-Screen:
-    MDBoxLayout:
-        orientation: "vertical"
+# Crash log path
+CRASH_LOG = "/sdcard/superbot_crash.log"
+AI_CONSOLE_LOG = "/sdcard/AI_consoles_main.log"
 
-        MDTopAppBar:
-            title: "NTRLI Superbot"
-            left_action_items: []
-            md_bg_color: 0.2, 0.3, 0.8, 1
+class AIConsole:
+    """AI Console Logger with Self-Healing"""
+    def __init__(self, log_path):
+        self.log_path = log_path
+        self.ensure_log_exists()
+    
+    def ensure_log_exists(self):
+        try:
+            Path(self.log_path).parent.mkdir(parents=True, exist_ok=True)
+            Path(self.log_path).touch(exist_ok=True)
+        except Exception as e:
+            print(f"AIConsole init error: {e}")
+    
+    def log(self, message, level="INFO"):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_entry = f"[{timestamp}] [{level}] {message}\n"
+        try:
+            with open(self.log_path, "a") as f:
+                f.write(log_entry)
+            print(log_entry.strip())
+        except Exception as e:
+            print(f"Log write error: {e}")
 
-        MDLabel:
-            text: "Welcome to NTRLI Superbot!"
-            halign: "center"
-            theme_text_color: "Primary"
+class CrashHandler:
+    """Global crash handler"""
+    @staticmethod
+    def log_crash(exc_type, exc_value, exc_traceback):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        crash_info = f"\n{'='*50}\nCRASH REPORT: {timestamp}\n{'='*50}\n"
+        crash_info += "".join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+        
+        try:
+            with open(CRASH_LOG, "a") as f:
+                f.write(crash_info)
+        except:
+            pass
+        
+        print(crash_info)
 
-        MDBoxLayout:
-            orientation: "vertical"
-            padding: "20dp"
-            spacing: "10dp"
-            size_hint_y: None
-            height: self.minimum_height
-            pos_hint: {"center_x": 0.5}
+# Install crash handler
+sys.excepthook = CrashHandler.log_crash
 
-            MDRaisedButton:
-                text: "Get Started"
-                size_hint_x: 0.8
-                pos_hint: {"center_x": 0.5}
-                on_release: app.on_get_started()
-
-            MDRaisedButton:
-                text: "Settings"
-                size_hint_x: 0.8
-                pos_hint: {"center_x": 0.5}
-                on_release: app.on_settings()
-
-            MDRaisedButton:
-                text: "AI Chat"
-                size_hint_x: 0.8
-                pos_hint: {"center_x": 0.5}
-                on_release: app.on_ai_chat()
-
-            MDRaisedButton:
-                text: "News"
-                size_hint_x: 0.8
-                pos_hint: {"center_x": 0.5}
-                on_release: app.on_news()
-
-            MDRaisedButton:
-                text: "Shop"
-                size_hint_x: 0.8
-                pos_hint: {"center_x": 0.5}
-                on_release: app.on_shop()
-'''
-
-
-class NTRLISuperbotApp(MDApp):
-    """
-    Main NTRLI Superbot Application with AI Integration
-
-    Uses lazy imports to prevent Android crashes from heavy dependencies.
-    """
-
+class HomeScreen(MDScreen):
+    """Main home screen"""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # Don't initialize heavy components here - use lazy loading
-        self._ai_engine = None
-        self._user_controller = None
+        self.name = "home"
+        
+        layout = BoxLayout(orientation="vertical", padding=20, spacing=15)
+        
+        # Branding
+        title = Label(
+            text="[b]NTRLI SuperAPK[/b]",
+            markup=True,
+            font_size="24sp",
+            size_hint_y=0.2
+        )
+        layout.add_widget(title)
+        
+        subtitle = Label(
+            text="AI-Powered Business Platform",
+            font_size="16sp",
+            size_hint_y=0.1
+        )
+        layout.add_widget(subtitle)
+        
+        # Spacer
+        layout.add_widget(Label(size_hint_y=0.3))
+        
+        # Get Started button
+        btn_start = MDRaisedButton(
+            text="Get Started",
+            pos_hint={"center_x": 0.5},
+            size_hint=(0.8, None),
+            height="50dp",
+            md_bg_color=(0.2, 0.6, 1, 1)
+        )
+        btn_start.bind(on_press=self.on_get_started)
+        layout.add_widget(btn_start)
+        
+        # Settings button
+        btn_settings = MDRaisedButton(
+            text="Settings",
+            pos_hint={"center_x": 0.5},
+            size_hint=(0.8, None),
+            height="50dp",
+            md_bg_color=(0.5, 0.5, 0.5, 1)
+        )
+        btn_settings.bind(on_press=self.on_settings)
+        layout.add_widget(btn_settings)
+        
+        # Spacer
+        layout.add_widget(Label(size_hint_y=0.3))
+        
+        self.add_widget(layout)
+    
+    def on_get_started(self, instance):
+        app = MDApp.get_running_app()
+        app.ai_console.log("Get Started button pressed")
+        # Phase 1: Will lazy-load auth module
+        print("Get Started pressed - Auth module will load here")
+    
+    def on_settings(self, instance):
+        app = MDApp.get_running_app()
+        app.ai_console.log("Settings button pressed")
+        print("Settings pressed")
 
+class NTRLIApp(MDApp):
+    """Main application class"""
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.ai_console = AIConsole(AI_CONSOLE_LOG)
+        self.lazy_modules = {}
+        self.ai_console.log("=== NTRLI SuperAPK Initializing ===")
+        self.self_healf()
+    
     def build(self):
-        return Builder.load_string(KV)
-
+        self.theme_cls.primary_palette = "Blue"
+        self.theme_cls.theme_style = "Dark"
+        
+        sm = ScreenManager()
+        sm.add_widget(HomeScreen())
+        
+        self.ai_console.log("UI built successfully - Phase 0 complete")
+        return sm
+    
+    def lazy_load(self, module_name):
+        """Lazy load modules on demand"""
+        if module_name not in self.lazy_modules:
+            try:
+                self.lazy_modules[module_name] = import_module(module_name)
+                self.ai_console.log(f"Module {module_name} loaded successfully")
+            except Exception as e:
+                self.ai_console.log(f"Module {module_name} load FAILED: {e}", "ERROR")
+                raise
+        return self.lazy_modules[module_name]
+    
+    def self_healf(self):
+        """AI Self-Healing - Analyze modules, dependencies, system health"""
+        self.ai_console.log("=== SELF_HEALF ROUTINE STARTED ===")
+        
+        # Phase 0 checks
+        modules_to_check = {
+            "Phase0": ["kivy", "kivymd"],
+            "Phase1": ["modules.auth", "modules.network"],
+            "Phase2": ["modules.news", "modules.ecommerce"],
+            "Phase3": ["modules.ai", "modules.admin", "modules.i18n"]
+        }
+        
+        for phase, modules in modules_to_check.items():
+            self.ai_console.log(f"Checking {phase} modules...")
+            for mod in modules:
+                try:
+                    if mod.startswith("modules."):
+                        # Don't actually load yet - just check if file exists
+                        mod_file = mod.replace(".", "/") + ".py"
+                        if os.path.exists(mod_file):
+                            self.ai_console.log(f"  ✓ {mod} file present")
+                        else:
+                            self.ai_console.log(f"  ✗ {mod} NOT FOUND", "WARNING")
+                    else:
+                        # Try importing core dependencies
+                        import_module(mod)
+                        self.ai_console.log(f"  ✓ {mod} available")
+                except Exception as e:
+                    self.ai_console.log(f"  ✗ {mod} check failed: {e}", "ERROR")
+        
+        # Log system info
+        self.ai_console.log(f"Python version: {sys.version}")
+        self.ai_console.log(f"Crash log: {CRASH_LOG}")
+        self.ai_console.log(f"AI console log: {AI_CONSOLE_LOG}")
+        self.ai_console.log("=== SELF_HEALF ROUTINE COMPLETE ===")
+    
     def on_start(self):
-        """App started - keep lightweight, use lazy loading"""
-        print("NTRLI Superbot started")
-
-    # === LAZY LOADING PROPERTIES ===
-
-    @property
-    def ai_engine(self):
-        """Lazy load AI engine only when needed"""
-        if self._ai_engine is None:
-            try:
-                from core.ntrli_ai_engine import NTRLIAIEngine
-                self._ai_engine = NTRLIAIEngine(is_admin=False)
-                print("AI Engine loaded")
-            except ImportError as e:
-                print(f"AI Engine not available: {e}")
-                return None
-        return self._ai_engine
-
-    @property
-    def user_controller(self):
-        """Lazy load user controller only when needed"""
-        if self._user_controller is None:
-            try:
-                from user_interface.user_controller import UserController
-                self._user_controller = UserController(user_id=0, username="app_user")
-                print("User Controller loaded")
-            except ImportError as e:
-                print(f"User Controller not available: {e}")
-                return None
-        return self._user_controller
-
-    # === BUTTON HANDLERS (with lazy imports) ===
-
-    def on_get_started(self):
-        """Handle Get Started button - lazy load auth"""
-        print("Get Started clicked")
-        try:
-            from modules.auth import TelegramAuth
-            auth = TelegramAuth()
-            auth.login()
-        except ImportError:
-            print("Auth module stub active")
-
-    def on_settings(self):
-        """Handle Settings button"""
-        print("Settings clicked")
-
-    def on_ai_chat(self):
-        """Handle AI Chat button - lazy load AI"""
-        print("AI Chat clicked")
-        if self.ai_engine:
-            print("NTRLI' AI ready for chat")
-        else:
-            print("AI running in stub mode")
-
-    def on_news(self):
-        """Handle News button - lazy load news module"""
-        print("News clicked")
-        try:
-            from modules.news import NewsManager
-            news = NewsManager()
-            items = news.fetch()
-            print(f"News items: {items}")
-        except ImportError:
-            print("News module stub active")
-
-    def on_shop(self):
-        """Handle Shop button - lazy load ecommerce module"""
-        print("Shop clicked")
-        try:
-            from modules.ecommerce import EcommerceManager
-            shop = EcommerceManager()
-            products = shop.list_products()
-            print(f"Products: {products}")
-        except ImportError:
-            print("Ecommerce module stub active")
-
+        self.ai_console.log("App started successfully")
+    
+    def on_stop(self):
+        self.ai_console.log("App stopped")
 
 if __name__ == "__main__":
-    NTRLISuperbotApp().run()
+    try:
+        NTRLIApp().run()
+    except Exception as e:
+        CrashHandler.log_crash(*sys.exc_info())
+        raise
