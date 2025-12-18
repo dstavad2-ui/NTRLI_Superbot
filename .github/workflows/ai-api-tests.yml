@@ -1,0 +1,44 @@
+name: AI API Tests
+
+on:
+  push:
+    branches: [ main, claude/* ]
+    paths:
+      - 'app1/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'app1/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install aiohttp pytest pytest-asyncio
+
+    - name: Run syntax check
+      run: |
+        python -m py_compile app1/__init__.py
+        python -m py_compile app1/config/api_config.py
+        python -m py_compile app1/core/ai_selector.py
+        python -m py_compile app1/core/ntrli_ai_engine.py
+
+    - name: Check module imports
+      run: |
+        cd ${{ github.workspace }}
+        python -c "from app1.config import APIConfig, APIType; print('Config OK')"
+        python -c "from app1.core import AISelector, TaskType; print('Selector OK')"
+        python -c "from app1.core import NTRLIAIEngine; print('Engine OK')"
+        python -c "from app1.admin_panel import AdminController; print('Admin OK')"
+        python -c "from app1.user_interface import UserController; print('User OK')"
