@@ -20,7 +20,7 @@ version = 1.0.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.3.0,kivymd==1.1.1,telethon,python-dotenv,PySocks,requests,anthropic,openai,aiohttp,flask,cryptg,pillow,pyjnius,plyer,android
+requirements = python3,kivy,kivymd,telethon,python-dotenv,requests,aiohttp,pillow,pyjnius,plyer,android
 
 # (str) Supported orientation (landscape, sensorLandscape, portrait or all)
 orientation = portrait
@@ -32,16 +32,16 @@ fullscreen = 0
 android.permissions = INTERNET,ACCESS_NETWORK_STATE,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE,VIBRATE,ACCESS_WIFI_STATE,RECEIVE_BOOT_COMPLETED
 
 # (int) Target Android API, should be as high as possible.
-android.api = 33
+android.api = 31
 
 # (int) Minimum API your APK will support.
-android.minapi = 24
+android.minapi = 21
 
 # (str) Android NDK version to use
-android.ndk = 25b
+android.ndk = 23b
 
 # (str) Android SDK version to use
-android.sdk = 33
+android.sdk = 31
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 android.private_storage = True
@@ -53,7 +53,7 @@ android.logcat_filters = *:S python:D
 android.copy_libs = 1
 
 # (str) The Android arch to build for
-android.archs = arm64-v8a,armeabi-v7a
+android.archs = arm64-v8a
 
 # (bool) enables Android auto backup feature (Android API >=23)
 android.allow_backup = True
