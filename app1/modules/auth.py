@@ -1,13 +1,12 @@
 """
-Authentication Module - Telegram Login Only
+Authentication Module - Telegram Login
 Admin: @Sir_NTRLI_II (ID: 8467779489)
+
+ANDROID SAFE: Uses lazy imports to prevent crashes
 """
 import json
-import asyncio
 from pathlib import Path
 from typing import Dict, Optional
-from telethon import TelegramClient
-from telethon.sessions import StringSession
 
 # Admin configuration
 ADMIN_USERNAME = "@Sir_NTRLI_II"
@@ -20,15 +19,14 @@ API_HASH = "7defa4b44a90dd22ed93ec4bf36374d4"
 SESSION_FILE = Path(__file__).parent.parent / "data" / "session.json"
 
 
-class AuthManager:
-    """Handles Telegram authentication"""
+class TelegramAuth:
+    """Safe stub for Telegram authentication - Android compatible"""
 
     def __init__(self):
-        self.client: Optional[TelegramClient] = None
-        self.current_user = None
-        self.session_data = self.load_session()
+        self.session_data = self._load_session()
+        self._client = None
 
-    def load_session(self) -> Dict:
+    def _load_session(self) -> Dict:
         """Load saved session if exists"""
         if SESSION_FILE.exists():
             try:
@@ -38,11 +36,43 @@ class AuthManager:
                 return {}
         return {}
 
-    def save_session(self, data: Dict):
+    def _save_session(self, data: Dict):
         """Save session data"""
         SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(SESSION_FILE, 'w') as f:
             json.dump(data, f)
+
+    def login(self) -> Dict:
+        """
+        Login stub - lazy loads Telethon only if available
+        Returns status dict
+        """
+        print("TelegramAuth: Login initiated")
+
+        # Check for existing session first
+        if self.session_data.get('user_id'):
+            return {
+                'success': True,
+                'user': self.get_user(),
+                'message': 'Restored from session'
+            }
+
+        # Try to load Telethon (may not be available on Android)
+        try:
+            from telethon import TelegramClient
+            print("TelegramAuth: Telethon available")
+            return {
+                'success': False,
+                'pending': True,
+                'message': 'Phone number required for login'
+            }
+        except ImportError:
+            print("TelegramAuth: Running in stub mode (Telethon not available)")
+            return {
+                'success': False,
+                'stub_mode': True,
+                'message': 'Auth stub active - Telethon not available on this platform'
+            }
 
     def check_session(self) -> bool:
         """Check if valid session exists"""
@@ -59,127 +89,25 @@ class AuthManager:
             }
         return None
 
-    def is_admin(self, user: Optional[Dict]) -> bool:
+    def is_admin(self, user: Optional[Dict] = None) -> bool:
         """Check if user is admin"""
+        if user is None:
+            user = self.get_user()
         if not user:
             return False
-        # Check by user ID or username
         return (
             user.get('id') == ADMIN_ID or
             user.get('username') == ADMIN_USERNAME or
             user.get('username') == ADMIN_USERNAME.lstrip('@')
         )
 
-    def telegram_login(self, phone: str) -> Dict:
-        """
-        Login via Telegram
-        Returns: {'success': bool, 'user': dict, 'error': str}
-        """
-        try:
-            # Create event loop for async operation
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            result = loop.run_until_complete(self._async_login(phone))
-            loop.close()
-            return result
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
-    async def _async_login(self, phone: str) -> Dict:
-        """Async Telegram login"""
-        try:
-            # Create Telegram client
-            self.client = TelegramClient(
-                StringSession(),
-                API_ID,
-                API_HASH
-            )
-
-            await self.client.connect()
-
-            # Send code request
-            await self.client.send_code_request(phone)
-
-            # Note: In production, you'll need to get code from user
-            # For now, return pending status
-            return {
-                'success': False,
-                'pending_code': True,
-                'phone': phone,
-                'error': 'Please implement code verification UI'
-            }
-
-            # After code verification:
-            # await self.client.sign_in(phone, code)
-            # me = await self.client.get_me()
-            #
-            # user_data = {
-            #     'id': me.id,
-            #     'username': me.username,
-            #     'phone': me.phone,
-            #     'first_name': me.first_name,
-            # }
-            #
-            # # Save session
-            # self.session_data = user_data
-            # self.save_session(user_data)
-            # self.current_user = user_data
-            #
-            # return {'success': True, 'user': user_data}
-
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
-    def verify_code(self, phone: str, code: str) -> Dict:
-        """Verify login code"""
-        try:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            result = loop.run_until_complete(self._async_verify(phone, code))
-            loop.close()
-            return result
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
-    async def _async_verify(self, phone: str, code: str) -> Dict:
-        """Async code verification"""
-        try:
-            if not self.client:
-                return {'success': False, 'error': 'No active login session'}
-
-            await self.client.sign_in(phone, code)
-            me = await self.client.get_me()
-
-            user_data = {
-                'id': me.id,
-                'username': me.username,
-                'phone': me.phone,
-                'first_name': me.first_name,
-                'session_string': self.client.session.save()
-            }
-
-            # Save session
-            self.session_data = user_data
-            self.save_session(user_data)
-            self.current_user = user_data
-
-            return {'success': True, 'user': user_data}
-
-        except Exception as e:
-            return {'success': False, 'error': str(e)}
-
     def logout(self):
         """Logout and clear session"""
         self.session_data = {}
-        self.current_user = None
         if SESSION_FILE.exists():
             SESSION_FILE.unlink()
+        print("TelegramAuth: Logged out")
 
-        if self.client:
-            try:
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                loop.run_until_complete(self.client.disconnect())
-                loop.close()
-            except Exception:
-                pass
+
+# Alias for backward compatibility
+AuthManager = TelegramAuth
