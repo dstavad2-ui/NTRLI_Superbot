@@ -10,14 +10,12 @@ import os
 from pathlib import Path
 from enum import Enum
 
-# Auto-load .env file if present
+# Load encrypted secrets (decrypts using ADMIN_ID)
 try:
-    from dotenv import load_dotenv
-    env_path = Path(__file__).parent.parent / ".env"
-    if env_path.exists():
-        load_dotenv(env_path)
+    from .secrets import load_encrypted_secrets
+    load_encrypted_secrets()
 except ImportError:
-    pass  # python-dotenv not installed, use system env vars
+    pass  # Fallback to environment variables
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
