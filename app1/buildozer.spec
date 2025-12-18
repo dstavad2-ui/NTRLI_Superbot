@@ -1,32 +1,49 @@
 [app]
+
+# Basic app info
 title = NTRLI Superbot
 package.name = ntrli_superbot
 package.domain = org.ntrli
 
+# Source configuration
 source.dir = .
-source.include_exts = py,png,jpg,kv
+source.include_exts = py,png,jpg,kv,json
 
 # Icon and presplash
 presplash.filename = %(source.dir)s/images/presplash.png
 icon.filename = %(source.dir)s/images/icon.png
 
-# versioning
+# Version
 version = 1.0
 
-# REQUIRED: basic requirements
-requirements = python3,kivy
+# Requirements - MINIMAL to avoid crashes
+requirements = python3,kivy,kivymd
 
-# Optional additional modules
-# Only add these if you have recipes for them:
-# openai, requests
-
+# Orientation
 orientation = portrait
+fullscreen = 0
 
-# Permissions
-android.permissions = INTERNET
+# Android permissions
+android.permissions = INTERNET,ACCESS_NETWORK_STATE
 
-[buildozer]
-log_level = 2
+# Android API versions
+android.api = 31
+android.minapi = 21
+android.ndk = 25b
+android.sdk = 31
+android.accept_sdk_license = True
 
 # Android archs
-android.archs = arm64-v8a, armeabi-v7a
+android.archs = arm64-v8a,armeabi-v7a
+
+# Enable AndroidX
+android.enable_androidx = True
+
+# Gradle dependencies
+android.gradle_dependencies = com.google.android.material:material:1.6.0
+
+[buildozer]
+
+# Log level
+log_level = 2
+warn_on_root = 1
