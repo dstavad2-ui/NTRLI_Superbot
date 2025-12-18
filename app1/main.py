@@ -13,6 +13,26 @@ if platform not in ('android', 'ios'):
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.logger import Logger
+import sys
+import traceback
+
+# Global crash logging for device debugging
+def global_exception_handler(exc_type, exc_value, exc_traceback):
+    """Captures all uncaught exceptions to device log file"""
+    try:
+        log_path = "/sdcard/superbot_crash.log"
+        with open(log_path, "a") as f:
+            f.write("\n" + "="*50 + "\n")
+            f.write(f"CRASH LOG - {__import__('datetime').datetime.now()}\n")
+            f.write("="*50 + "\n")
+            traceback.print_exception(exc_type, exc_value, exc_traceback, file=f)
+        Logger.error(f"Crash logged to {log_path}")
+    except Exception as e:
+        # Fallback if file writing fails
+        Logger.error(f"Failed to write crash log: {e}")
+        traceback.print_exception(exc_type, exc_value, exc_traceback)
+
+sys.excepthook = global_exception_handler
 
 # Simple KV string - no external file dependencies
 KV = '''

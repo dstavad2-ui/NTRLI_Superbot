@@ -16,8 +16,8 @@ icon.filename = %(source.dir)s/images/icon.png
 # Version
 version = 1.0
 
-# Requirements - MINIMAL to avoid crashes
-requirements = python3,kivy,kivymd
+# Requirements - PINNED VERSIONS to avoid conflicts
+requirements = python3,kivy==2.3.1,kivymd==1.1.1
 
 # Orientation
 orientation = portrait
