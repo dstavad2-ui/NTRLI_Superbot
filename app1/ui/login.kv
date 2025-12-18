@@ -1,0 +1,43 @@
+<LoginScreen>:
+    name: 'login'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(20)
+        spacing: dp(20)
+
+        MDLabel:
+            text: 'NTRLI Superbot'
+            font_style: 'H4'
+            halign: 'center'
+            size_hint_y: 0.2
+
+        MDLabel:
+            text: 'Secure Login via Telegram'
+            halign: 'center'
+            size_hint_y: 0.1
+
+        Widget:
+            size_hint_y: 0.1
+
+        MDTextField:
+            id: phone_input
+            hint_text: 'Phone Number (with country code)'
+            helper_text: 'Example: +47 12345678'
+            helper_text_mode: 'on_focus'
+            size_hint_x: 0.8
+            pos_hint: {'center_x': 0.5}
+
+        MDRaisedButton:
+            text: 'Login with Telegram'
+            size_hint_x: 0.6
+            pos_hint: {'center_x': 0.5}
+            on_release: app.telegram_login(phone_input.text)
+
+        MDLabel:
+            text: '🔒 Tor/VPN Protected'
+            halign: 'center'
+            size_hint_y: 0.1
+
+        Widget:
+            size_hint_y: 0.3

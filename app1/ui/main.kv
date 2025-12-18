@@ -1,0 +1,61 @@
+<MainScreen>:
+    name: 'main'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'NTRLI Superbot'
+            right_action_items: [['cog', lambda x: app.screen_manager.current = 'settings'], ['logout', lambda x: app.logout()]]
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: dp(20)
+            spacing: dp(15)
+
+            MDRaisedButton:
+                text: '🛍️ Products'
+                size_hint_y: None
+                height: dp(60)
+                on_release: app.screen_manager.current = 'products'
+
+            MDRaisedButton:
+                text: '🛒 Shopping Cart'
+                size_hint_y: None
+                height: dp(60)
+                on_release: app.screen_manager.current = 'cart'
+
+            MDRaisedButton:
+                text: '📰 Business News'
+                size_hint_y: None
+                height: dp(60)
+                on_release: app.screen_manager.current = 'news'
+
+            MDRaisedButton:
+                id: admin_btn
+                text: '⚙️ Admin Panel'
+                size_hint_y: None
+                height: dp(60)
+                on_release: app.screen_manager.current = 'admin'
+                disabled: not app.is_admin
+
+            Widget:
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: dp(50)
+                spacing: dp(10)
+
+                MDLabel:
+                    text: 'Mode:'
+                    size_hint_x: 0.3
+
+                MDSwitch:
+                    id: mode_switch
+                    on_active: app.toggle_mode()
+                    size_hint_x: 0.2
+
+                MDLabel:
+                    text: 'Anonymous' if mode_switch.active else 'Standard'
+                    size_hint_x: 0.5

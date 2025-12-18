@@ -1,0 +1,32 @@
+# NTRLI Superbot Android App Requirements
+
+# Kivy and KivyMD for UI
+kivy==2.3.0
+kivymd==1.1.1
+
+# Telegram client
+telethon==1.33.0
+python-dotenv==1.0.0
+
+# Networking and privacy
+PySocks==1.7.1
+requests[socks]==2.31.0
+
+# AI APIs
+anthropic==0.18.0
+openai==1.12.0
+aiohttp==3.9.0
+
+# Web server for admin panel
+flask==3.0.0
+
+# Data handling
+cryptg==0.4.1
+
+# Android-specific
+pyjnius==1.5.0
+plyer==2.1.0
+
+# Utilities
+Pillow==10.2.0
+python-dateutil==2.8.2

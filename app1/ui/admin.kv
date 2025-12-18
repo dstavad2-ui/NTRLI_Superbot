@@ -1,0 +1,73 @@
+<AdminScreen>:
+    name: 'admin'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Admin Panel'
+            left_action_items: [['arrow-left', lambda x: setattr(app.screen_manager, 'current', 'main')]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(15)
+                adaptive_height: True
+
+                MDLabel:
+                    text: 'Admin Panel - @Sir_NTRLI_II'
+                    font_style: 'H5'
+                    size_hint_y: None
+                    height: dp(40)
+
+                MDRaisedButton:
+                    text: 'Open Web Admin Panel'
+                    size_hint_y: None
+                    height: dp(50)
+                    on_release: app.admin.start_web_panel()
+
+                MDSeparator:
+
+                MDLabel:
+                    text: 'AI Improvement Suggestions'
+                    font_style: 'H6'
+                    size_hint_y: None
+                    height: dp(40)
+
+                MDList:
+                    id: suggestions_list
+
+                MDSeparator:
+
+                MDLabel:
+                    text: 'Quick Settings'
+                    font_style: 'H6'
+                    size_hint_y: None
+                    height: dp(40)
+
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: dp(50)
+
+                    MDLabel:
+                        text: 'Tor Enabled'
+                    MDSwitch:
+                        active: True
+
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: dp(50)
+
+                    MDLabel:
+                        text: 'AI Enabled'
+                    MDSwitch:
+                        active: True
+
+                MDRaisedButton:
+                    text: 'Export Data'
+                    size_hint_y: None
+                    height: dp(50)
+                    on_release: app.admin.export_data()

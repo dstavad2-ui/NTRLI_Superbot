@@ -1,0 +1,18 @@
+<ProductsScreen>:
+    name: 'products'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Products'
+            left_action_items: [['arrow-left', lambda x: setattr(app.screen_manager, 'current', 'main')]]
+
+        ScrollView:
+            MDList:
+                id: product_list
+
+                MDLabel:
+                    text: 'Loading products...'
+                    halign: 'center'
+                    padding_y: dp(20)

@@ -1,0 +1,61 @@
+<SettingsScreen>:
+    name: 'settings'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Settings'
+            left_action_items: [['arrow-left', lambda x: setattr(app.screen_manager, 'current', 'main')]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(15)
+                adaptive_height: True
+
+                MDLabel:
+                    text: 'Language'
+                    font_style: 'H6'
+                    size_hint_y: None
+                    height: dp(40)
+
+                MDRaisedButton:
+                    id: lang_button
+                    text: 'English'
+                    size_hint_y: None
+                    height: dp(50)
+
+                MDSeparator:
+
+                MDLabel:
+                    text: 'Network'
+                    font_style: 'H6'
+                    size_hint_y: None
+                    height: dp(40)
+
+                MDLabel:
+                    id: network_status
+                    text: 'Connected via Tor'
+                    size_hint_y: None
+                    height: dp(30)
+
+                MDSeparator:
+
+                MDLabel:
+                    text: 'Notifications'
+                    font_style: 'H6'
+                    size_hint_y: None
+                    height: dp(40)
+
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: dp(50)
+
+                    MDLabel:
+                        text: 'Push Notifications'
+                    MDSwitch:
+                        active: True
+                        on_active: app.news.enable_notifications() if self.active else app.news.disable_notifications()

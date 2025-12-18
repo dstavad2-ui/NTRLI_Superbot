@@ -1,0 +1,33 @@
+<CartScreen>:
+    name: 'cart'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Shopping Cart'
+            left_action_items: [['arrow-left', lambda x: setattr(app.screen_manager, 'current', 'main')]]
+
+        ScrollView:
+            MDList:
+                id: cart_list
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: dp(150)
+            padding: dp(20)
+            spacing: dp(10)
+
+            MDLabel:
+                id: total_label
+                text: 'Total: 0 NOK'
+                font_style: 'H6'
+
+            MDLabel:
+                text: 'Minimum order: 400 NOK'
+                theme_text_color: 'Hint'
+
+            MDRaisedButton:
+                text: 'Checkout'
+                on_release: app.screen_manager.current = 'checkout'
