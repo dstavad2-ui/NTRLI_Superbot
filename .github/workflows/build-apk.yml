@@ -1,0 +1,151 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - claude/create-app1-folder-sbGsL
+      - main
+      - master
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git \
+            zip \
+            unzip \
+            openjdk-17-jdk \
+            autoconf \
+            libtool \
+            pkg-config \
+            zlib1g-dev \
+            libncurses5-dev \
+            libncursesw5-dev \
+            libtinfo5 \
+            cmake \
+            libffi-dev \
+            libssl-dev \
+            python3-pip
+
+      - name: Install Python dependencies
+        run: |
+          cd app1
+          pip install --upgrade pip
+          pip install buildozer cython==0.29.33
+
+      - name: Cache Buildozer dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.buildozer
+            app1/.buildozer
+          key: ${{ runner.os }}-buildozer-${{ hashFiles('app1/buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-buildozer-
+
+      - name: Build APK with Buildozer
+        run: |
+          cd app1
+          # Accept Android SDK licenses
+          yes | buildozer android debug || true
+
+      - name: Verify APK was created
+        run: |
+          ls -lh app1/bin/
+          if [ -f app1/bin/*.apk ]; then
+            echo "APK built successfully!"
+          else
+            echo "APK build failed!"
+            exit 1
+          fi
+
+      - name: Get APK filename
+        id: apk
+        run: |
+          APK_PATH=$(ls app1/bin/*.apk | head -n 1)
+          APK_NAME=$(basename "$APK_PATH")
+          echo "path=$APK_PATH" >> $GITHUB_OUTPUT
+          echo "name=$APK_NAME" >> $GITHUB_OUTPUT
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: NTRLI-Superbot-APK
+          path: ${{ steps.apk.outputs.path }}
+
+      - name: Create Release
+        if: github.ref == 'refs/heads/claude/create-app1-folder-sbGsL' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: NTRLI Superbot v1.0.${{ github.run_number }}
+          body: |
+            # NTRLI Superbot Android App
+
+            ## 📱 Download and Install
+
+            1. Download the APK file below
+            2. Enable "Install from Unknown Sources" on your Android device
+            3. Install the APK
+            4. Launch NTRLI Superbot!
+
+            ## ✅ Features Included
+
+            - ✅ Telegram Authentication (@Sir_NTRLI_II admin)
+            - ✅ Tor/VPN Privacy Protection
+            - ✅ Anonymous & Standard Modes
+            - ✅ AI System (Claude + GPT-4)
+            - ✅ E-commerce (400 NOK minimum)
+            - ✅ Business News Feed
+            - ✅ 20+ Languages
+            - ✅ Web Admin Panel
+
+            ## 📋 Requirements
+
+            - Android 7.0+ (API 24+)
+            - Internet connection
+            - Telegram account
+
+            ## 🔧 Configuration
+
+            Edit `app1/config.ini` to add your API keys before building.
+
+            ---
+
+            Built automatically by GitHub Actions
+            Commit: ${{ github.sha }}
+          files: ${{ steps.apk.outputs.path }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Summary
+        run: |
+          echo "# 🎉 APK Build Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ APK File: ${{ steps.apk.outputs.name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📥 Download Options:" >> $GITHUB_STEP_SUMMARY
+          echo "1. Go to Actions tab → Latest workflow run → Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "2. Or check the Releases page for the APK" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📱 Installation:" >> $GITHUB_STEP_SUMMARY
+          echo "1. Download APK to your Android phone" >> $GITHUB_STEP_SUMMARY
+          echo "2. Enable 'Install from Unknown Sources'" >> $GITHUB_STEP_SUMMARY
+          echo "3. Install and enjoy!" >> $GITHUB_STEP_SUMMARY
