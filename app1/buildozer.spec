@@ -15,6 +15,15 @@ source.dir = .
 # (list) Source files to include (let empty to include all the files)
 source.include_exts = py,png,jpg,kv,atlas,json,ini
 
+# (list) List of inclusions using pattern matching
+#source.include_patterns = assets/*,images/*.png
+
+# (str) Presplash of the application
+presplash.filename = %(source.dir)s/images/presplash.png
+
+# (str) Icon of the application
+icon.filename = %(source.dir)s/images/icon.png
+
 # (str) Application versioning (method 1)
 version = 1.0.0
 

@@ -1,6 +1,6 @@
 """
 NTRLI Superbot - Android Application
-Main Entry Point
+Main Entry Point - Android Optimized
 """
 import os
 import sys
@@ -14,26 +14,22 @@ sys.path.insert(0, str(APP_ROOT))
 os.environ['KIVY_NO_CONSOLELOG'] = '0'
 os.environ['KIVY_LOG_MODE'] = 'MIXED'
 
+# CRITICAL: Import kivy modules first
+from kivy.utils import platform
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
-from kivy.core.window import Window
 from kivy.clock import Clock
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton
 from kivymd.toast import toast
+from kivy.logger import Logger
 
-# Import app modules
-from modules.auth import AuthManager
-from modules.network import NetworkManager
-from modules.ai import AIManager
-from modules.ecommerce import EcommerceManager
-from modules.news import NewsManager
-from modules.admin import AdminManager
-from modules.i18n import LanguageManager
-
-# Window size for development (remove for production)
-Window.size = (360, 640)
+# REMOVED: Window.size - causes crashes on Android!
+# Only set window size on desktop
+if platform not in ('android', 'ios'):
+    from kivy.core.window import Window
+    Window.size = (360, 640)
 
 
 class LoginScreen(Screen):
@@ -80,14 +76,14 @@ class NTRLIApp(MDApp):
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.theme_style = "Dark"
 
-        # Initialize managers
-        self.auth = AuthManager()
-        self.network = NetworkManager()
-        self.ai = AIManager()
-        self.ecommerce = EcommerceManager()
-        self.news = NewsManager()
-        self.admin = AdminManager()
-        self.lang = LanguageManager()
+        # Initialize managers lazily to avoid startup crashes
+        self.auth = None
+        self.network = None
+        self.ai = None
+        self.ecommerce = None
+        self.news = None
+        self.admin = None
+        self.lang = None
 
         # State
         self.user = None
@@ -96,118 +92,207 @@ class NTRLIApp(MDApp):
 
     def build(self):
         """Build the application UI"""
-        # Load KV files
-        Builder.load_file(str(APP_ROOT / 'ui' / 'login.kv'))
-        Builder.load_file(str(APP_ROOT / 'ui' / 'main.kv'))
-        Builder.load_file(str(APP_ROOT / 'ui' / 'products.kv'))
-        Builder.load_file(str(APP_ROOT / 'ui' / 'cart.kv'))
-        Builder.load_file(str(APP_ROOT / 'ui' / 'news.kv'))
-        Builder.load_file(str(APP_ROOT / 'ui' / 'admin.kv'))
-        Builder.load_file(str(APP_ROOT / 'ui' / 'settings.kv'))
+        try:
+            # Load KV files with error handling
+            kv_files = ['login', 'main', 'products', 'cart', 'news', 'admin', 'settings']
 
-        # Create screen manager
-        self.screen_manager = ScreenManager(transition=FadeTransition())
-        self.screen_manager.add_widget(LoginScreen(name='login'))
-        self.screen_manager.add_widget(MainScreen(name='main'))
-        self.screen_manager.add_widget(ProductsScreen(name='products'))
-        self.screen_manager.add_widget(CartScreen(name='cart'))
-        self.screen_manager.add_widget(NewsScreen(name='news'))
-        self.screen_manager.add_widget(AdminScreen(name='admin'))
-        self.screen_manager.add_widget(SettingsScreen(name='settings'))
+            for kv_file in kv_files:
+                try:
+                    kv_path = str(APP_ROOT / 'ui' / f'{kv_file}.kv')
+                    Logger.info(f"Loading KV file: {kv_path}")
+                    Builder.load_file(kv_path)
+                except Exception as e:
+                    Logger.error(f"Failed to load {kv_file}.kv: {e}")
+                    # Continue even if KV file fails
 
-        return self.screen_manager
+            # Create screen manager
+            self.screen_manager = ScreenManager(transition=FadeTransition())
+            self.screen_manager.add_widget(LoginScreen(name='login'))
+            self.screen_manager.add_widget(MainScreen(name='main'))
+            self.screen_manager.add_widget(ProductsScreen(name='products'))
+            self.screen_manager.add_widget(CartScreen(name='cart'))
+            self.screen_manager.add_widget(NewsScreen(name='news'))
+            self.screen_manager.add_widget(AdminScreen(name='admin'))
+            self.screen_manager.add_widget(SettingsScreen(name='settings'))
+
+            return self.screen_manager
+
+        except Exception as e:
+            Logger.error(f"Build error: {e}")
+            # Return minimal UI on error
+            from kivy.uix.label import Label
+            return Label(text=f"Error building app: {str(e)}")
 
     def on_start(self):
         """Called when the application starts"""
-        # Initialize network (Tor/VPN)
-        Clock.schedule_once(self.initialize_network, 0.5)
+        try:
+            # Initialize managers after app starts
+            self._init_managers()
 
-        # Check if user is already authenticated
-        if self.auth.check_session():
-            self.user = self.auth.get_user()
-            self.is_admin = self.auth.is_admin(self.user)
-            self.screen_manager.current = 'main'
-        else:
-            self.screen_manager.current = 'login'
+            # Initialize network (Tor/VPN) if available
+            if self.network:
+                Clock.schedule_once(self.initialize_network, 0.5)
+
+            # Check if user is already authenticated
+            if self.auth and self.auth.check_session():
+                self.user = self.auth.get_user()
+                self.is_admin = self.auth.is_admin(self.user)
+                self.screen_manager.current = 'main'
+            else:
+                self.screen_manager.current = 'login'
+
+        except Exception as e:
+            Logger.error(f"Startup error: {e}")
+            toast("App started with limited functionality")
+
+    def _init_managers(self):
+        """Initialize managers with error handling"""
+        try:
+            from modules.i18n import LanguageManager
+            self.lang = LanguageManager()
+        except Exception as e:
+            Logger.error(f"Failed to load language manager: {e}")
+
+        try:
+            from modules.auth import AuthManager
+            self.auth = AuthManager()
+        except Exception as e:
+            Logger.error(f"Failed to load auth manager: {e}")
+
+        try:
+            from modules.network import NetworkManager
+            self.network = NetworkManager()
+        except Exception as e:
+            Logger.error(f"Failed to load network manager: {e}")
+
+        try:
+            from modules.ai import AIManager
+            self.ai = AIManager()
+        except Exception as e:
+            Logger.error(f"Failed to load AI manager: {e}")
+
+        try:
+            from modules.ecommerce import EcommerceManager
+            self.ecommerce = EcommerceManager()
+        except Exception as e:
+            Logger.error(f"Failed to load ecommerce manager: {e}")
+
+        try:
+            from modules.news import NewsManager
+            self.news = NewsManager()
+        except Exception as e:
+            Logger.error(f"Failed to load news manager: {e}")
+
+        try:
+            from modules.admin import AdminManager
+            self.admin = AdminManager()
+        except Exception as e:
+            Logger.error(f"Failed to load admin manager: {e}")
 
     def initialize_network(self, dt):
         """Initialize Tor/VPN connection"""
         try:
-            self.network.connect()
-            toast(self.lang.get('network_connected'))
+            if self.network:
+                self.network.connect()
+                if self.lang:
+                    toast(self.lang.get('network_connected'))
+                else:
+                    toast("Network connected")
         except Exception as e:
+            Logger.error(f"Network initialization error: {e}")
             toast(f"Network error: {str(e)}")
 
     def telegram_login(self, phone_or_token):
         """Handle Telegram login"""
         try:
+            if not self.auth:
+                toast("Authentication not available")
+                return
+
             result = self.auth.telegram_login(phone_or_token)
             if result['success']:
                 self.user = result['user']
                 self.is_admin = self.auth.is_admin(self.user)
 
                 # Show success message
-                toast(self.lang.get('login_success'))
+                msg = self.lang.get('login_success') if self.lang else "Login successful"
+                toast(msg)
 
                 # Navigate to main screen
                 self.screen_manager.current = 'main'
             else:
                 self.show_error(result.get('error', 'Login failed'))
         except Exception as e:
+            Logger.error(f"Login error: {e}")
             self.show_error(str(e))
 
     def logout(self):
         """Logout user"""
-        self.auth.logout()
-        self.user = None
-        self.is_admin = False
-        self.screen_manager.current = 'login'
-        toast(self.lang.get('logged_out'))
+        try:
+            if self.auth:
+                self.auth.logout()
+            self.user = None
+            self.is_admin = False
+            self.screen_manager.current = 'login'
+            msg = self.lang.get('logged_out') if self.lang else "Logged out"
+            toast(msg)
+        except Exception as e:
+            Logger.error(f"Logout error: {e}")
 
     def toggle_mode(self):
         """Toggle between Anonymous and Standard mode"""
         self.anonymous_mode = not self.anonymous_mode
         mode = "Anonymous" if self.anonymous_mode else "Standard"
         toast(f"{mode} Mode Active")
-
-        # Update UI based on mode
         self.update_mode_ui()
 
     def update_mode_ui(self):
         """Update UI elements based on current mode"""
-        # Disable shopping in anonymous mode
-        if hasattr(self, 'screen_manager'):
-            cart_screen = self.screen_manager.get_screen('cart')
-            if self.anonymous_mode:
-                cart_screen.disabled = True
-            else:
-                cart_screen.disabled = False
+        try:
+            if hasattr(self, 'screen_manager'):
+                cart_screen = self.screen_manager.get_screen('cart')
+                cart_screen.disabled = self.anonymous_mode
+        except Exception as e:
+            Logger.error(f"Mode update error: {e}")
 
     def change_language(self, lang_code):
         """Change application language"""
-        self.lang.set_language(lang_code)
-        toast(f"Language changed to {lang_code}")
-        # Refresh current screen to apply new language
-        self.refresh_current_screen()
+        try:
+            if self.lang:
+                self.lang.set_language(lang_code)
+            toast(f"Language changed to {lang_code}")
+            self.refresh_current_screen()
+        except Exception as e:
+            Logger.error(f"Language change error: {e}")
 
     def refresh_current_screen(self):
         """Refresh current screen to apply language changes"""
-        current = self.screen_manager.current
-        self.screen_manager.current = current
+        try:
+            current = self.screen_manager.current
+            self.screen_manager.current = current
+        except Exception as e:
+            Logger.error(f"Screen refresh error: {e}")
 
     def show_error(self, message):
         """Show error dialog"""
-        dialog = MDDialog(
-            title=self.lang.get('error'),
-            text=message,
-            buttons=[
-                MDRaisedButton(
-                    text=self.lang.get('ok'),
-                    on_release=lambda x: dialog.dismiss()
-                )
-            ]
-        )
-        dialog.open()
+        try:
+            title = self.lang.get('error') if self.lang else "Error"
+            ok_text = self.lang.get('ok') if self.lang else "OK"
+
+            dialog = MDDialog(
+                title=title,
+                text=message,
+                buttons=[
+                    MDRaisedButton(
+                        text=ok_text,
+                        on_release=lambda x: dialog.dismiss()
+                    )
+                ]
+            )
+            dialog.open()
+        except Exception as e:
+            Logger.error(f"Error dialog failed: {e}")
+            toast(f"Error: {message}")
 
     def on_pause(self):
         """Handle app pause (Android lifecycle)"""
@@ -220,7 +305,12 @@ class NTRLIApp(MDApp):
 
 def main():
     """Application entry point"""
-    NTRLIApp().run()
+    try:
+        NTRLIApp().run()
+    except Exception as e:
+        Logger.error(f"Fatal error: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 if __name__ == '__main__':
